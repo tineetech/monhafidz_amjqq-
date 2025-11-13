@@ -73,10 +73,12 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Status</label>
-                        <select name="status" class="form-control" required>
+                        <label>Status (otomatis)</label>
+                        <select name="status" class="form-control" required disabled>
+                            <option value="lulus jayyid">Lulus Jayyid</option>
+                            <option value="lulus mumtaz">Lulus Mumtaz</option>
+                            <option value="harus diulang">Harus di ulang</option>
                             <option value="Belum Diperiksa">Belum Diperiksa</option>
-                            <option value="Lulus">Lulus</option>
                             <option value="Perbaikan">Perbaikan</option>
                         </select>
                     </div>
@@ -120,14 +122,14 @@
 @endsection
 @section('scripts')
 <script>
-document.getElementById('selectSantri').addEventListener('change', function () {
-    var selectedOption = this.options[this.selectedIndex];
-    var semesterId = selectedOption.getAttribute('data-semester');
+    document.getElementById('selectSantri').addEventListener('change', function () {
+        var selectedOption = this.options[this.selectedIndex];
+        var semesterId = selectedOption.getAttribute('data-semester');
 
-    if (semesterId) {
-        document.querySelector('select[name="semester_id"]').value = semesterId;
-    }
-});
+        if (semesterId) {
+            document.querySelector('select[name="semester_id"]').value = semesterId;
+        }
+    });
 </script>
 
 @endsection

@@ -30,7 +30,7 @@
         <a href="#" class="hover:text-yellow-300">Pengumuman</a>
         <a href="#" class="hover:text-yellow-300">Kontak</a>
       </nav>
-      <button class="bg-yellow-400 text-green-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">Mulai Monitoring</button>
+      <button class="bg-yellow-400 text-green-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition" onclick="window.location.href = '/dashboard'">Mulai Monitoring</button>
     </div>
   </header>
 

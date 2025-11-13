@@ -93,6 +93,78 @@
                           </div>
                         </div>
                         @endif
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal{{ $s->id . 'wa' }}">
+                          <i class="fa fa-whatsapp"></i>
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal{{ $s->id . 'wa' }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Kirim Notifikasi</h5>
+                                {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button> --}}
+                              </div>
+                              <div class="modal-body" style="width: 100%;display: flex;flex-direction: column;gap: 8px;text-align: start">
+                                <span class="text-center">Kirim ke santri langsung</span>
+                                <button
+                                    class="btn btn-primary btn-send-wa"
+                                    data-id="{{ $s->id }}"
+                                    data-template="1"
+                                    data-tujuan="santri">
+                                    Pengingat Hafalan Ziyadah <i class="fa fa-book"></i>
+                                </button>
+
+                                <button
+                                    class="btn btn-success btn-send-wa"
+                                    data-id="{{ $s->id }}"
+                                    data-template="2"
+                                    data-tujuan="santri">
+                                    Pengingat Hafalan Murajaah <i class="fa fa-book"></i>
+                                </button>
+
+                                <button
+                                    class="btn btn-info btn-send-wa"
+                                    data-id="{{ $s->id }}"
+                                    data-template="3"
+                                    data-tujuan="santri">
+                                    Apresiasi Santri mencapai target <i class="fa fa-check"></i>
+                                </button>
+
+                                <span class="text-center">Kirim ke wali santri</span>
+                                <button
+                                    class="btn btn-primary btn-send-wa"
+                                    data-id="{{ $s->id }}"
+                                    data-template="1"
+                                    data-tujuan="ortu">
+                                    Pengingat Hafalan Ziyadah <i class="fa fa-book"></i>
+                                </button>
+
+                                <button
+                                    class="btn btn-success btn-send-wa"
+                                    data-id="{{ $s->id }}"
+                                    data-template="2"
+                                    data-tujuan="ortu">
+                                    Pengingat Hafalan Murajaah <i class="fa fa-book"></i>
+                                </button>
+
+                                <button
+                                    class="btn btn-info btn-send-wa"
+                                    data-id="{{ $s->id }}"
+                                    data-template="3"
+                                    data-tujuan="ortu">
+                                    Apresiasi Santri mencapai target <i class="fa fa-check"></i>
+                                </button>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                         <a href="{{ route('santri.edit', $s->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('santri.destroy', $s->id) }}" method="POST" style="display:inline;">
                           @csrf
@@ -109,5 +181,49 @@
         </div>
       </div>
     </section>
+
+@endsection
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+$(document).on("click", ".btn-send-wa", function() {
+    let id_santri   = $(this).data("id");
+    let no_template = $(this).data("template");
+    let tujuan      = $(this).data("tujuan");
+
+    Swal.fire({
+        title: 'Mengirim pesan...',
+        text: 'Mohon tunggu sebentar',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    $.ajax({
+        url: "{{ route('wablast') }}",
+        type: "GET",
+        data: {
+            id_santri: id_santri,
+            no_template: no_template,
+            tujuan: tujuan
+        },
+        success: function(res) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil terkirim',
+                html: res.message ?? 'Pesan berhasil dikirim!',
+                timer: 2000
+            });
+        },
+        error: function(xhr) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal mengirim',
+                html: xhr.responseText ?? 'Terjadi kesalahan'
+            });
+        }
+    });
+});
+</script>
 
 @endsection

@@ -26,6 +26,11 @@ class JadwalUjian extends Model
         return $this->hasMany(PencatatanUjian::class);
     }
 
+    public function ujianTasmi()
+    {
+        return $this->hasMany(UjianTasmi::class);
+    }
+
     // Relasi ke Santri
     public function santri()
     {

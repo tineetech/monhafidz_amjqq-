@@ -16,9 +16,11 @@
   <div class="box">
     <div class="box-header with-border">
       <h3 class="box-title">Daftar Rekap Hafalan Ziyadah</h3>
+      @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
       <a href="{{ route('pencatatan-hafalan.create') }}" class="btn btn-primary btn-sm pull-right">
         <i class="fa fa-plus"></i> Tambah Pencatatan
       </a>
+      @endif
     </div>
 
     <div class="box-body table-responsive">
@@ -100,9 +102,11 @@
   <div class="box">
     <div class="box-header with-border">
       <h3 class="box-title">Daftar Rekap Hafalan Murajaah</h3>
+      @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
       <a href="{{ route('pencatatan-hafalan.create') }}" class="btn btn-primary btn-sm pull-right">
         <i class="fa fa-plus"></i> Tambah Pencatatan
       </a>
+      @endif
     </div>
 
     <div class="box-body table-responsive">

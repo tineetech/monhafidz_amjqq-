@@ -39,7 +39,9 @@
             @endif
             <button class="btn btn-info btn-sm" type="submit">Filter</button>
           </form>
+          @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
           <a href="{{ route('pencatatan-ujian.create') }}" class="btn btn-primary btn-sm">Tambah Data</a>
+          @endif
         </div>
       </div>
     </div>
@@ -62,7 +64,9 @@
             <th>Nilai</th>
             <th>Peringkat</th>
             <th>Status</th>
+            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
             <th>Aksi</th>
+            @endif
           </tr>
         </thead>
         <tbody>
@@ -82,6 +86,7 @@
               @elseif ($u->status_ujian == 'belum_diuji')
                 <td><span class="label label-danger">Belum Diuji</span></td>
               @endif
+                @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
               <td>
                 @if ($u->rank !== "null" && ($u->rank === 1 || $u->rank === 2 || $u->rank === 3))
                   <a href="{{ route('sertifikat.top3', ['id_ujian' => $u->id]) }}" class="btn btn-success btn-sm" target="_blank">Lihat Sertifikat</a>
@@ -94,6 +99,7 @@
                   <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus data ini?')">Hapus</button>
                 </form>
               </td>
+              @endif
             </tr>
           @endforeach
         </tbody>

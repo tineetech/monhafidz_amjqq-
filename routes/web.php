@@ -26,6 +26,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/jadwal-hafalan-zm/update', [App\Http\Controllers\JadwalHafalanController::class, 'update'])->name('jadwal-hafalan-zm.update');
 
     Route::resource('/absensi', App\Http\Controllers\AbsensiController::class);
+    Route::get('/absensi-santri/pengajuan-izin', [App\Http\Controllers\AbsensiController::class, 'pengajuanIzin'])->name('absensi.izin');
+    Route::post('/absensi-santri/pengajuan-izin', [App\Http\Controllers\AbsensiController::class, 'pengajuanIzinPost'])->name('perizinan.store');
+    Route::post('/absensi-santri/pengajuan-izin/delete/{id}', [App\Http\Controllers\AbsensiController::class, 'pengajuanIzinDelete'])->name('perizinan.destroy');
+    Route::get('/absensi-santri/pengajuan-izin/setujui/{id}', [App\Http\Controllers\AbsensiController::class, 'pengajuanIzinSetujui'])->name('perizinan.setujui');
     Route::get('/get-hafalan/{santri_id}', [App\Http\Controllers\AbsensiController::class, 'getHafalan']);
 
     Route::resource('/pencatatan-hafalan', App\Http\Controllers\PencatatanHafalanController::class);
@@ -33,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/jadwal-ujian', App\Http\Controllers\JadwalUjianController::class);
     Route::resource('/pencatatan-ujian', App\Http\Controllers\PencatatanUjianController::class);
+    Route::resource('/ujian-tasmi', App\Http\Controllers\UjianTasmiController::class);
     Route::get('pencatatan-ujian/filter', [App\Http\Controllers\PencatatanUjianController::class, 'index'])->name('pencatatan-ujian.filter');
     
     Route::resource('/laporan', App\Http\Controllers\LaporanController::class);

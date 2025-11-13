@@ -16,9 +16,11 @@
   <div class="box">
     <div class="box-header with-border">
       <h3 class="box-title">Daftar Pencatatan Hafalan Ziyadah</h3>
+      @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
       <a href="{{ route('pencatatan-hafalan.create') }}" class="btn btn-primary btn-sm pull-right">
         <i class="fa fa-plus"></i> Tambah Data
       </a>
+      @endif
     </div>
 
     <div class="box-body table-responsive">
@@ -39,7 +41,9 @@
             <th>Nilai Tajwid</th>
             <th>Nilai Kelancaran</th>
             <th>Status</th>
+            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
             <th width="120px">Aksi</th>
+            @endif
           </tr>
         </thead>
         <tbody>
@@ -55,6 +59,7 @@
               <td>{{ $item->nilai_tajwid }}</td>
               <td>{{ $item->nilai_kelancaran }}</td>
               <td>{{ ucfirst($item->status) }}</td>
+              @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
               <td>
                 <a href="{{ route('pencatatan-hafalan.edit', $item->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i></a>
                 <form action="{{ route('pencatatan-hafalan.destroy', $item->id) }}" method="POST" style="display:inline-block">
@@ -63,6 +68,7 @@
                   <button class="btn btn-danger btn-xs" onclick="return confirm('Yakin hapus data ini?')"><i class="fa fa-trash"></i></button>
                 </form>
               </td>
+              @endif
             </tr>
           @empty
             <tr>
@@ -76,16 +82,14 @@
   <div class="box">
     <div class="box-header with-border">
       <h3 class="box-title">Daftar Pencatatan Hafalan Murajaah</h3>
+      @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
       <a href="{{ route('pencatatan-hafalan.create') }}" class="btn btn-primary btn-sm pull-right">
         <i class="fa fa-plus"></i> Tambah Data
       </a>
+      @endif
     </div>
 
     <div class="box-body table-responsive">
-      @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-      @endif
-
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
@@ -99,7 +103,9 @@
             <th>Nilai Tajwid</th>
             <th>Nilai Kelancaran</th>
             <th>Status</th>
+            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
             <th width="120px">Aksi</th>
+            @endif
           </tr>
         </thead>
         <tbody>
@@ -115,6 +121,7 @@
               <td>{{ $item->nilai_tajwid }}</td>
               <td>{{ $item->nilai_kelancaran }}</td>
               <td>{{ ucfirst($item->status) }}</td>
+              @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
               <td>
                 <a href="{{ route('pencatatan-hafalan.edit', $item->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i></a>
                 <form action="{{ route('pencatatan-hafalan.destroy', $item->id) }}" method="POST" style="display:inline-block">
@@ -123,6 +130,7 @@
                   <button class="btn btn-danger btn-xs" onclick="return confirm('Yakin hapus data ini?')"><i class="fa fa-trash"></i></button>
                 </form>
               </td>
+              @endif
             </tr>
           @empty
             <tr>

@@ -29,6 +29,10 @@ class Santri extends Model
     // Format tanggal otomatis jadi Carbon instance
     protected $dates = ['tanggal_lahir'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     /**
      * Relasi: Santri milik satu Semester
      */

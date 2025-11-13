@@ -6,33 +6,57 @@ use App\Models\JadwalUjian;
 use App\Models\Santri;
 use App\Models\Semester;
 use App\Models\Ustadzah;
+use App\Models\WaliSantri;
 use App\Services\MpwaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class JadwalUjianController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+        
     public function index()
     {
-        $semesters = \App\Models\Semester::all();
+        $semesters = Semester::all();
+
         $filter = request('filter_semester');
         $filterJenisUjian = request('filter_jenis_ujian');
-        $jadwal = JadwalUjian::with(['santri', 'semester', 'pembimbingPutra', 'pembimbingPutri'])
+
+        $jadwalQuery = JadwalUjian::with(['santri', 'semester', 'pembimbingPutra', 'pembimbingPutri'])
             ->when($filter, function ($query) use ($filter) {
                 $query->where('semester_id', $filter);
             })
             ->when($filterJenisUjian, function ($query) use ($filterJenisUjian) {
                 $query->where('jenis_ujian', $filterJenisUjian);
-            })
-            ->orderBy('tanggal', 'asc')
-            ->get();
+            });
+
+        if (Auth::user()->role === 'santri') {
+            $santri = Auth::user()->santri;
+
+            if ($santri) {
+                $jadwalQuery->where('santri_id', $santri->id);
+            } else {
+                $jadwalQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
+            }
+        }
+        if (Auth::user()->role === 'walisantri') {
+            $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
+            $santri = $walisantri->santri;
+
+            if ($santri) {
+                $jadwalQuery->where('santri_id', $santri->id);
+            } else {
+                $jadwalQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
+            }
+        }
+
+        $jadwal = $jadwalQuery->orderBy('tanggal', 'asc')->get();
 
         return view('pages.jadwal-ujian.index', compact('jadwal', 'semesters'));
     }
-
     /**
      * Show the form for creating a new resource.
      */

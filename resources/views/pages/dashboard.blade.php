@@ -87,7 +87,9 @@
             <div class="" style="display: flex; justify-content: space-between;width: 100%;align-items: center;padding-block: 10px;padding-inline: 15px;">
               <h3 class="" style="font-size: 16px;margin: 0; padding: 0">Jadwal Setoran Ziyadah</h3>
               <div>
+                @if (Auth::user()->role === 'admin')
                 <a href="{{ route('jadwal-hafalan.index') }}" class="btn btn-success">Atur Jadwal</a>
+                @endif
               </div>
             </div>
             <!-- /.box-header -->
@@ -118,7 +120,9 @@
             <div class="" style="display: flex; justify-content: space-between;width: 100%;align-items: center;padding-block: 10px;padding-inline: 15px;">
               <h3 class="" style="font-size: 16px;margin: 0; padding: 0">Jadwal Setoran Muraja'ah</h3>
               <div>
+                @if (Auth::user()->role === 'admin')
                 <a href="{{ route('jadwal-hafalan.index') }}" class="btn btn-success">Atur Jadwal</a>
+                @endif
               </div>
             </div>
             <!-- /.box-header -->
@@ -153,7 +157,9 @@
             </ul>
             <div class="tab-content no-padding">
               <!-- Morris chart - Sales -->
-              <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
+               
+              <canvas id="chartZiyadah" height="100"></canvas>
+              <!-- <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div> -->
             </div>
           </div>
         </section>
@@ -162,4 +168,47 @@
       <!-- /.row (main row) -->
 
     </section>
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+     fetch("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role }}&user_id={{ auth()->id() }}")
+          .then(res => res.json())
+          .then(res => {
+            console.log(res)
+              new Chart(document.getElementById('chartZiyadah'), {
+                  type: "line",
+                  data: {
+                      labels: res.labels,
+                      datasets: res.datasets
+                  },
+                  options: {
+                      responsive: true,
+                      plugins: {
+                          legend: { position: 'bottom' },
+                          title: {
+                              display: true,
+                              text: "Total Hafalan Ziyadah Semua Santri per Semester"
+                          }
+                      },
+                      scales: {
+                          y: {
+                              beginAtZero: true,
+                              title: { display: true, text: "Jumlah Juz" }
+                          },
+                          x: {
+                              title: { display: true, text: "Semester" }
+                          }
+                      }
+                  }
+              });
+
+          });
+
+  });
+
+</script>
 @endsection

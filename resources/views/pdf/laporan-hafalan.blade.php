@@ -7,6 +7,9 @@
         th, td { border: 1px solid #000; padding: 5px; text-align: center; }
         th { background: #f2f2f2; }
         .title { text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 10px }
+        .ranking { text-align: center; margin-top: 20px; }
+        .rank-box { display: inline-block; width: 30%; vertical-align: top; }
+        .rank-box h3 { margin: 5px 0; }
     </style>
 </head>
 <body>
@@ -46,6 +49,25 @@
     @endforeach
     </tbody>
 </table>
+
+{{-- 🏅 Bagian Ranking --}}
+<div class="ranking">
+    <div class="rank-box">
+        ||
+        <h3>{{ $juara2 }}</h3>
+        <p>Peringkat 2</p>
+    </div>
+    <div class="rank-box">
+        ||
+        <h3>{{ $juara1 }}</h3>
+        <p>Peringkat 1</p>
+    </div>
+    <div class="rank-box">
+        ||
+        <h3>{{ $juara3 }}</h3>
+        <p>Peringkat 3</p>
+    </div>
+</div>
 
 </body>
 </html>

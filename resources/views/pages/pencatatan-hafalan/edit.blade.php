@@ -74,8 +74,9 @@
                     <div class="form-group">
                         <label>Status</label>
                         <select name="status" class="form-control" required>
-                            <option value="Belum Diperiksa" {{ $data->status == 'Belum Diperiksa' ? 'selected' : '' }}>Belum Diperiksa</option>
-                            <option value="Lulus" {{ $data->status == 'Lulus' ? 'selected' : '' }}>Lulus</option>
+                            <option value="harus diulang" {{ $data->status == 'harus diulang' ? 'selected' : '' }}>Harus diulang</option>
+                            <option value="lulus jayyid" {{ $data->status == 'lulus jayyid' ? 'selected' : '' }}>Lulus Jayyid</option>
+                            <option value="lulus mumtaz" {{ $data->status == 'lulus mumtaz' ? 'selected' : '' }}>Lulus mumtaz</option>
                             <option value="Perbaikan" {{ $data->status == 'Perbaikan' ? 'selected' : '' }}>Perbaikan</option>
                         </select>
                     </div>

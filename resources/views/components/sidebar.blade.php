@@ -3,6 +3,7 @@
     <section class="sidebar">
 
       {{-- menu admin  --}}
+      @if (Auth::user()->role === "admin")
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -44,34 +45,61 @@
           </a>
         </li>
 
-        <li class="{{ request()->routeIs('jadwal-ujian.*') ? 'active' : '' }}">
-          <a href="{{ route('jadwal-ujian.index') }}">
-            <i class="fa fa-calendar"></i> <span>Jadwal Ujian</span>
+        <li class="treeview {{ request()->routeIs(['jadwal-hafalan.*','pencatatan-hafalan.*','rekap-hafalan.*']) ? 'active menu-open' : '' }}">
+          <a href="#">
+            <i class="fa fa-book"></i> <span>Penghafalan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li class="{{ request()->routeIs('jadwal-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('jadwal-hafalan.index') }}">
+                <i class="fa fa-calendar"></i> <span>Jadwal Hafalan</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('pencatatan-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('pencatatan-hafalan.index') }}">
+                <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('rekap-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('rekap-hafalan.index') }}">
+                <i class="fa fa-archive"></i> <span>Rekap Hafalan</span>
+              </a>
+            </li>
+          </ul>
         </li>
 
-        <li class="{{ request()->routeIs('pencatatan-ujian.*') ? 'active' : '' }}">
-          <a href="{{ route('pencatatan-ujian.index') }}">
-            <i class="fa fa-book"></i> <span>Pencatatan Ujian</span>
+        <li class="treeview {{ request()->routeIs(['jadwal-ujian.*','pencatatan-ujian.*','ujian-tasmi.*']) ? 'active menu-open' : '' }}">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Ujian</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
-        </li>
+          
+          <ul class="treeview-menu" style="{{ request()->routeIs(['jadwal-ujian.*','pencatatan-ujian.*','ujian-tasmi.*']) ? 'display:block;' : '' }}">
+            <li class="{{ request()->routeIs('jadwal-ujian.*') ? 'active' : '' }}">
+              <a href="{{ route('jadwal-ujian.index') }}">
+                <i class="fa fa-calendar"></i> <span>Jadwal Ujian</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('pencatatan-ujian.*') ? 'active' : '' }}">
+              <a href="{{ route('pencatatan-ujian.index') }}">
+                <i class="fa fa-book"></i> <span>Pencatatan Ujian</span>
+              </a>
+            </li>
 
-        <li class="{{ request()->routeIs('jadwal-hafalan.*') ? 'active' : '' }}">
-          <a href="{{ route('jadwal-hafalan.index') }}">
-            <i class="fa fa-calendar"></i> <span>Jadwal Hafalan</span>
-          </a>
-        </li>
-
-        <li class="{{ request()->routeIs('pencatatan-hafalan.*') ? 'active' : '' }}">
-          <a href="{{ route('pencatatan-hafalan.index') }}">
-            <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
-          </a>
-        </li>
-
-        <li class="{{ request()->routeIs('rekap-hafalan.*') ? 'active' : '' }}">
-          <a href="{{ route('rekap-hafalan.index') }}">
-            <i class="fa fa-archive"></i> <span>Rekap Hafalan</span>
-          </a>
+            <li class="{{ request()->routeIs('ujian-tasmi.*') ? 'active' : '' }}">
+              <a href="{{ route('ujian-tasmi.index') }}">
+                <i class="fa fa-book"></i> <span>Ujian Tasmi</span>
+              </a>
+            </li>
+          </ul>
         </li>
 
         <li class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
@@ -93,7 +121,269 @@
         </li>
 
       </ul>
+      @endif
       {{-- menu admin  --}}
+
+      @if (Auth::user()->role === "santri")
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+          <a href="{{ route('dashboard') }}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="{{ request()->routeIs('absensi.*') ? 'active' : '' }}">
+          <a href="{{ route('absensi.index') }}">
+            <i class="fa fa-id-badge"></i> <span>Absensi</span>
+          </a>
+        </li>
+
+        <li class="treeview {{ request()->routeIs(['jadwal-hafalan.*','pencatatan-hafalan.*','rekap-hafalan.*']) ? 'active menu-open' : '' }}">
+          <a href="#">
+            <i class="fa fa-book"></i> <span>Penghafalan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{ request()->routeIs('jadwal-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('jadwal-hafalan.index') }}">
+                <i class="fa fa-calendar"></i> <span>Jadwal Hafalan</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('pencatatan-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('pencatatan-hafalan.index') }}">
+                <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('rekap-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('rekap-hafalan.index') }}">
+                <i class="fa fa-archive"></i> <span>Rekap Hafalan</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="treeview {{ request()->routeIs(['jadwal-ujian.*','pencatatan-ujian.*','ujian-tasmi.*']) ? 'active menu-open' : '' }}">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Ujian</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          
+          <ul class="treeview-menu" style="{{ request()->routeIs(['jadwal-ujian.*','pencatatan-ujian.*','ujian-tasmi.*']) ? 'display:block;' : '' }}">
+            <li class="{{ request()->routeIs('jadwal-ujian.*') ? 'active' : '' }}">
+              <a href="{{ route('jadwal-ujian.index') }}">
+                <i class="fa fa-calendar"></i> <span>Jadwal Ujian</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('pencatatan-ujian.*') ? 'active' : '' }}">
+              <a href="{{ route('pencatatan-ujian.index') }}">
+                <i class="fa fa-book"></i> <span>Pencatatan Ujian</span>
+              </a>
+            </li>
+
+            <li class="{{ request()->routeIs('ujian-tasmi.*') ? 'active' : '' }}">
+              <a href="{{ route('ujian-tasmi.index') }}">
+                <i class="fa fa-book"></i> <span>Ujian Tasmi</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+          <a href="{{ route('laporan.index') }}">
+            <i class="fa fa-file"></i> <span>Laporan</span>
+          </a>
+        </li>
+
+        <li class="{{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
+          <a href="{{ route('pengaturan.index') }}">
+            <i class="fa fa-cog"></i> <span>Pengaturan</span>
+          </a>
+        </li>
+
+      </ul>
+      @endif
+      
+      @if (Auth::user()->role === "ustad")
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+          <a href="{{ route('dashboard') }}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="{{ request()->routeIs('absensi.*') ? 'active' : '' }}">
+          <a href="{{ route('absensi.index') }}">
+            <i class="fa fa-id-badge"></i> <span>Absensi</span>
+          </a>
+        </li>
+
+        <li class="treeview {{ request()->routeIs(['jadwal-hafalan.*','pencatatan-hafalan.*','rekap-hafalan.*']) ? 'active menu-open' : '' }}">
+          <a href="#">
+            <i class="fa fa-book"></i> <span>Penghafalan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{ request()->routeIs('jadwal-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('jadwal-hafalan.index') }}">
+                <i class="fa fa-calendar"></i> <span>Jadwal Hafalan</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('pencatatan-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('pencatatan-hafalan.index') }}">
+                <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('rekap-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('rekap-hafalan.index') }}">
+                <i class="fa fa-archive"></i> <span>Rekap Hafalan</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="treeview {{ request()->routeIs(['jadwal-ujian.*','pencatatan-ujian.*','ujian-tasmi.*']) ? 'active menu-open' : '' }}">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Ujian</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          
+          <ul class="treeview-menu" style="{{ request()->routeIs(['jadwal-ujian.*','pencatatan-ujian.*','ujian-tasmi.*']) ? 'display:block;' : '' }}">
+            <li class="{{ request()->routeIs('jadwal-ujian.*') ? 'active' : '' }}">
+              <a href="{{ route('jadwal-ujian.index') }}">
+                <i class="fa fa-calendar"></i> <span>Jadwal Ujian</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('pencatatan-ujian.*') ? 'active' : '' }}">
+              <a href="{{ route('pencatatan-ujian.index') }}">
+                <i class="fa fa-book"></i> <span>Pencatatan Ujian</span>
+              </a>
+            </li>
+
+            <li class="{{ request()->routeIs('ujian-tasmi.*') ? 'active' : '' }}">
+              <a href="{{ route('ujian-tasmi.index') }}">
+                <i class="fa fa-book"></i> <span>Ujian Tasmi</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+          <a href="{{ route('laporan.index') }}">
+            <i class="fa fa-file"></i> <span>Laporan</span>
+          </a>
+        </li>
+
+        <li class="{{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
+          <a href="{{ route('pengaturan.index') }}">
+            <i class="fa fa-cog"></i> <span>Pengaturan</span>
+          </a>
+        </li>
+
+      </ul>
+      @endif
+      
+      @if (Auth::user()->role === "walisantri")
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+          <a href="{{ route('dashboard') }}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="{{ request()->routeIs('absensi.*') ? 'active' : '' }}">
+          <a href="{{ route('absensi.index') }}">
+            <i class="fa fa-id-badge"></i> <span>Absensi</span>
+          </a>
+        </li>
+
+        <li class="treeview {{ request()->routeIs(['jadwal-hafalan.*','pencatatan-hafalan.*','rekap-hafalan.*']) ? 'active menu-open' : '' }}">
+          <a href="#">
+            <i class="fa fa-book"></i> <span>Penghafalan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{ request()->routeIs('jadwal-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('jadwal-hafalan.index') }}">
+                <i class="fa fa-calendar"></i> <span>Jadwal Hafalan</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('pencatatan-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('pencatatan-hafalan.index') }}">
+                <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('rekap-hafalan.*') ? 'active' : '' }}">
+              <a href="{{ route('rekap-hafalan.index') }}">
+                <i class="fa fa-archive"></i> <span>Rekap Hafalan</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="treeview {{ request()->routeIs(['jadwal-ujian.*','pencatatan-ujian.*','ujian-tasmi.*']) ? 'active menu-open' : '' }}">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Ujian</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          
+          <ul class="treeview-menu" style="{{ request()->routeIs(['jadwal-ujian.*','pencatatan-ujian.*','ujian-tasmi.*']) ? 'display:block;' : '' }}">
+            <li class="{{ request()->routeIs('jadwal-ujian.*') ? 'active' : '' }}">
+              <a href="{{ route('jadwal-ujian.index') }}">
+                <i class="fa fa-calendar"></i> <span>Jadwal Ujian</span>
+              </a>
+            </li>
+    
+            <li class="{{ request()->routeIs('pencatatan-ujian.*') ? 'active' : '' }}">
+              <a href="{{ route('pencatatan-ujian.index') }}">
+                <i class="fa fa-book"></i> <span>Pencatatan Ujian</span>
+              </a>
+            </li>
+
+            <li class="{{ request()->routeIs('ujian-tasmi.*') ? 'active' : '' }}">
+              <a href="{{ route('ujian-tasmi.index') }}">
+                <i class="fa fa-book"></i> <span>Ujian Tasmi</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+          <a href="{{ route('laporan.index') }}">
+            <i class="fa fa-file"></i> <span>Laporan</span>
+          </a>
+        </li>
+
+        <li class="{{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
+          <a href="{{ route('pengaturan.index') }}">
+            <i class="fa fa-cog"></i> <span>Pengaturan</span>
+          </a>
+        </li>
+
+      </ul>
+      @endif
 
     </section>
     <!-- /.sidebar -->

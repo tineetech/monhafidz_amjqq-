@@ -1,15 +1,15 @@
 {
     "agencyfb": {
-        "normal": "agencyfb_normal_9ce257ff9164c0ad3e11dce9a8689450"
+        "normal": "agencyfb_normal_9073e5f676a961604f96582220ed19c4"
     },
     "forte": {
         "100": "C:\\justineganteng\\pemograman_new\\projek\\laravel\\monhafidz_amjqq_sistem_hafalan_santri\\storage\\fonts\/forte_100_e49b5e0ad6a6e3cd47ef9f857e5ed0fd",
-        "normal": "forte_normal_e49b5e0ad6a6e3cd47ef9f857e5ed0fd"
+        "normal": "forte_normal_37064c769c8fded36580a7aaec23813b"
     },
     "bauhausregular": {
-        "normal": "bauhausregular_normal_d96e0e5720e212cc88978d05759cd2e2"
+        "normal": "bauhausregular_normal_f87d0a9e27f74dbb1c1663c2346b1ce5"
     },
     "bauhausbold": {
-        "normal": "bauhausbold_normal_bbf6b61d90be5c898b284585be479af3"
+        "normal": "bauhausbold_normal_2348ad902f78f9261a857d659189f9ee"
     }
 }

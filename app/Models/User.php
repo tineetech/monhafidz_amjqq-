@@ -48,4 +48,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function santri()
+    {
+        return $this->hasOne(Santri::class);
+    }
 }

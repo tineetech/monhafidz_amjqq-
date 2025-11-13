@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\PencatatanUjian;
 use App\Models\Santri;
 use App\Models\Ustadzah;
+use App\Models\WaliSantri;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class PencatatanUjianController extends Controller
@@ -16,6 +18,9 @@ class PencatatanUjianController extends Controller
         $filterJenisUjian = request('filter_jenis_ujian');
 
         $ujian = PencatatanUjian::with(['jadwalUjian.semester', 'ustadzah', 'jadwalUjian.santri'])
+             ->whereHas('jadwalUjian', function ($q) {
+                $q->where('jenis_ujian', '!=', 'tasmi');
+            })
             ->when($filter, function ($q) use ($filter) {
                 $q->whereHas('jadwalUjian', function ($q2) use ($filter) {
                     $q2->where('semester_id', $filter);
@@ -26,11 +31,31 @@ class PencatatanUjianController extends Controller
                     $q2->where('jenis_ujian', $filterJenisUjian);
                 });
             })
+            ->when(Auth::user()->role === 'santri', function ($q) {
+                $q->whereHas('jadwalUjian', function ($q2) {
+                    $q2->where('santri_id', Auth::user()->santri->id ?? 0);
+                });
+            })
+            ->when(Auth::user()->role === 'walisantri', function ($q) {
+                $q->whereHas('jadwalUjian', function ($q2) {
+                    $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
+                    $santri = $walisantri->santri;
+                    $q2->where('santri_id', $santri->id ?? 0);
+                });
+            })
             ->get();
 
         $jadwal = \App\Models\JadwalUjian::with('semester')
             ->when($filter, function ($q) use ($filter) {
                 $q->where('semester_id', $filter);
+            })
+            ->when(Auth::user()->role === 'santri', function ($q) {
+                $q->where('santri_id', Auth::user()->santri->id ?? 0);
+            })
+            ->when(Auth::user()->role === 'walisantri', function ($q) {
+                $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
+                $santri = $walisantri->santri;
+                $q->where('santri_id', $santri->id ?? 0);
             })
             ->get();
 

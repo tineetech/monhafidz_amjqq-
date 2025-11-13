@@ -42,7 +42,9 @@
               @endif
               <button class="btn btn-info btn-sm" type="submit">Filter</button>
             </form>
+              @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
             <a href="{{ route('jadwal-ujian.create') }}" class="btn btn-primary btn-sm">Tambah Data</a>
+            @endif
           </div>
           </div>
         </div>
@@ -64,7 +66,9 @@
                 <th>Pembimbing Putra</th>
                 <th>Pembimbing Putri</th>
                 <th>Jenis Ujian</th>
+                @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
                 <th>Aksi</th>
+                @endif
               </tr>
             </thead>
 
@@ -79,6 +83,7 @@
                 <td>{{ $j->pembimbingPutra->nama_lengkap ?? '-' }}</td>
                 <td>{{ $j->pembimbingPutri->nama_lengkap ?? '-' }}</td>
                 <td>{{ ucfirst($j->jenis_ujian) }}</td>
+                @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
                 <td>
                     <a href="{{ route('jadwal-ujian.edit', $j->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form action="{{ route('jadwal-ujian.destroy', $j->id) }}" method="POST" style="display:inline;">
@@ -87,6 +92,7 @@
                       <button class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?')">Hapus</button>
                     </form>
                 </td>
+                @endif
               </tr>
               @endforeach
             </tbody>

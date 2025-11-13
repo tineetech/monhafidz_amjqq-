@@ -80,30 +80,55 @@
       <div class="box-display-laporan-hafalan hidden">
         <div class="box">
           <div class="box-header with-border" style="display: flex;flex-direction: column;gap: 15px">
+            {{-- <div style="display: flex;justify-content: space-between">
+              <div style="display: flex;flex-direction: column; gap: 8px;">
+              </div>
+            </div> --}}
             <h3 class="box-title">Nama Santri : </h3>
             <h3 class="box-title">Jenis hafalan : </h3>
             <h3 class="box-title">Periode : </h3>
             <h3 class="box-title">Pembimbing : </h3>
           </div>
 
-          <div class="box-body table-responsive">
-             <table id="santri-table" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Bulan</th>
-                    <th>Surah/Juz yang dihapal</th>
-                    <th>Jumlah Juz</th>
-                    <th>Target</th>
-                    <th>Persentase</th>
-                    <th>Nilai</th>
-                    <th>Keterangan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-          </div>
+          <div class="box-body " style="overflow: hidden">
+            <div class="table-responsive">
+              <table id="santri-table" class="table table-bordered table-striped">
+                 <thead>
+                   <tr>
+                     <th>No</th>
+                     <th>Bulan</th>
+                     <th>Surah/Juz yang dihapal</th>
+                     <th>Jumlah Juz</th>
+                     <th>Target</th>
+                     <th>Persentase</th>
+                     <th>Nilai</th>
+                     <th>Keterangan</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                 </tbody>
+               </table>
+            </div>
+              
+              <div class="row text-center w-100 overflow-hidden" style="margin-inline: 10px">
+                <div class="col-md-4 " style="padding: 10px">
+                  🥈 
+                  <h3 id="nm-peringkat2">Nama peringkat</h3>
+                  <p>Peringkat 2</p>
+                </div>
+                <div class="col-md-4 " style="padding: 10px">
+                  🥇
+                  <h3 id="nm-peringkat1">Nama peringkat</h3>
+                  <p>Peringkat 1</p>
+                </div>
+                <div class="col-md-4 " style="padding: 10px">
+                  🥉
+                  <h3 id="nm-peringkat3">Nama peringkat</h3>
+                  <p>Peringkat 3</p>
+                </div>
+              </div>
+            </div>
+
           
         </div>
       </div>
@@ -193,7 +218,7 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 
-      fetch("{{ url('/api/laporan/chart-ziyadah') }}")
+     fetch("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role }}&user_id={{ auth()->id() }}")
           .then(res => res.json())
           .then(res => {
             console.log(res)
@@ -253,6 +278,10 @@
         boxdisplay.querySelector('.box-title:nth-child(2)').innerHTML = "Jenis Hafalan : " + res.jenis_hafalan;
         boxdisplay.querySelector('.box-title:nth-child(3)').innerHTML = "Periode : " + res.periode + ' (' + res.semester + ')';
         boxdisplay.querySelector('.box-title:nth-child(4)').innerHTML = "Pembimbing : " + res.pembimbing;
+        
+        boxdisplay.querySelector('#nm-peringkat2').innerHTML = res.juara2;
+        boxdisplay.querySelector('#nm-peringkat1').innerHTML = res.juara1;
+        boxdisplay.querySelector('#nm-peringkat3').innerHTML = res.juara3;
 
         let tbody = document.querySelector('#santri-table tbody');
         tbody.innerHTML = "";

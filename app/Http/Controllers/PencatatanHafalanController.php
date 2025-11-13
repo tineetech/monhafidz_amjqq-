@@ -5,22 +5,46 @@ namespace App\Http\Controllers;
 use App\Models\PencatatanHafalan;
 use App\Models\Santri;
 use App\Models\Semester;
+use App\Models\WaliSantri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PencatatanHafalanController extends Controller
 {
     /**
      * Tampilkan daftar pencatatan hafalan.
      */
+    
     public function index()
     {
-        $data = PencatatanHafalan::with(['santri', 'semester'])->latest()->get();
-        $ziyadah = PencatatanHafalan::with(['santri', 'semester'])
-            ->where('jenis_hafalan', 'Ziyadah')
-            ->get();
-        $murajaah = PencatatanHafalan::with(['santri', 'semester'])
-            ->where('jenis_hafalan', 'Murajaah')
-            ->get();
+        $query = PencatatanHafalan::with(['santri', 'semester'])->latest();
+
+        if (Auth::user()->role === 'santri') {
+            $santri = Auth::user()->santri;
+
+            if ($santri) {
+                $query->where('santri_id', $santri->id);
+            } else {
+                $query->whereNull('id'); 
+            }
+        }
+        
+        if (Auth::user()->role === 'walisantri') {
+            $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
+            $santri = $walisantri->santri;
+
+            if ($santri) {
+                $query->where('santri_id', $santri->id);
+            } else {
+                $query->whereNull('id'); 
+            }
+        }
+
+        // Ambil data utama
+        $data = $query->get();
+        $ziyadah = $data->where('jenis_hafalan', 'Ziyadah');
+        $murajaah = $data->where('jenis_hafalan', 'Murajaah');
+
         return view('pages.pencatatan-hafalan.index', compact('data', 'ziyadah', 'murajaah'));
     }
 
@@ -50,7 +74,7 @@ class PencatatanHafalanController extends Controller
             'nilai_tajwid' => 'required|numeric|min:0|max:100',
             'nilai_kelancaran' => 'required|numeric|min:0|max:100',
             'catatan' => 'nullable|string',
-            'status' => 'required|string',
+            // 'status' => 'required|string',
         ]);
 
         $calculateJuzTercapaiSms = PencatatanHafalan::where('santri_id', $validated['santri_id'])
@@ -79,7 +103,30 @@ class PencatatanHafalanController extends Controller
             }
         }
 
-        PencatatanHafalan::create($validated);
+        // PencatatanHafalan::create($validated);
+        $totalNilai = ($request->nilai_tajwid + $request->nilai_kelancaran) / 2;
+
+        if ($totalNilai <= 70) {
+            $status = 'harus diulang';
+        } elseif ($totalNilai > 70 && $totalNilai <= 85) {
+            $status = 'lulus jayyid';
+        } else {
+            $status = 'lulus mumtaz';
+        }
+
+        // Simpan ke database
+        PencatatanHafalan::create([
+            'santri_id'        => $request->santri_id,
+            'semester_id'      => $request->semester_id,
+            'tanggal'          => $request->tanggal,
+            'jenis_hafalan'    => $request->jenis_hafalan,
+            'surah_ayat'       => $request->surah_ayat,
+            'nilai_tajwid'     => $request->nilai_tajwid,
+            'nilai_kelancaran' => $request->nilai_kelancaran,
+            'juz_tercapai'     => $request->juz_tercapai,
+            'catatan'          => $request->catatan,
+            'status'           => $status,
+        ]);
 
         return redirect()->route('pencatatan-hafalan.index')
             ->with('success', 'Data pencatatan hafalan berhasil disimpan.');
@@ -124,6 +171,17 @@ class PencatatanHafalanController extends Controller
             'catatan' => 'nullable|string',
             'status' => 'required|string',
         ]);
+
+        $totalNilai = ($request->nilai_tajwid + $request->nilai_kelancaran) / 2;
+
+        // Logika otomatis status berdasarkan nilai
+        if ($totalNilai <= 70) {
+            $status = 'harus di ulang';
+        } elseif ($totalNilai > 70 && $totalNilai <= 85) {
+            $status = 'lulus jayyid';
+        } else {
+            $status = 'lulus mumtaz';
+        }
 
         $calculateJuzTercapaiSms = PencatatanHafalan::where('santri_id', $validated['santri_id'])
             ->where('semester_id', $validated['semester_id'])
