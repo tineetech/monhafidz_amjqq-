@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\UjianTasmi;
 use App\Models\JadwalUjian;
 use App\Models\Ustadzah;
+use App\Models\WaliSantri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UjianTasmiController extends Controller
 {
@@ -15,6 +17,18 @@ class UjianTasmiController extends Controller
     public function index()
     {
         $ujian = UjianTasmi::with(['jadwalUjian', 'ustadzah'])
+            ->when(Auth::user()->role === 'santri', function ($q) {
+                $q->whereHas('jadwalUjian', function ($q2) {
+                    $q2->where('santri_id', Auth::user()->santri->id ?? 0);
+                });
+            })
+            ->when(Auth::user()->role === 'walisantri', function ($q) {
+                $q->whereHas('jadwalUjian', function ($q2) {
+                    $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
+                    $santri = $walisantri->santri;
+                    $q2->where('santri_id', $santri->id ?? 0);
+                });
+            })
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 

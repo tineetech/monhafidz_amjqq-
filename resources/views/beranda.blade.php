@@ -12,31 +12,37 @@
     body { font-family: 'Poppins', sans-serif; }
     .fade-in { opacity: 0; transform: translateY(20px); transition: all .8s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .scrolled {
+      background-color: white !important; /* Hijau gelap, seperti bg-green-900 */
+      --tw-bg-opacity: 1;
+      color: black !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    }
   </style>
 </head>
 <body class="bg-white text-gray-800">
 
   <!-- Header -->
-  <header class="bg-green-900 text-white">
+  <header class="bg-white bg-opacity-10 fixed py-4 top-0 text-white transition-all duration-300" style="z-index: 999;width: 100%">
     <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
       <h1 class="text-xl font-semibold flex items-center gap-2">
-        <img src="{{ asset('images/logo.png') }}" style="width: 40px" class="rounded-full" alt="logo">
-        Pondok Al Munawwar
-      </h1>
-      <nav class="space-x-4 hidden md:block">
-        <a href="#" class="hover:text-yellow-300">Beranda</a>
-        <a href="#" class="hover:text-yellow-300">Tentang</a>
-        <a href="#" class="hover:text-yellow-300">Program</a>
-        <a href="#" class="hover:text-yellow-300">Pengumuman</a>
-        <a href="#" class="hover:text-yellow-300">Kontak</a>
-      </nav>
+        <img src="{{ asset('images/logo.png') }}" style="width: 40px" class="rounded-full" alt="logo">
+        <span class="header-text">Pondok Al Munawwar</span>
+      </h1>
+      <nav class="space-x-4 hidden md:block">
+        <a href="#" class="hover:text-green-600 header-link">Beranda</a>
+        <a href="#" class="hover:text-green-600 header-link">Tentang</a>
+        <a href="#" class="hover:text-green-600 header-link">Program</a>
+        <a href="#" class="hover:text-green-600 header-link">Pengumuman</a>
+        <a href="#" class="hover:text-green-600 header-link">Kontak</a>
+      </nav>
       <button class="bg-yellow-400 text-green-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition" onclick="window.location.href = '/dashboard'">Mulai Monitoring</button>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="bg-gradient-to-b from-green-900 to-green-700 text-white text-center py-16 relative overflow-hidden">
-    <div class="fade-in">
+  <section class=" text-white text-center relative overflow-hidden" style="height: 100vh;background: url('{{ asset('images/header-bg.png') }}') center center;background-size: cover;">
+    <div class="fade-in flex justify-center items-center flex-col" style="height: 100%">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">Sistem Monitoring Hafalan Santri</h2>
       <p class="text-lg mb-6">Yakinlah dengan iman, lanjutkan dengan ilmu, sempurnakan dengan amal.</p>
       <div class="flex justify-center gap-6 flex-wrap mt-10">
@@ -181,6 +187,36 @@
       });
     }, { threshold: 0.2 });
     faders.forEach(el => appearOnScroll.observe(el));
+    // Logika Header saat di-scroll
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('.header-link');
+    const headerText = document.querySelector('.header-text');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+        header.classList.remove('bg-opacity-10');
+        header.classList.add('bg-opacity-100');
+        header.classList.remove('text-white');
+        header.classList.add('text-black');
+
+        navLinks.forEach(link => {
+  link.classList.remove('hover:text-green-600');
+  link.classList.add('hover:text-yellow-300');
+        });
+      } else {
+          header.classList.add('text-white');
+          header.classList.remove('text-black');
+          header.classList.add('bg-opacity-10');
+          header.classList.remove('bg-opacity-100');
+        header.classList.remove('scrolled');
+        navLinks.forEach(link => {
+          link.classList.remove('hover:text-yellow-300');
+          link.classList.add('hover:text-green-600');
+        });
+        if (headerText) headerText.classList.remove('text-white');
+      }
+    });
   </script>
 
 </body>

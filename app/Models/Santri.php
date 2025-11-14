@@ -12,7 +12,6 @@ class Santri extends Model
     // Nama tabel di database
     protected $table = 'santri';
 
-    // Kolom yang boleh diisi (mass assignment)
     protected $fillable = [
         'nama_lengkap',
         'jenis_kelamin',
@@ -21,7 +20,7 @@ class Santri extends Model
         'alamat_lengkap',
         'no_hp',
         'semester_id',
-        'orang_tua_id',
+        // 'orang_tua_id',
         'total_juz_tercapai',
         'status_santri',
     ];

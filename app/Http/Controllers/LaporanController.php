@@ -7,6 +7,7 @@ use App\Models\PencatatanHafalan;
 use App\Models\Santri;
 use App\Models\Semester;
 use App\Models\Ustadzah;
+use App\Models\WaliSantri;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,6 +27,9 @@ class LaporanController extends Controller
 
         if ($role === 'santri' && $userId) {
             $santri = Santri::where('user_id', $userId)->get();
+        } else if ($role === 'walisantri' && $userId) {
+            $walisantri = WaliSantri::where('user_id', $userId)->first();
+            $santri = Santri::where('id', $walisantri->santri_id)->get();
         } else {
             $santri = Santri::all();
         }
@@ -44,6 +48,9 @@ class LaporanController extends Controller
 
         if ($role === 'santri' && $userId) {
             $santri = Santri::where('user_id', $userId)->get();
+        } else if ($role === 'walisantri' && $userId) {
+            $walisantri = WaliSantri::where('user_id', $userId)->first();
+            $santri = Santri::where('id', $walisantri->santri_id)->get();
         } else {
             $santri = Santri::all();
         }
