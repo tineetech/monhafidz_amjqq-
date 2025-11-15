@@ -62,8 +62,10 @@
                 <td><span class="label label-success">Lancar</span></td>
               @elseif ($u->status_ujian == 'remidi')
                 <td><span class="label label-warning">Remidi</span></td>
+              @elseif ($u->status_ujian == 'selesai')
+                <td><span class="label label-success">Selesai</span></td>
               @else
-                <td><span class="label label-danger">Belum Diuji</span></td>
+                <td><span class="label label-danger">{{ $u->status_ujian }}</span></td>
               @endif
 
               @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')

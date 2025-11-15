@@ -25,9 +25,30 @@
     </div>
 
     <div class="box-body">
-      <form action="{{ route('santri.update', $santri->id) }}" method="POST">
+      <form action="{{ route('santri.update', $santri->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+
+        <div class="row">
+          <div class="form-group col-md-12">
+                {{-- Tampilkan foto lama --}}
+                @if ($santri->foto)
+                    <div class="mb-3">
+                        <div class="" style="display: flex;gap: 10px">
+                          <p>Foto saat ini:</p>
+                          {{-- Gunakan asset('storage/') untuk mengakses file dari disk 'public' --}}
+                          <img src="{{ asset('/storage/santri/' . $santri->foto) }}" alt="Foto Santri" style="max-width: 150px; height: auto; border: 1px solid #ddd; padding: 5px;">
+                        </div>
+                        <br>
+                        <small class="text-muted">Kosongkan input di bawah jika tidak ingin mengganti foto.</small>
+                    </div>
+                @else
+                    <p class="text-danger">Belum ada foto yang diunggah.</p>
+                @endif
+            <label>Foto Santri</label>
+          <input type="file" name="foto" class="form-control" accept=".png, .jpg, .jpeg">
+       </div>
+     </div>
 
         <div class="row">
             <div class="form-group col-md-6">

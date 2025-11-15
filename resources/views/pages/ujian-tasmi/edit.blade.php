@@ -64,8 +64,9 @@
           <div class="form-group col-md-6">
             <label>Status Ujian</label>
             <select name="status_ujian" class="form-control">
-              <option value="belum_diuji" {{ $ujian->status_ujian == 'belum_diuji' ? 'selected' : '' }}>Belum Diuji</option>
+              <option value="selesai" {{ $ujian->status_ujian == 'selesai' ? 'selected' : '' }}>Selesai</option>
               <option value="lancar" {{ $ujian->status_ujian == 'lancar' ? 'selected' : '' }}>Lancar</option>
+              <option value="belum_diuji" {{ $ujian->status_ujian == 'belum_diuji' ? 'selected' : '' }}>Belum Diuji</option>
               <option value="remidi" {{ $ujian->status_ujian == 'remidi' ? 'selected' : '' }}>Remidi</option>
             </select>
           </div>

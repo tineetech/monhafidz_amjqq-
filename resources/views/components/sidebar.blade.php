@@ -61,7 +61,7 @@
     
             <li class="{{ request()->routeIs('pencatatan-hafalan.*') ? 'active' : '' }}">
               <a href="{{ route('pencatatan-hafalan.index') }}">
-                <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
+                <i class="fa fa-book"></i> <span>Pencatatan Setoran Hafalan</span>
               </a>
             </li>
     
@@ -155,7 +155,7 @@
     
             <li class="{{ request()->routeIs('pencatatan-hafalan.*') ? 'active' : '' }}">
               <a href="{{ route('pencatatan-hafalan.index') }}">
-                <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
+                <i class="fa fa-book"></i> <span>Pencatatan Setoran Hafalan</span>
               </a>
             </li>
     
@@ -242,7 +242,7 @@
     
             <li class="{{ request()->routeIs('pencatatan-hafalan.*') ? 'active' : '' }}">
               <a href="{{ route('pencatatan-hafalan.index') }}">
-                <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
+                <i class="fa fa-book"></i> <span>Pencatatan Setoran Hafalan</span>
               </a>
             </li>
     
@@ -329,7 +329,7 @@
     
             <li class="{{ request()->routeIs('pencatatan-hafalan.*') ? 'active' : '' }}">
               <a href="{{ route('pencatatan-hafalan.index') }}">
-                <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
+                <i class="fa fa-book"></i> <span>Pencatatan Setoran Hafalan</span>
               </a>
             </li>
     

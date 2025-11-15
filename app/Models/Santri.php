@@ -23,6 +23,8 @@ class Santri extends Model
         // 'orang_tua_id',
         'total_juz_tercapai',
         'status_santri',
+        'user_id',
+        'foto',
     ];
 
     // Format tanggal otomatis jadi Carbon instance

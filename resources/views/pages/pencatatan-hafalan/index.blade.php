@@ -3,19 +3,19 @@
 @section('content')
 <section class="content-header">
   <h1>
-    Data Pencatatan Hafalan
-    <small>Daftar semua catatan hafalan santri</small>
+    Data Pencatatan Setoran Hafalan Santri
+    <small>Daftar semua setoran hafalan santri</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Pencatatan Hafalan</li>
+    <li class="active">Pencatatan Setoran Hafalan</li>
   </ol>
 </section>
 
 <section class="content">
   <div class="box">
     <div class="box-header with-border">
-      <h3 class="box-title">Daftar Pencatatan Hafalan Ziyadah</h3>
+      <h3 class="box-title">Daftar Pencatatan Setoran Hafalan Ziyadah</h3>
       @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
       <a href="{{ route('pencatatan-hafalan.create') }}" class="btn btn-primary btn-sm pull-right">
         <i class="fa fa-plus"></i> Tambah Data
@@ -81,7 +81,7 @@
   </div>
   <div class="box">
     <div class="box-header with-border">
-      <h3 class="box-title">Daftar Pencatatan Hafalan Murajaah</h3>
+      <h3 class="box-title">Daftar Pencatatan Setoran Hafalan Murajaah</h3>
       @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
       <a href="{{ route('pencatatan-hafalan.create') }}" class="btn btn-primary btn-sm pull-right">
         <i class="fa fa-plus"></i> Tambah Data

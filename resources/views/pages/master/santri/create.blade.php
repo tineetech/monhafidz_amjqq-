@@ -23,12 +23,31 @@
         </a>
       </div>
     </div>
+    @if ($errors->any())
+      <div class="alert alert-danger m-3">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
 
     <div class="box-body">
-      <form action="{{ route('santri.store') }}" method="POST">
+      <form action="{{ route('santri.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        
 
         <div class="row">
+              <div class="form-group col-md-12">
+                  <label>Foto Santri</label>
+                  <input type="file" name="foto" class="form-control" id="" accept=".png, .jpg, .jpeg">
+              </div>
+        </div>
+
+        <div class="row">
+          
+
             <!-- Input 1 -->
             <div class="form-group col-md-6">
               <label>Nama Lengkap</label>
