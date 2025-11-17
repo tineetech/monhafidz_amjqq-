@@ -24,6 +24,11 @@ class DashboardController extends Controller
         $santri_lulus = Santri::all()->where('status_santri', 'Lulus')->count();
         // dd($murajaah);
         // dd(Auth::user()->santri);
+
+        if (Auth::user()->role === 'santri') {
+            $santri_personal = Santri::where('user_id', Auth::id())->first();
+            return view('pages.dashboard' , compact('ziyadah', 'murajaah', 'santri', 'santri_personal', 'ustad', 'pencatatan_hafalan', 'santri_lulus'));
+        }
         return view('pages.dashboard' , compact('ziyadah', 'murajaah', 'santri', 'ustad', 'pencatatan_hafalan', 'santri_lulus'));
     }
 }

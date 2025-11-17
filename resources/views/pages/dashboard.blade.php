@@ -80,6 +80,65 @@
       </div>
       <!-- /.row -->
       <!-- Main row -->
+      @if (Auth::user()->role === 'santri')
+      <div class="row">
+        
+        <section class="col-lg-12 connectedSortable">
+          <div class="box">
+            <div class="" style="display: flex; justify-content: space-between;width: 100%;align-items: center;padding-block: 10px;padding-inline: 15px;">
+              <h3 class="" style="font-size: 16px;margin: 0; padding: 0">Sertifikat Untuk Mu</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              @if ($santri_personal->total_juz_tercapai >= 30)
+              <!-- Button trigger modal -->
+              <div class="container" style="padding-block: 20px">
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{ $santri_personal->id }}">
+                  Lihat Sertifikat
+                </button>
+              </div>
+
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal{{ $santri_personal->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Pilih jenis sertifikat</h5>
+                      {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button> --}}
+                    </div>
+                    <div class="modal-body" style="width: 100%;display: flex;flex-direction: column;gap: 8px;text-align: start">
+                      <a class="btn btn-primary"
+                        href="{{ route('sertifikat.tahfidz', ['id_santri' => $santri_personal->id, 'tanggal' => now()]) }}"
+                        target="_blank">
+                          Sertifikat Hafalan 30 Juz <i class="fa fa-book"></i>
+                      </a>
+                      <a class="btn btn-success"
+                        href="{{ route('sertifikat.kelulusan', ['id_santri' => $santri_personal->id, 'tanggal' => now()]) }}"
+                        target="_blank">
+                          Sertifikat Kelulusan <i class="fa fa-graduation-cap"></i>
+                      </a>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              @else
+              <div class="container" style="padding-block: 20px">
+                Belum ada sertifikat untuk mu
+              </div>
+              @endif
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </section>
+
+      </div>
+      @endif
       <div class="row">
         <!-- Left col -->
         <section class="col-lg-6 connectedSortable">

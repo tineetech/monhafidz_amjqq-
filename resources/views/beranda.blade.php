@@ -28,7 +28,7 @@
   <div class="max-w-7xl mx-auto flex justify-between items-center px-4">
     <div class="flex items-center gap-2 text-xl font-semibold">
       <img src="{{ asset('images/logo.png') }}" class="w-10 rounded-full">
-      <span class="header-text">Pondok Al Munawwar</span>
+      <span class="header-text">MONHAFIDZ AMJQQ</span>
     </div>
 
     <nav class="hidden md:flex gap-6">
@@ -126,9 +126,9 @@
 
   <div>
     <h2 class="text-3xl font-bold  mb-4">Tentang Kami</h2>
-    <h2 class="text-2xl text-green-600  mb-4">Sistem Hafalan Santri Tahfidz di Pondok Pesantren Al Munawwar</h2>
+    <h2 class="text-2xl text-green-600  mb-4">Sistem Hafalan Santri Tahfidz di Pondok Pesantren al munawwar jarnauziyyah qiro'atul qur'an.</h2>
     <p class="leading-relaxed text-gray-600">
-      Sistem Hafalan Santri Tahfidz di Pondok Pesantren Al Munawwar dirancang
+      Sistem Hafalan Santri Tahfidz di Pondok Pesantren Al munawwar jarnauziyyah qiro'atul qur'an dirancang
       untuk memudahkan monitoring perkembangan hafalan santri secara digital.
       Ustadz dapat mencatat hafalan baru (ziyadah) dan muraja‘ah secara real time,
       sementara wali santri dapat memantau progres hafalan anaknya.
@@ -433,8 +433,7 @@
     <div>
       <h2 class="text-2xl md:text-3xl font-semibold leading-snug mb-4">
         Mulailah Sekarang untuk Bergabung<br>
-        dalam Program Tahfidz di Al-Munawwar<br>
-        Jarnuziyyah
+        dalam Program Tahfidz di Pondok Pesantren al munawwar jarnauziyyah qiro'atul qur'an.<br>
       </h2>
 
       <p class="text-green-100 text-sm leading-relaxed mb-6">
@@ -480,7 +479,7 @@
           <img src="{{ asset('images/logo.png') }}" class="w-12 rounded-full">
           <div>
             <p class="font-semibold">Pondok Pesantren</p>
-            <p class="text-green-100 text-xs">Al-Munawwar Jarnuziyyah</p>
+            <p class="text-green-100 text-xs">Al munawwar jarnauziyyah qiro'atul qur'an.</p>
           </div>
         </div>
 
@@ -530,7 +529,7 @@
 
     <!-- COPYRIGHT -->
     <p class="text-center text-green-100 text-xs mt-10">
-      © 2025 Pondok Pesantren Al-Munawwar Jarnuziyyah. All Rights Reserved.
+      © 2025 Pondok pesantren al munawwar jarnauziyyah qiro'atul qur'an. All Rights Reserved.
     </p>
   </div>
 
