@@ -150,7 +150,7 @@
       <p class="text-4xl font-bold text-green-700">{{ $pencatatan_hafalan .'+' ?? '0' }}</p><p>Pencatatan Hafalan</p>
     </div>
     <div class="bg-white shadow-md rounded-xl p-6 hover:scale-105 transition">
-      <p class="text-4xl font-bold text-green-700">{{ $santri_lulus .'+' ?? '0' }}</p><p>Santri Lulus</p>
+      <p class="text-4xl font-bold text-green-700">{{ $santri_lulus .'+' ?? '0' }}</p><p>Santri Selesai Ujian Tasmi</p>
     </div>
   </div>
 </section>

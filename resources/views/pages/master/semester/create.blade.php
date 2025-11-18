@@ -54,6 +54,17 @@
 
         <div class="row">
           <div class="form-group col-md-12">
+            <label>Jenis Hafalan Semester</label>
+            <select name="jenis_hafalan" class="form-control" required>
+              <option value="">Pilih jenis</option>
+              <option value="ziyadah">Ziyadah</option>
+              <option value="murajaah">Murajaah</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-12">
             <label>Status</label>
             <select name="status" class="form-control" required>
               <option value="">Pilih status</option>

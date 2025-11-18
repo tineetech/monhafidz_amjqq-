@@ -12,8 +12,9 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        $semesters = Semester::all();
-        return view('pages.master.semester.index', compact('semesters'));
+        $semesterZiyadah = Semester::where('jenis_hafalan', 'ziyadah')->get();
+        $semesterMurajaah = Semester::where('jenis_hafalan', 'murajaah')->get();
+        return view('pages.master.semester.index', compact('semesterZiyadah', 'semesterMurajaah'));
     }
 
     /**
@@ -34,6 +35,7 @@ class SemesterController extends Controller
             'tahun_ajaran' => 'required|string|max:20',
             'periode_mulai' => 'required|date',
             'periode_selesai' => 'required|date|after_or_equal:periode_mulai',
+            'jenis_hafalan' => 'required',
             'status' => 'required|string|in:aktif,nonaktif,selesai',
         ]);
 
@@ -60,6 +62,7 @@ class SemesterController extends Controller
             'nama_semester' => 'required|string|max:100',
             'tahun_ajaran' => 'required|string|max:20',
             'periode_mulai' => 'required|date',
+            'jenis_hafalan' => 'required',
             'periode_selesai' => 'required|date|after_or_equal:periode_mulai',
             'status' => 'required|string|in:aktif,nonaktif,selesai',
         ]);

@@ -72,9 +72,9 @@
             <label>Status Ujian</label>
             <select name="status_ujian" id="status_ujian" class="form-control">
               <option value="selesai">Selesai</option>
-              <option value="lancar">Lancar</option>
+              {{-- <option value="lancar">Lancar</option> --}}
               <option value="belum_diuji">Belum Diuji</option>
-              <option value="remidi">Remidi</option>
+              {{-- <option value="remidi">Remidi</option> --}}
             </select>
           </div>
           <div class="col-md-12">

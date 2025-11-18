@@ -64,9 +64,9 @@
             <th>Nilai</th>
             <th>Peringkat</th>
             <th>Status</th>
-            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
+            {{-- @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
+            @endif --}}
             <th>Aksi</th>
-            @endif
           </tr>
         </thead>
         <tbody>
@@ -86,11 +86,11 @@
               @elseif ($u->status_ujian == 'belum_diuji')
                 <td><span class="label label-danger">Belum Diuji</span></td>
               @endif
-                @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
               <td>
                 @if ($u->rank !== "null" && ($u->rank === 1 || $u->rank === 2 || $u->rank === 3))
-                  <a href="{{ route('sertifikat.top3', ['id_ujian' => $u->id]) }}" class="btn btn-success btn-sm" target="_blank">Lihat Sertifikat</a>
+                <a href="{{ route('sertifikat.top3', ['id_ujian' => $u->id]) }}" class="btn btn-success btn-sm" target="_blank">Lihat Sertifikat</a>
                 @endif
+                @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
                 <a href="{{ route('pencatatan-ujian.edit', $u->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
                 <form action="{{ route('pencatatan-ujian.destroy', $u->id) }}" method="POST" style="display:inline;">
@@ -98,8 +98,8 @@
                   @method('DELETE')
                   <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus data ini?')">Hapus</button>
                 </form>
+                @endif
               </td>
-              @endif
             </tr>
           @endforeach
         </tbody>

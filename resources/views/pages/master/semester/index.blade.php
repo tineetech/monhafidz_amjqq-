@@ -19,7 +19,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Semester</h3>
+              <h3 class="box-title">Data Semester Untuk Hafalan Ziyadah</h3>
               <div class="box-tools">
                 <a href="{{ route('semester.create') }}" class="btn btn-primary btn-sm">Tambah Semester</a>
               </div>
@@ -42,7 +42,58 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($semesters as $index => $s)
+                  @foreach ($semesterZiyadah as $index => $s)
+                    <tr>
+                      <td>{{ $index + 1 }}</td>
+                      <td>{{ $s->nama_semester }}</td>
+                      <td>{{ $s->tahun_ajaran }}</td>
+                      <td>{{ $s->periode_mulai }}</td>
+                      <td>{{ $s->periode_selesai }}</td>
+                      <td>{{ $s->status }}</td>
+                      <td>
+                        <a href="{{ route('semester.edit', $s->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('semester.destroy', $s->id) }}" method="POST" style="display:inline;">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Data Semester Untuk Hafalan Murajaah</h3>
+              <div class="box-tools">
+                <a href="{{ route('semester.create') }}" class="btn btn-primary btn-sm">Tambah Semester</a>
+              </div>
+            </div>
+            <div class="box-body table-responsive">
+              
+              @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+              @endif
+              <table id="semester-table" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nama Semester</th>
+                    <th>Tahun Ajaran</th>
+                    <th>Periode Mulai</th>
+                    <th>Periode Selesai</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($semesterMurajaah as $index => $s)
                     <tr>
                       <td>{{ $index + 1 }}</td>
                       <td>{{ $s->nama_semester }}</td>

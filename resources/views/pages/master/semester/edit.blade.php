@@ -53,6 +53,17 @@
           </div>
         </div>
 
+        {{-- <div class="row"> --}}
+          <div class="form-group col-md-12">
+            <label>Jenis Hafalan Semester</label>
+            <select name="jenis_hafalan" class="form-control" required>
+              <option value="">Pilih jenis</option>
+              <option value="ziyadah" {{ old('jenis_hafalan', $semester->jenis_hafalan) == 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>
+              <option value="murajaah" {{ old('jenis_hafalan', $semester->jenis_hafalan) == 'murajaah' ? 'selected' : '' }}>Murajaah</option>
+            </select>
+          </div>
+        {{-- </div> --}}
+
         <div class="col-md-12">
           <div class="form-group">
             <label>Status</label>

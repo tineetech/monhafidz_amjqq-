@@ -15,6 +15,15 @@
     <div class="box-header with-border">
       <h3 class="box-title">Edit Data Ujian Tasmi</h3>
     </div>
+    @if ($errors->any())
+      <div class="alert alert-danger m-3">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
     <div class="box-body">
       <form action="{{ route('ujian-tasmi.update', $ujian->id) }}" method="POST">
         @csrf
@@ -65,9 +74,9 @@
             <label>Status Ujian</label>
             <select name="status_ujian" class="form-control">
               <option value="selesai" {{ $ujian->status_ujian == 'selesai' ? 'selected' : '' }}>Selesai</option>
-              <option value="lancar" {{ $ujian->status_ujian == 'lancar' ? 'selected' : '' }}>Lancar</option>
+              {{-- <option value="lancar" {{ $ujian->status_ujian == 'lancar' ? 'selected' : '' }}>Lancar</option> --}}
               <option value="belum_diuji" {{ $ujian->status_ujian == 'belum_diuji' ? 'selected' : '' }}>Belum Diuji</option>
-              <option value="remidi" {{ $ujian->status_ujian == 'remidi' ? 'selected' : '' }}>Remidi</option>
+              {{-- <option value="remidi" {{ $ujian->status_ujian == 'remidi' ? 'selected' : '' }}>Remidi</option> --}}
             </select>
           </div>
           <div class="col-md-12">

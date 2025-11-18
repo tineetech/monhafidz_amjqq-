@@ -17,8 +17,11 @@ class PencatatanUjianController extends Controller
         $filter = request('filter_semester');
         $filterJenisUjian = request('filter_jenis_ujian');
 
-        $ujian = PencatatanUjian::with(['jadwalUjian.semester', 'ustadzah', 'jadwalUjian.santri'])
-             ->whereHas('jadwalUjian', function ($q) {
+        // ---------------------------------------------------------
+        // 1) AMBIL SEMUA DATA UJIAN (TANPA FILTER SANTRI/WALISANTRI)
+        // ---------------------------------------------------------
+        $ujianForRank = PencatatanUjian::with(['jadwalUjian.semester', 'ustadzah', 'jadwalUjian.santri'])
+            ->whereHas('jadwalUjian', function ($q) {
                 $q->where('jenis_ujian', '!=', 'tasmi');
             })
             ->when($filter, function ($q) use ($filter) {
@@ -31,36 +34,20 @@ class PencatatanUjianController extends Controller
                     $q2->where('jenis_ujian', $filterJenisUjian);
                 });
             })
-            ->when(Auth::user()->role === 'santri', function ($q) {
-                $q->whereHas('jadwalUjian', function ($q2) {
-                    $q2->where('santri_id', Auth::user()->santri->id ?? 0);
-                });
-            })
-            ->when(Auth::user()->role === 'walisantri', function ($q) {
-                $q->whereHas('jadwalUjian', function ($q2) {
-                    $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
-                    $santri = $walisantri->santri;
-                    $q2->where('santri_id', $santri->id ?? 0);
-                });
-            })
             ->get();
 
+        // Ambil jadwal untuk grouping per semester & jenis
         $jadwal = \App\Models\JadwalUjian::with('semester')
             ->when($filter, function ($q) use ($filter) {
                 $q->where('semester_id', $filter);
-            })
-            ->when(Auth::user()->role === 'santri', function ($q) {
-                $q->where('santri_id', Auth::user()->santri->id ?? 0);
-            })
-            ->when(Auth::user()->role === 'walisantri', function ($q) {
-                $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
-                $santri = $walisantri->santri;
-                $q->where('santri_id', $santri->id ?? 0);
             })
             ->get();
 
         $groupJadwal = $jadwal->groupBy('semester_id');
 
+        // ---------------------------------------------------------
+        // 2) HITUNG RANKING MENGGUNAKAN SEMUA DATA ($ujianForRank)
+        // ---------------------------------------------------------
         foreach ($groupJadwal as $semesterId => $jadwalSemesterIni) {
 
             $groupJenis = $jadwalSemesterIni->groupBy('jenis_ujian');
@@ -69,7 +56,7 @@ class PencatatanUjianController extends Controller
 
                 $totalPeserta = $jadwalJenisIni->count();
 
-                $pencatatanJenisIni = $ujian->filter(function ($item) use ($semesterId, $jenis) {
+                $pencatatanJenisIni = $ujianForRank->filter(function ($item) use ($semesterId, $jenis) {
                     return $item->jadwalUjian 
                         && $item->jadwalUjian->semester_id == $semesterId
                         && $item->jadwalUjian->jenis_ujian == $jenis;
@@ -80,6 +67,7 @@ class PencatatanUjianController extends Controller
                 $sorted = $pencatatanJenisIni->sortByDesc('nilai_ujian')->values();
                 $rank = 1;
 
+                // Jika peserta belum lengkap → rank = null
                 if ($totalPeserta == 0 || $sudahUjian < $totalPeserta) {
                     foreach ($sorted as $item) {
                         $item->rank = 'null';
@@ -87,13 +75,14 @@ class PencatatanUjianController extends Controller
                     continue;
                 }
 
-                // ✅ Jika lengkap → beri ranking
+                // Jika lengkap → berikan ranking
                 foreach ($sorted as $item) {
                     $item->rank = $rank++;
                 }
             }
         }
 
+        // Urutan jenis ujian
         $orderJenis = [
             'tasmi' => 1,
             'ujian_akhir' => 2,
@@ -101,15 +90,34 @@ class PencatatanUjianController extends Controller
             'murajaah' => 4
         ];
 
+        // ---------------------------------------------------------
+        // 3) SETELAH RANK SIAP → FILTER UNTUK USER LOGIN
+        // ---------------------------------------------------------
+        $ujian = $ujianForRank;
+
+        if (Auth::user()->role === 'santri') {
+            $idSantri = Auth::user()->santri->id ?? 0;
+            $ujian = $ujian->filter(fn($x) => $x->jadwalUjian->santri_id == $idSantri);
+        }
+
+        if (Auth::user()->role === 'walisantri') {
+            $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
+            $idSantri = $walisantri->santri->id ?? 0;
+            $ujian = $ujian->filter(fn($x) => $x->jadwalUjian->santri_id == $idSantri);
+        }
+
+        // ---------------------------------------------------------
+        // 4) SORTING UNTUK TAMPILAN
+        // ---------------------------------------------------------
         $ujian = $ujian->sortBy(function ($item) use ($orderJenis) {
             $jenisOrder = $orderJenis[$item->jadwalUjian->jenis_ujian] ?? 999;
             $rankOrder = $item->rank ?? 999999;
             return $jenisOrder . '-' . $rankOrder;
         })->values();
 
-
         return view('pages.pencatatan-ujian.index', compact('ujian', 'semesters'));
     }
+
 
 
     public function create()

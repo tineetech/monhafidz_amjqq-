@@ -60,7 +60,7 @@ class UjianTasmiController extends Controller
             'ustadzah_id'     => 'nullable|exists:ustadzah,id',
             'tanggal_tasmi'   => 'required|date',
             'juz_yang_ditasmi' => 'required|string',
-            'status_ujian'    => 'required|in:selesai,belum_diuji,remidi',
+            'status_ujian'    => 'required|in:selesai,belum_diuji',
             'catatan' => 'nullable|string',
         ]);
 
@@ -104,8 +104,8 @@ class UjianTasmiController extends Controller
             'jadwal_ujian_id' => 'required|exists:jadwal_ujian,id',
             'ustadzah_id'     => 'nullable|exists:ustadzah,id',
             'tanggal_tasmi'   => 'required|date',
-            'juz_yang_ditasmi' => 'required|string|max:10',
-            'status_ujian'    => 'required|in:belum_diuji,lancar,remidi',
+            'juz_yang_ditasmi' => 'required|string',
+            'status_ujian'    => 'required|in:belum_diuji,selesai',
             'catatan' => 'nullable|string',
         ]);
 

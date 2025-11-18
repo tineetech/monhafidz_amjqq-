@@ -16,6 +16,7 @@ class Semester extends Model
         'tahun_ajaran',
         'periode_mulai',
         'periode_selesai',
+        'jenis_hafalan',
         'status',
     ];
 

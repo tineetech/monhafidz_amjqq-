@@ -15,6 +15,15 @@
     <div class="box-header with-border">
       <h3 class="box-title">Edit Data Ujian</h3>
     </div>
+    @if ($errors->any())
+      <div class="alert alert-danger m-3">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
     <div class="box-body">
       <form action="{{ route('pencatatan-ujian.update', $ujian->id) }}" method="POST">
         @csrf
