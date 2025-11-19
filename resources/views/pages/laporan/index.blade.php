@@ -1,6 +1,14 @@
 @extends('layouts.main')
 
 @section('content')
+<style>
+#chartDonatZiyadah {
+    max-width: 600px;
+    max-height: 600px;
+    margin: 0 auto; /* biar center */
+}
+</style>
+
 <section class="content-header">
   <h1>
     Laporan
@@ -25,6 +33,8 @@
       @endif
 
       <canvas id="chartZiyadah" height="100"></canvas>
+      <canvas id="chartDonatZiyadah" width="400" height="400"></canvas>
+
     </div>
   </div>
 
@@ -248,7 +258,35 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
                       }
                   }
               });
-
+              new Chart(document.getElementById('chartDonatZiyadah'), {
+                type: "doughnut",
+                data: {
+                    labels: res.donut_labels, // Juz 1–30
+                    datasets: [{
+                        data: res.donut_dataset, // Persentase per juz
+                        backgroundColor: res.donut_labels.map(() =>
+                            "#" + Math.floor(Math.random()*16777215).toString(16)
+                        ),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: {
+                            display: true,
+                            text: "Distribusi Juz Ziyadah Semua Santri"
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) =>
+                                    `Juz ${ctx.label}: ${ctx.raw}% santri`
+                            }
+                        }
+                    }
+                }
+              });
           });
 
   });

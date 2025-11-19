@@ -78,10 +78,40 @@ class LaporanController extends Controller
             ];
         }
 
-        return response()->json([
-            'labels' => $semesters->pluck('nama_semester'),
-            'datasets' => $datasets
-        ]);
+        // --- DISTRIBUSI JUZ --- //
+$totalSantri = $santri->count();
+$distribusi = array_fill(1, 30, 0); // juz 1–30, default 0
+
+foreach ($santri as $s) {
+
+    // total juz hafalan santri ini
+    $total = $s->pencatatanHafalan()
+        ->where('jenis_hafalan', 'ziyadah')
+        ->sum('juz_tercapai');
+
+    // posisi juz saat ini (dibulatkan ke bawah)
+    $posisi = floor($total);
+
+    if ($posisi < 1) $posisi = 1;
+    if ($posisi > 30) $posisi = 30;
+
+    // tambahkan ke distribusi
+    $distribusi[$posisi]++;
+}
+
+// ubah jadi persentase
+$persentaseJuz = [];
+foreach ($distribusi as $juz => $jumlah) {
+    $persentase = $totalSantri > 0 ? ($jumlah / $totalSantri * 100) : 0;
+    $persentaseJuz[] = round($persentase, 2);
+}
+
+return response()->json([
+    'labels'         => $semesters->pluck('nama_semester'),
+    'datasets'       => $datasets,
+    'donut_labels'   => range(1, 30), // label DONUT = juz 1 - juz 30
+    'donut_dataset'  => $persentaseJuz
+]);
     }
 
     // public function getLaporanHafalan(Request $request)
