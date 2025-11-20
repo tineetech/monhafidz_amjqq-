@@ -34,7 +34,7 @@ class LaporanController extends Controller
             $santri = Santri::all();
         }
 
-        $semesters = Semester::all();
+        $semesters = Semester::where('jenis_hafalan', 'ziyadah')->get();
 
         return view('pages.laporan.index', compact('santri', 'semesters'));
     }
@@ -44,7 +44,7 @@ class LaporanController extends Controller
         $role = $request->get('role', 'admin'); // default admin
         $userId = $request->get('user_id');     // id user jika role santri
 
-        $semesters = Semester::orderBy('id')->get();
+        $semesters = Semester::orderBy('id')->where('jenis_hafalan', 'ziyadah')->get();
 
         if ($role === 'santri' && $userId) {
             $santri = Santri::where('user_id', $userId)->get();

@@ -64,7 +64,7 @@
       </div>
       <div class="bg-white/10 backdrop-blur p-4 rounded-xl">
         <p class="text-3xl font-bold">{{ $santri_lulus . '+' ?? '0' }}</p>
-        <p>Santri lulus</p>
+        <p>Telah menyelesaikan ujian tasmi</p>
       </div>
     </div>
   </div>
@@ -255,7 +255,7 @@
           <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition">
             <img src="{{ asset('/images/info-tasmiakbar.png') }}" class="w-full">
             <div class="p-4">
-              <h3 class="font-semibold text-gray-800">Tasmī’ Akbar</h3>
+              <h3 class="font-semibold text-gray-800">Ujian Tasmi</h3>
               <p class="text-sm text-gray-600 mt-2">
                 Kegiatan penyetoran hafalan secara terbuka sebagai bentuk evaluasi dan motivasi bersama.
               </p>
