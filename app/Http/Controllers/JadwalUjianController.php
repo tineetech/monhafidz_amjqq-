@@ -64,7 +64,7 @@ class JadwalUjianController extends Controller
     {
         $santri = Santri::orderBy('nama_lengkap','asc')->get();
         $ustadzah = Ustadzah::orderBy('nama_lengkap','asc')->get();
-        $semesters = Semester::orderBy('nama_semester','asc')->get();
+        $semesters = Semester::where('jenis_hafalan', 'ziyadah')->orderBy('nama_semester','asc')->get();
 
         return view('pages.jadwal-ujian.create', compact('santri','ustadzah','semesters'));
     }
@@ -120,7 +120,7 @@ class JadwalUjianController extends Controller
         $jadwal = JadwalUjian::findOrFail($id);
         $santri = Santri::orderBy('nama_lengkap','asc')->get();
         $ustadzah = Ustadzah::orderBy('nama_lengkap','asc')->get();
-        $semesters = Semester::orderBy('nama_semester','asc')->get();
+        $semesters = Semester::where('jenis_hafalan', 'ziyadah')->orderBy('nama_semester','asc')->get();
 
         return view('pages.jadwal-ujian.edit', compact('jadwal','santri','ustadzah','semesters'));
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Santri;
+use App\Models\Semester;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +26,7 @@ class SantriController extends Controller
      */
    public function create()
     {
-        $semesters = \App\Models\Semester::all();
+        $semesters = Semester::where('jenis_hafalan', 'ziyadah')->get();
 
         return view('pages.master.santri.create', compact('semesters'));
     }
@@ -113,7 +114,7 @@ class SantriController extends Controller
    public function edit(string $id)
     {
         $santri = \App\Models\Santri::findOrFail($id);
-        $semesters = \App\Models\Semester::all();
+        $semesters = Semester::where('jenis_hafalan', 'ziyadah')->get();
 
         return view('pages.master.santri.edit', compact('santri', 'semesters'));
     }

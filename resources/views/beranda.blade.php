@@ -53,7 +53,7 @@
     <h1 class="text-4xl md:text-5xl font-bold">Sistem Monitoring Hafalan Santri</h1>
     <p class="text-lg mt-4">Yakinlah dengan iman, lanjutkan dengan ilmu, sempurnakan dengan amal.</p>
 
-    <div class="grid grid-cols-3 gap-6 mt-10 max-w-md mx-auto">
+    <div class="grid grid-cols-3 gap-6 mt-10 max-w-lg mx-auto">
       <div class="bg-white/10 backdrop-blur p-4 rounded-xl">
         <p class="text-3xl font-bold">{{ $santri .'+' ?? '0' }}</p>
         <p>Santri</p>
@@ -82,7 +82,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 4h16v12H4zM4 16l4-4m4 4l4-4"></path>
           </svg>
         </div>
-        <p class="text-sm font-medium text-gray-700">Pencatatan & Penilaian Hafalan</p>
+        <p class="text-sm font-medium text-gray-700">Setoran Hafalan Santri</p>
       </div>
 
       <!-- Item 2 -->
@@ -266,7 +266,7 @@
           <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition">
             <img src="{{ asset('/images/info-ujian.png') }}" class="w-full">
             <div class="p-4">
-              <h3 class="font-semibold text-gray-800">Ujian Tahfidz Semester</h3>
+              <h3 class="font-semibold text-gray-800">Ujian Akhir Semester</h3>
               <p class="text-sm text-gray-600 mt-2">
                 Evaluasi berkala untuk menilai ketepatan, tajwīd, dan kelancaran hafalan santri.
               </p>

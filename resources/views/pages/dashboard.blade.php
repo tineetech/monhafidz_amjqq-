@@ -164,7 +164,7 @@
                 @foreach($ziyadah as $row)
                 <tr>
                   <td>{{ $row->hari }}</td>
-                  <td>{{ substr($row->jam_mulai, 11, 5) . ' - ' . ($row->jam_selesai == null ? 'Selesai' : $row->jam_selesai) }}</td>
+                  <td>{{ substr($row->jam_mulai, 11, 5) . ' - ' . ($row->jam_selesai == null ? 'Selesai' : substr($row->jam_selesai, 11, 5)) }}</td>
                   <td>{{ $row->pembimbingPutra->nama_lengkap ?? 'Tidak Ada' }}</td>
                   <td>{{ $row->pembimbingPutri->nama_lengkap ?? 'Tidak Ada' }}</td>
                 </tr>
@@ -196,7 +196,7 @@
                 @foreach($murajaah as $row)
                 <tr>
                   <td>{{ $row->hari }}</td>
-                  <td>{{ substr($row->jam_mulai, 11, 5) . ' - ' . ($row->jam_selesai == null ? 'Selesai' : $row->jam_selesai) }}</td>
+                  <td>{{ substr($row->jam_mulai, 11, 5) . ' - ' . ($row->jam_selesai == null ? 'Selesai' : substr($row->jam_selesai, 11, 5)) }}</td>
                   <td>{{ $row->pembimbingPutra->nama_lengkap ?? 'Tidak Ada' }}</td>
                   <td>{{ $row->pembimbingPutri->nama_lengkap ?? 'Tidak Ada' }}</td>
                 </tr>
