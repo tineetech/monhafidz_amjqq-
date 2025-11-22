@@ -3,12 +3,12 @@
 @section('content')
 <section class="content-header">
   <h1>
-    Data Pencatatan Setoran Hafalan Santri
+    Data Setoran Hafalan Santri
     <small>Edit Data</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('pencatatan-hafalan.index') }}">Data Pencatatan Setoran Hafalan</a></li>
+    <li><a href="{{ route('pencatatan-hafalan.index') }}">Data Setoran Hafalan</a></li>
     <li class="active">Edit</li>
   </ol>
 </section>
@@ -16,7 +16,7 @@
 <section class="content">
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">Edit Pencatatan Setoran Hafalan Santri</h3>
+        <h3 class="box-title">Edit Setoran Hafalan Santri</h3>
     </div>
     <form action="{{ route('pencatatan-hafalan.update', $data->id) }}" method="POST">
         @csrf
@@ -96,7 +96,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Juz tercapai (untuk proggress ke 5juz/10juz persemester)</label>
+                        <label>Juz tercapai/diulang (untuk proggress ke 5juz ziyadah/10juz murajaah)</label>
                         <input type="number" name="juz_tercapai" class="form-control" step="0.1" value="{{ $data->juz_tercapai }}" required>
                     </div>
                 </div>

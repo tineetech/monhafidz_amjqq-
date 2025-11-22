@@ -3,12 +3,12 @@
 @section('content')
 <section class="content-header">
   <h1>
-    Tambah Pencatatan Setoran Hafalan Santri
+    Tambah Setoran Hafalan Santri
     <small>Form input setoran hafalan santri</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('pencatatan-hafalan.index') }}">Pencatatan Setoran Hafalan</a></li>
+    <li><a href="{{ route('pencatatan-hafalan.index') }}">Setoran Hafalan</a></li>
     <li class="active">Tambah</li>
   </ol>
 </section>
@@ -17,7 +17,7 @@
   
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">Tambah Pencatatan Setoran Hafalan Santri</h3>
+        <h3 class="box-title">Tambah Setoran Hafalan Santri</h3>
     </div>
     <form action="{{ route('pencatatan-hafalan.store') }}" method="POST">
         @csrf
@@ -98,8 +98,8 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Juz tercapai (untuk proggress ke 5juz/10juz persemester)</label>
-                        <input type="number" name="juz_tercapai" class="form-control" step="0.1" min="0" max="100" required>
+                        <label>Juz tercapai/diulang (untuk proggress ke 5juz ziyadah/10juz murajaah)</label>
+                        <input type="number" name="juz_tercapai" class="form-control" step="0.1" min="0" max="100">
                     </div>
                 </div>
 
