@@ -43,7 +43,7 @@
         </div>
 
         <div class="row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-12">
             <label>Pengawas</label>
             <select name="ustadzah_id" class="form-control">
               <option value="">Tidak Ada</option>
@@ -53,8 +53,16 @@
             </select>
           </div>
           <div class="form-group col-md-6">
-            <label>Nilai Ujian</label>
-            <input type="number" name="nilai_ujian" placeholder="Masukan nilai ujian" class="form-control" min="0" max="100" step="0.01">
+            <label>Nilai Tajwid</label>
+            <input type="number" name="nilai_tajwid" placeholder="Masukan nilai tajwid" class="form-control" min="0" max="100" step="0.01">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Nilai Kelancaran</label>
+            <input type="number" name="nilai_kelancaran" placeholder="Masukan nilai kelancaran" class="form-control" min="0" max="100" step="0.01">
+          </div>
+          <div class="form-group col-md-12">
+            <label>Kesalahan</label>
+            <input type="number" name="kesalahan" placeholder="Masukan kesalahan" class="form-control" min="0" max="100" step="0.01">
           </div>
 
         </div>

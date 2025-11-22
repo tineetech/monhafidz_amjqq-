@@ -73,7 +73,7 @@
           </div>
 
           <div class="box-footer text-right">
-          <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Tambah Data</button>
+          <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
               <a href="{{ route('absensi.index') }}" class="btn btn-default">Batal</a>
           </div>
       </form>

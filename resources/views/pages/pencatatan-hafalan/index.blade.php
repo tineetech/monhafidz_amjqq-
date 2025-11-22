@@ -34,7 +34,7 @@
             <th>No</th>
             <th>Nama Santri</th>
             <th>Semester</th>
-            <th>Juz tercapai</th>
+            {{-- <th>Juz tercapai</th> --}}
             <th>Tanggal</th>
             <th>Jenis Hafalan</th>
             <th>Surah/Ayat</th>
@@ -52,7 +52,7 @@
               <td>{{ $loop->iteration }}</td>
               <td>{{ $item->santri->nama_lengkap ?? '-' }}</td>
               <td>{{ $item->semester->nama_semester ?? '-' }}</td>
-              <td>{{ $item->juz_tercapai ?? '0' }} juz</td>
+              {{-- <td>{{ $item->juz_tercapai ?? '0' }} juz</td> --}}
               <td>{{ $item->tanggal->format('d-m-Y') }}</td>
               <td>{{ ucfirst($item->jenis_hafalan) }}</td>
               <td>{{ $item->surah_ayat }}</td>
@@ -96,7 +96,7 @@
             <th>No</th>
             <th>Nama Santri</th>
             <th>Semester</th>
-            <th>Juz yang diulang</th>
+            {{-- <th>Juz yang diulang</th> --}}
             <th>Tanggal</th>
             <th>Jenis Hafalan</th>
             <th>Surah/Ayat</th>
@@ -114,7 +114,7 @@
               <td>{{ $loop->iteration }}</td>
               <td>{{ $item->santri->nama_lengkap ?? '-' }}</td>
               <td>{{ $item->semester->nama_semester ?? '-' }}</td>
-              <td>{{ $item->juz_tercapai ?? '0' }} juz</td>
+              {{-- <td>{{ $item->juz_tercapai ?? '0' }} juz</td> --}}
               <td>{{ $item->tanggal->format('d-m-Y') }}</td>
               <td>{{ ucfirst($item->jenis_hafalan) }}</td>
               <td>{{ $item->surah_ayat }}</td>

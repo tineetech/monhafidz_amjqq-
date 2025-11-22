@@ -64,7 +64,7 @@ class PencatatanUjianController extends Controller
 
                 $sudahUjian = $pencatatanJenisIni->count();
 
-                $sorted = $pencatatanJenisIni->sortByDesc('nilai_ujian')->values();
+                $sorted = $pencatatanJenisIni->sortByDesc('nilai_akhir')->values();
                 $rank = 1;
 
                 // Jika peserta belum lengkap → rank = null
@@ -118,8 +118,6 @@ class PencatatanUjianController extends Controller
         return view('pages.pencatatan-ujian.index', compact('ujian', 'semesters'));
     }
 
-
-
     public function create()
     {
         $santri = Santri::all();
@@ -134,22 +132,32 @@ class PencatatanUjianController extends Controller
         return view('pages.pencatatan-ujian.create', compact('santri', 'ustadzah', 'jadwalUjian'));
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
             'jadwal_ujian_id'    => 'required|exists:jadwal_ujian,id',
-            'ustadzah_id'  => 'nullable|exists:ustadzah,id',
-            'nilai_ujian'  => 'nullable|numeric|min:0|max:100',
-            'status_ujian' => 'required|in:belum_diuji,lulus',
+            'ustadzah_id'        => 'nullable|exists:ustadzah,id',
+            'nilai_tajwid'       => 'nullable|numeric|min:0|max:100',
+            'nilai_kelancaran'   => 'nullable|numeric|min:0|max:100',
+            'kesalahan'          => 'nullable|numeric|min:0|max:100',
+            'status_ujian'       => 'required|in:belum_diuji,lulus',
         ]);
 
+        // Hitung nilai akhir otomatis
+        $nilaiTajwid = $request->nilai_tajwid ?? 0;
+        $nilaiKelancaran = $request->nilai_kelancaran ?? 0;
 
-        PencatatanUjian::create($request->all());
+        $nilaiAkhir = ($nilaiTajwid + $nilaiKelancaran) / 2;
+
+        $data = $request->all();
+        $data['nilai_akhir'] = $nilaiAkhir;
+
+        PencatatanUjian::create($data);
 
         return redirect()->route('pencatatan-ujian.index')
-                         ->with('success', 'Data ujian berhasil ditambahkan');
+                        ->with('success', 'Data ujian berhasil ditambahkan');
     }
+
 
     public function edit($id)
     {
@@ -163,12 +171,24 @@ class PencatatanUjianController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'jadwal_ujian_id'  => 'nullable|exists:jadwal_ujian,id',
-            'ustadzah_id'  => 'nullable|exists:ustadzah,id',
-            'nilai_ujian'  => 'nullable|numeric|min:0|max:100',
-            'status_ujian' => 'required|in:belum_diuji,lulus',
+            'jadwal_ujian_id'    => 'required|exists:jadwal_ujian,id',
+            'ustadzah_id'        => 'nullable|exists:ustadzah,id',
+            'nilai_tajwid'       => 'nullable|numeric|min:0|max:100',
+            'nilai_kelancaran'   => 'nullable|numeric|min:0|max:100',
+            'kesalahan'          => 'nullable|numeric|min:0|max:100',
+            'status_ujian'       => 'required|in:belum_diuji,lulus',
         ]);
 
+
+        // Hitung nilai akhir otomatis
+        $nilaiTajwid = $request->nilai_tajwid ?? 0;
+        $nilaiKelancaran = $request->nilai_kelancaran ?? 0;
+
+        $nilaiAkhir = ($nilaiTajwid + $nilaiKelancaran) / 2;
+
+        $data = $request->all();
+        $data['nilai_akhir'] = $nilaiAkhir;
+        
         $ujian = PencatatanUjian::findOrFail($id);
         $ujian->update($request->all());
 

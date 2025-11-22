@@ -58,12 +58,15 @@
             <th>#</th>
             <th>Nama Santri</th>
             <th>Semester</th>
-            <th>Pengawas</th>
+            {{-- <th>Pengawas</th> --}}
             <th>Tanggal</th>
             <th>Jenis Ujian</th>
-            <th>Nilai</th>
+            <th>Nilai Tajwid</th>
+            <th>Nilai Kelancaran</th>
+            <th>Kesalahan</th>
+            <th>Nilai Akhir</th>
             <th>Peringkat</th>
-            <th>Status</th>
+            {{-- <th>Status</th> --}}
             {{-- @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
             @endif --}}
             <th>Aksi</th>
@@ -75,17 +78,20 @@
               <td>{{ $index + 1 }}</td>
               <td>{{ $u->jadwalUjian->santri->nama_lengkap ?? '-' }}</td>
               <td>{{ $u->jadwalUjian->semester->nama_semester ?? '-' }}</td>
-              <td>{{ $u->ustadzah->nama_lengkap ?? '-' }}</td>
+              {{-- <td>{{ $u->ustadzah->nama_lengkap ?? '-' }}</td> --}}
               <td>{{ date('d-m-Y', strtotime($u->jadwalUjian->tanggal)) }}</td>
               <td>{{ ucfirst($u->jadwalUjian->jenis_ujian) }}</td>
-              <td>{{ $u->nilai_ujian ? number_format($u->nilai_ujian, 0) : '-' }}</td>
+              <td>{{ $u->nilai_tajwid ? number_format($u->nilai_tajwid, 0) : '-' }}</td>
+              <td>{{ $u->nilai_kelancaran ? number_format($u->nilai_kelancaran, 0) : '-' }}</td>
+              <td>{{ $u->kesalahan ? number_format($u->kesalahan, 0) : '-' }}</td>
+              <td>{{ $u->nilai_akhir ? number_format($u->nilai_akhir, 0) : '-' }}</td>
               <td>{{ $u->rank === "null" ? 'Belum Tersedia' : "Ke - " . $u->rank }}</td>
               {{-- @dd() --}}
-              @if ($u->status_ujian == 'lulus')
+              {{-- @if ($u->status_ujian == 'lulus')
                 <td><span class="label label-success">Lolos</span></td>
               @elseif ($u->status_ujian == 'belum_diuji')
                 <td><span class="label label-danger">Belum Diuji</span></td>
-              @endif
+              @endif --}}
               <td>
                 @if ($u->rank !== "null" && ($u->rank === 1 || $u->rank === 2 || $u->rank === 3))
                 <a href="{{ route('sertifikat.top3', ['id_ujian' => $u->id]) }}" class="btn btn-success btn-sm" target="_blank">Lihat Sertifikat</a>

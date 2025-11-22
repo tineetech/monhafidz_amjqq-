@@ -44,7 +44,7 @@
         </div>
 
         <div class="row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-12">
             <label>Pengawas</label>
             <select name="ustadzah_id" class="form-control">
               <option value="">Tidak Ada</option>
@@ -57,9 +57,27 @@
           </div>
 
           <div class="form-group col-md-6">
-            <label>Nilai Ujian</label>
-            <input type="number" name="nilai_ujian" class="form-control"
-                   value="{{ round($ujian->nilai_ujian, 2) }}"
+            <label>Nilai Tajwid</label>
+            <input type="number" name="nilai_tajwid" class="form-control"
+                   value="{{ round($ujian->nilai_tajwid, 2) }}"
+                   min="0" max="100" step="0.01">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Nilai Kelancaran</label>
+            <input type="number" name="nilai_kelancaran" class="form-control"
+                   value="{{ round($ujian->nilai_kelancaran, 2) }}"
+                   min="0" max="100" step="0.01">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Kesalahan</label>
+            <input type="number" name="kesalahan" class="form-control"
+                   value="{{ round($ujian->kesalahan, 2) }}"
+                   min="0" max="100" step="0.01">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Nilai Akhir</label>
+            <input type="number" name="nilai_akhir" class="form-control"
+                   value="{{ round($ujian->nilai_akhir, 2) }}"
                    min="0" max="100" step="0.01">
           </div>
         </div>

@@ -42,8 +42,25 @@ class AbsensiController extends Controller
             }
         }
 
+        if (Auth::user()->role === 'ustad') {
+            $jenisKelaminUstad = Auth::user()->ustad->jenis_kelamin;
+            $absensiQuery->whereHas('santri', function ($q) use ($jenisKelaminUstad) {
+                $q->where('jenis_kelamin', $jenisKelaminUstad);
+            });
+        }
+
         $absensi = $absensiQuery->get();
-        $perizinan = Perizinan::orderBy('created_at', 'desc')->get();
+        $perizinanQuery = Perizinan::with('santri')->orderBy('created_at', 'desc');
+        if (Auth::user()->role === 'ustad') {
+            $jenisKelaminUstad = Auth::user()->ustad->jenis_kelamin;
+
+            $perizinanQuery->whereHas('santri', function ($q) use ($jenisKelaminUstad) {
+                $q->where('jenis_kelamin', $jenisKelaminUstad);
+            });
+        }
+
+        $perizinan = $perizinanQuery->get();
+
 
         return view('pages.absensi.index', compact('absensi', 'perizinan'));
     }

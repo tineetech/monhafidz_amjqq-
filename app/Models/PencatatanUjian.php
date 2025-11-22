@@ -15,6 +15,10 @@ class PencatatanUjian extends Model
         'jadwal_ujian_id',
         'ustadzah_id',
         'nilai_ujian',
+        'nilai_tajwid',
+        'nilai_kelancaran',
+        'kesalahan',
+        'nilai_akhir',
         'status_ujian',
     ];
     // Relasi ke JadwalUjian

@@ -52,4 +52,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Santri::class);
     }
+    public function ustad()
+    {
+        return $this->hasOne(Ustadzah::class);
+    }
 }
