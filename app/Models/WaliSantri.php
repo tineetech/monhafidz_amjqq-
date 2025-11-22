@@ -21,6 +21,7 @@ class WaliSantri extends Model
         'alamat_lengkap',
         'no_hp',
         'status_wali',
+        'user_id',
     ];
 
     protected $dates = ['tanggal_lahir'];

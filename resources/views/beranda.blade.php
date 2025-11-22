@@ -6,6 +6,8 @@
   <title>MONHAFIDZ AMJQQ - Sistem Hafalan Santri</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -288,6 +290,33 @@
       </div>
 
     </section>
+    
+    <section class="max-w-7xl mb-8 mx-auto ">
+
+      <!-- Container besar -->
+      <div class="bg-white rounded-3xl shadow-lg p-10">
+
+      <div class="swiper mySwiper rounded-xl overflow-hidden">
+        <div class="swiper-wrapper">
+          @for ($i = 1; $i <= 10; $i++)
+            <div class="swiper-slide">
+              <img src="{{ asset('images/berita/' . $i . '.jpeg') }}" 
+                  class="w-full h- object-cover" 
+                  alt="Berita {{ $i }}">
+            </div>
+          @endfor
+        </div>
+
+        <!-- Navigation -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+      </div>
+
+    </section>
 
     <section class="max-w-7xl mx-auto py-20 fade-in">
 
@@ -536,6 +565,27 @@
 </footer>
 
 
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  const swiper = new Swiper(".mySwiper", {
+    loop: true,
+    autoHeight: true, // Tinggi mengikuti gambar
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+</script>
 <script>
   const faders = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver(entries => {

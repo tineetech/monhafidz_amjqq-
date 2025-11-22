@@ -62,7 +62,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               @if (Auth::user()->role === 'santri')
-              <img src="{{ Auth::user()->santri->foto ? '/storage/santri/' . Auth::user()->santri->foto : 'defaultpp.jpg' }}" class="user-image" alt="User Image">
+              <img src="{{ Auth::user()->santri->foto ? '/storage/santri/' . Auth::user()->santri->foto : url('assets/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
               @else
               <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
               @endif
@@ -72,7 +72,7 @@
               <!-- User image -->
               <li class="user-header">
               @if (Auth::user()->role === 'santri')
-              <img src="{{ Auth::user()->santri->foto ? '/storage/santri/' . Auth::user()->santri->foto : 'defaultpp.jpg' }}" class="img-circle" alt="User Image">
+              <img src="{{ Auth::user()->santri->foto ? '/storage/santri/' . Auth::user()->santri->foto : url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
               @else
                 <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
               @endif
