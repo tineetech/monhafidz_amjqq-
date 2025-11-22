@@ -53,7 +53,7 @@ class PencatatanHafalanController extends Controller
      */
     public function create()
     {
-        $santri = Santri::all();
+        $santri = Santri::orderBy('nama_lengkap', 'asc')->get();
         $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
 
         return view('pages.pencatatan-hafalan.create', compact('santri', 'semester'));
@@ -148,7 +148,7 @@ class PencatatanHafalanController extends Controller
     public function edit($id)
     {
         $data = PencatatanHafalan::findOrFail($id);
-        $santri = Santri::all();
+        $santri = Santri::orderBy('nama_lengkap', 'asc')->get();
         $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
 
         return view('pages.pencatatan-hafalan.edit', compact('data', 'santri', 'semester'));

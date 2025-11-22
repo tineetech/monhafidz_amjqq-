@@ -75,7 +75,7 @@
                     <div class="form-group">
                         <label>Status (otomatis)</label>
                         <select name="status" class="form-control" required disabled>
-                            <option value="lulus jayyid">Lulus Jayyid</option>
+                            <option value="lulus jayyid">Otomatis</option>
                             <option value="lulus mumtaz">Lulus Mumtaz</option>
                             <option value="harus diulang">Harus di ulang</option>
                             <option value="Belum Diperiksa">Belum Diperiksa</option>

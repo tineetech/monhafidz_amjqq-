@@ -22,11 +22,15 @@ class SertifikatController extends Controller
         $idSantri = $request->query('id_santri');
         $santri = Santri::where('id', $idSantri)->where('total_juz_tercapai', '>=', 30)->firstOrFail();
         $jadwalUjianTasmi = JadwalUjian::where('santri_id', $idSantri)->where('jenis_ujian', 'tasmi')->first();
-        $findSantriInUjianTasmi = UjianTasmi::where('jadwal_ujian_id', $jadwalUjianTasmi->id)->where('status_ujian', 'selesai')->first();
+        if (!$jadwalUjianTasmi) {
+            // dd('woi gaboleh');
+            return abort(404, 'belum ada akses');
+        }
 
+        $findSantriInUjianTasmi = UjianTasmi::where('jadwal_ujian_id', $jadwalUjianTasmi->id)->where('status_ujian', 'selesai')->first();
         if (!$findSantriInUjianTasmi) {
             // dd('woi gaboleh');
-            return abort(404, 'belum ada akses');            
+            return abort(404, 'belum ada akses');
         }
 
         $namaSantri = $santri->nama_lengkap;
