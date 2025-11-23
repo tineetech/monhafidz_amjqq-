@@ -29,11 +29,25 @@ class PengaturanController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'role' => 'required|string',
             'password' => 'nullable|string|min:6|confirmed',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->role = $validated['role'];
+
+        if ($request->hasFile('foto')) {
+
+            if ($user->foto && file_exists(public_path('storage/users/' . $user->foto))) {
+                unlink(public_path('storage/users/' . $user->foto));
+            }
+
+            $filename = time() . '_' . $request->foto->getClientOriginalName();
+            $request->foto->move(public_path('storage/users'), $filename);
+
+            // Update ke database
+            $user->foto = $filename;
+        }
 
         if (!empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);

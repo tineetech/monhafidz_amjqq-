@@ -64,7 +64,12 @@
               @if (Auth::user()->role === 'santri')
               <img src="{{ Auth::user()->santri->foto ? '/storage/santri/' . Auth::user()->santri->foto : url('assets/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
               @else
-              <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
+                @if (Auth::user()->foto)
+                  <img src="{{ asset('storage/users/' . Auth::user()->foto) }}" 
+                      class="user-image">
+                @else
+                  <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
+                @endif
               @endif
               <span class="hidden-xs">{{ Auth::user()->name }}</span>
             </a>
@@ -74,7 +79,12 @@
               @if (Auth::user()->role === 'santri')
               <img src="{{ Auth::user()->santri->foto ? '/storage/santri/' . Auth::user()->santri->foto : url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
               @else
-                <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                @if (Auth::user()->foto)
+                  <img src="{{ asset('storage/users/' . Auth::user()->foto) }}" 
+                      class="img-circle">
+                @else
+                  <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                @endif
               @endif
 
                 <p>

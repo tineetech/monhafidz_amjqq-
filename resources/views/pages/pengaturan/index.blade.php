@@ -18,7 +18,7 @@
       <h3 class="box-title">Pengaturan Akun</h3>
     </div>
 
-    <form action="{{ route('pengaturan.update', Auth::id()) }}" method="POST">
+    <form action="{{ route('pengaturan.update', Auth::id()) }}" method="POST" enctype="multipart/form-data">
       @csrf
       @method('PUT')
 
@@ -28,6 +28,18 @@
         @endif
 
         <div class="row">
+          <div class="col-md-12">
+            @if ($user->foto)
+              <img src="{{ asset('storage/users/' . $user->foto) }}" 
+                  class="img-thumbnail mb-2" width="120">
+            @endif
+            <div class="form-group">
+              <label>Foto Profil</label>
+              <input type="file" name="foto" class="form-control">
+              <small class="text-muted">Biarkan kosong jika tidak ingin mengganti.</small>
+            </div>
+          </div>
+
           <div class="col-md-6">
             <div class="form-group">
               <label>Nama Lengkap <span class="text-danger">*</span></label>
