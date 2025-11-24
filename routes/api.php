@@ -14,6 +14,7 @@ Route::get('/wablast', [NotifikasiController::class, 'wablast'])->name('wablast'
 
 // route chart 
 Route::get('/laporan/chart-ziyadah', [LaporanController::class, 'chartZiyadah']);
+Route::get('/laporan/chart-absensi', [LaporanController::class, 'chartAbsensi']);
 
 // route get laporan 
 Route::post('/laporan/hafalan', [LaporanController::class, 'getLaporanHafalan']);

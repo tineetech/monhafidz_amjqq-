@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-#chartDonatZiyadah {
+#chartAbsensi {
     max-width: 600px;
     max-height: 600px;
     margin: 0 auto; /* biar center */
@@ -24,7 +24,7 @@
   
   <div class="box">
     <div class="box-header text-center with-border">
-      <h3 class="box-title ">Grafik Perkembangan Hafalan</h3>
+      <h3 class="box-title ">Grafik</h3>
     </div>
 
     <div class="box-body table-responsive">
@@ -32,8 +32,9 @@
         <div class="alert alert-success">{{ session('success') }}</div>
       @endif
 
-      <canvas id="chartZiyadah" height="100"></canvas>
-      <canvas id="chartDonatZiyadah" width="400" height="400"></canvas>
+      {{-- <canvas id="chartZiyadah" height="100"></canvas>
+      <canvas id="chartDonatZiyadah" width="400" height="400"></canvas> --}}
+      <canvas id="chartAbsensi" height="100"></canvas>
 
     </div>
   </div>
@@ -111,7 +112,7 @@
                      <th>Jumlah Juz</th>
                      <th>Target</th>
                      <th>Persentase</th>
-                     <th>Nilai</th>
+                     {{-- <th>Nilai</th> --}}
                      <th>Keterangan</th>
                    </tr>
                  </thead>
@@ -289,6 +290,41 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
               });
           });
 
+          fetch("{{ url('/api/laporan/chart-absensi') }}?role={{ Auth::user()->role }}&user_id={{ auth()->id() }}")
+            .then(res => res.json())
+            .then(res => {
+                new Chart(document.getElementById('chartAbsensi'), {
+                    type: "doughnut",
+                    data: {
+                        labels: res.labels,
+                        datasets: [{
+                            data: res.dataset,
+                            backgroundColor: res.colors,
+                            borderWidth: 2,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'right' },
+                            title: {
+                                display: true,
+                                text: "Rekap Grafik Absensi Santri"
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        return `${ctx.label}: ${ctx.raw}`;
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '60%' // donut tebal seperti contoh
+                    }
+                });
+            });
+
+
   });
 
   document.getElementById('form-hafalan').addEventListener('submit', function (e) {
@@ -333,7 +369,7 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
                   <td>${row.jumlah_juz}</td>
                   <td>${res.jenis_hafalan === 'Ziyadah' ? "5 juz" : '10 juz'}</td>
                   <td>${row.persentase}%</td>
-                  <td>${row.nilai}</td>
+                  
                   <td>${i === 0 ? (row.persentase_all < 90 ? 'Belum Tercapai' : 'Tercapai') : ''}</td>
                 </tr>
             `;

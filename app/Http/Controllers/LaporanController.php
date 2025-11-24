@@ -186,6 +186,43 @@ return response()->json([
     //         'data' => $data
     //     ]);
     // }
+
+    public function chartAbsensi(Request $request)
+    {
+        $role = $request->get('role');
+        $userId = $request->get('user_id');
+
+        // Ambil data absensi
+        $absensiQuery = Absensi::query();
+
+        // Jika santri login → filter hanya santri itu
+        if ($role === 'santri') {
+            $santri = Santri::where('user_id', $userId)->first();
+            if ($santri) {
+                $absensiQuery->where('santri_id', $santri->id);
+            }
+        }
+
+        // Jika wali santri login
+        if ($role === 'walisantri') {
+            $wali = WaliSantri::where('user_id', $userId)->first();
+            if ($wali) {
+                $absensiQuery->where('santri_id', $wali->santri_id);
+            }
+        }
+
+        // Hitung total status absensi
+        $hadir = (clone $absensiQuery)->where('status', 'Hadir')->count();
+        $izin = (clone $absensiQuery)->where('status', 'Izin')->count();
+        $alpha = (clone $absensiQuery)->where('status', 'Alpha')->count();
+
+        return response()->json([
+            'labels' => ['Hadir', 'Izin', 'Alpha'],
+            'dataset' => [$hadir, $izin, $alpha],
+            'colors' => ['#2ecc71', '#f1c40f', '#e74c3c'] // hijau, kuning, merah
+        ]);
+    }
+
     
     public function getLaporanHafalan(Request $request)
     {
