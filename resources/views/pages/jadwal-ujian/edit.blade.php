@@ -38,7 +38,7 @@
         <div class="row">
           <div class="col-md-6 form-group">
             <label>Santri</label>
-            <select name="santri_id" class="form-control" required>
+            <select name="santri_id" id="selectSantri" class="form-control" required>
               @foreach($santri as $s)
                 <option value="{{ $s->id }}" {{ $jadwal->santri_id == $s->id ? 'selected' : '' }}>
                   {{ $s->nama_lengkap }}
