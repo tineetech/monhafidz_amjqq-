@@ -135,8 +135,9 @@ class PencatatanUjianController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'jadwal_ujian_id'    => 'required|exists:jadwal_ujian,id',
-            'ustadzah_id'        => 'nullable|exists:ustadzah,id',
+            // 'jadwal_ujian_id'    => 'required|exists:jadwal_ujian,id',
+            'tanggal'            => 'required',
+            // 'ustadzah_id'        => 'nullable|exists:ustadzah,id',
             'nilai_tajwid'       => 'nullable|numeric|min:0|max:100',
             'nilai_kelancaran'   => 'nullable|numeric|min:0|max:100',
             'kesalahan'          => 'nullable|numeric|min:0|max:100',

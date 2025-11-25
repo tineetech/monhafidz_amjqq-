@@ -29,7 +29,7 @@
         @csrf
 
         <div class="row">
-          <div class="form-group col-md-12">
+          {{-- <div class="form-group col-md-12">
             <label>Pilih jadwal ujian</label>
             <select name="jadwal_ujian_id" class="form-control" required>
               <option value="" hidden>Pilih Jadwal Ujian</option>
@@ -39,11 +39,15 @@
                 </option>
               @endforeach
             </select> 
+          </div> --}}
+          <div class="form-group col-md-12">
+            <label>Tanggal Ujian</label>
+            <input type="date" name="tanggal" placeholder="Masukan tanggal" class="form-control">
           </div>
         </div>
 
         <div class="row">
-          <div class="form-group col-md-12">
+          {{-- <div class="form-group col-md-12">
             <label>Pengawas</label>
             <select name="ustadzah_id" class="form-control">
               <option value="">Tidak Ada</option>
@@ -51,7 +55,7 @@
                 <option value="{{ $u->id }}">{{ $u->nama_lengkap }}</option>
               @endforeach
             </select>
-          </div>
+          </div> --}}
           <div class="form-group col-md-6">
             <label>Nilai Tajwid</label>
             <input type="number" name="nilai_tajwid" placeholder="Masukan nilai tajwid" class="form-control" min="0" max="100" step="0.01">

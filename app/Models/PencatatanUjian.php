@@ -14,6 +14,7 @@ class PencatatanUjian extends Model
     protected $fillable = [
         'jadwal_ujian_id',
         'ustadzah_id',
+        'tanggal',
         'nilai_ujian',
         'nilai_tajwid',
         'nilai_kelancaran',

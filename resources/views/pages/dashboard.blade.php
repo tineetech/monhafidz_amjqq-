@@ -142,7 +142,7 @@
       <div class="row">
         <!-- Left col -->
         @if (Auth::user()->role === 'santri' || Auth::user()->role === 'ustad')
-        <section class="col-lg-12 connectedSortable">
+        {{-- <section class="col-lg-12 connectedSortable">
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Jadwal Ujian</h3>
@@ -229,7 +229,7 @@
 
             </div>
           </div>
-        </section>
+        </section> --}}
         @endif
         <section class="col-lg-6 connectedSortable">
           <div class="box">
@@ -297,7 +297,7 @@
           </div>
         </section>
 
-        <section class="col-lg-12">
+        {{-- <section class="col-lg-12">
           <div class="nav-tabs-custom">
             <!-- Tabs within a box -->
             <ul class="nav nav-tabs pull-right">
@@ -311,7 +311,7 @@
               <!-- <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div> -->
             </div>
           </div>
-        </section>
+        </section> --}}
         <!-- /.Left col -->
       </div>
       <!-- /.row (main row) -->
