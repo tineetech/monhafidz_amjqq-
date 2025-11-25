@@ -31,7 +31,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                         <label>Nama Santri <span class="text-danger">*</span></label>
-                        <select name="santri_id" id="santri_id" class="form-control" required>
+                        <select name="santri_id" id="selectSantri" class="form-control" required>
                             <option value="">-- Pilih Santri --</option>
                             @foreach($santri as $s)
                                 <option value="{{ $s->id }}" {{ old('santri_id') == $s->id ? 'selected' : '' }}>

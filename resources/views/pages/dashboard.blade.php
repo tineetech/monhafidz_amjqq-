@@ -142,7 +142,7 @@
       <div class="row">
         <!-- Left col -->
         @if (Auth::user()->role === 'santri' || Auth::user()->role === 'ustad')
-        {{-- <section class="col-lg-12 connectedSortable">
+        <section class="col-lg-12 connectedSortable">
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Jadwal Ujian</h3>
@@ -229,7 +229,7 @@
 
             </div>
           </div>
-        </section> --}}
+        </section>
         @endif
         <section class="col-lg-6 connectedSortable">
           <div class="box">

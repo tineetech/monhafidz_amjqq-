@@ -14,7 +14,10 @@ class PencatatanUjian extends Model
     protected $fillable = [
         'jadwal_ujian_id',
         'ustadzah_id',
+        'santri_id',
+        'semester_id',
         'tanggal',
+        'jenis_ujian',
         'nilai_ujian',
         'nilai_tajwid',
         'nilai_kelancaran',
@@ -33,4 +36,16 @@ class PencatatanUjian extends Model
     {
         return $this->belongsTo(Ustadzah::class);
     }
+
+    public function santri()
+    {
+        return $this->belongsTo(Santri::class);
+    }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
+    }
+
+
 }

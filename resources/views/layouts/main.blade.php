@@ -249,6 +249,24 @@
 <script src="{{ url('assets/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ url('assets/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('#selectSantri').select2({
+            placeholder: "Pilih Santri",
+            allowClear: true,
+            width: '100%'
+        });
+        $('.select2').select2({
+            placeholder: "Pilih Santri",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+  </script>
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 </script>
@@ -280,5 +298,6 @@
 <!-- AdminLTE dashboard demo -->
 <script src="{{ url('assets/dist/js/pages/dashboard.js') }}"></script>
   @yield('scripts')
+
 </body>
 </html>

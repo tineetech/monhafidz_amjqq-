@@ -498,14 +498,11 @@ return response()->json([
         return $pdf->stream("Laporan Hafalan - {$santri->nama_lengkap}.pdf");
     }
 
-
-        
     public function laporanAbsensi(Request $request)
     {
         $request->validate([
             'santri_id' => 'required',
-            'jenis_laporan' => 'required|in:hari,bulan',
-            'tanggal' => 'required|date'
+            'semester_id' => 'required',
         ]);
 
         $santri = Santri::find($request->santri_id);
@@ -513,75 +510,58 @@ return response()->json([
             return response()->json(['error' => 'Santri tidak ditemukan'], 404);
         }
 
-        $tanggal = Carbon::parse($request->tanggal);
+        $semester = Semester::find($request->semester_id);
+        if (!$semester) {
+            return response()->json(['error' => 'Semester tidak ditemukan'], 404);
+        }
 
-        // Ambil data absensi sesuai jenis laporan
-        if ($request->jenis_laporan == 'hari') {
-            $absensi = Absensi::where('santri_id', $santri->id)
-                ->whereDate('tanggal', $tanggal)
-                ->select(
-                    DB::raw("DATE_FORMAT(tanggal, '%d-%m-%Y') as tanggal"),
-                    DB::raw("MONTHNAME(tanggal) as bulan"),
-                    DB::raw("SUM(status = 'Hadir') as hadir"),
-                    DB::raw("SUM(status = 'Izin') as izin"),
-                    DB::raw("SUM(status = 'Sakit') as sakit"),
-                    DB::raw("SUM(status = 'Alpa') as alpa")
-                )
-                ->groupBy('tanggal')
-                ->get();
-            
-            $periode = $tanggal->format('d F Y');
-        } else {
-            // laporan bulanan
+        // Ambil periode semester
+        $start = Carbon::parse($semester->periode_mulai)->startOfDay();
+        $end   = Carbon::parse($semester->periode_selesai)->endOfDay();
 
-            // Ambil semua tanggal dalam bulan
-            $start = $tanggal->copy()->startOfMonth();
-            $end = $tanggal->copy()->endOfMonth();
+        // Buat semua tanggal antara periode semester
+        $rangeTanggal = [];
+        for ($date = $start->copy(); $date <= $end; $date->addDay()) {
+            $rangeTanggal[] = $date->format('Y-m-d');
+        }
 
-            $rangeTanggal = [];
-            for ($date = $start; $date <= $end; $date->addDay()) {
-                $rangeTanggal[] = $date->format('Y-m-d');
-            }
+        // Ambil absensi dari DB sesuai semester
+        $absensiDB = Absensi::where('santri_id', $santri->id)
+            ->whereBetween('tanggal', [$start, $end])
+            ->get()
+            ->keyBy(function ($item) {
+                return Carbon::parse($item->tanggal)->format('Y-m-d');
+            });
 
-            // Ambil absensi dari DB
-            $absensiDB = Absensi::where('santri_id', $santri->id)
-                ->whereMonth('tanggal', $tanggal->month)
-                ->whereYear('tanggal', $tanggal->year)
-                ->get()
-                ->keyBy('tanggal');
+        // Susun laporan
+        $absensi = [];
+        foreach ($rangeTanggal as $tgl) {
 
-            // Gabungkan semua hari
-            $absensi = [];
-            foreach ($rangeTanggal as $tgl) {
-                // $record = $absensiDB->get($tgl);
-                $record = $absensiDB->get($tgl . " 00:00:00");
+            $record = $absensiDB->get($tgl);
 
-
-                $absensi[] = [
-                    'tanggal' => Carbon::parse($tgl)->format('d-m-Y'),
-                    'bulan'   => Carbon::parse($tgl)->format('F'),
-                    'rangeTgl'  => $rangeTanggal,
-                    'tgl'  => $tgl,
-                    'hadir'   => $record && $record->status == 'Hadir' ? 1 : 0,
-                    'izin'    => $record && $record->status == 'Izin' ? 1 : 0,
-                    'sakit'   => $record && $record->status == 'Sakit' ? 1 : 0,
-                    'alpa' => $record && $record->status == 'Alpa' ? 1 : 0,
-                    'keterangan' => $record ? $record->catatan : null,
-                ];
-            }
-
-            $periode = $tanggal->format('F Y');
+            $absensi[] = [
+                'tanggal'    => Carbon::parse($tgl)->format('d-m-Y'),
+                'bulan'      => Carbon::parse($tgl)->format('F'),
+                'hadir'      => $record && $record->status == 'Hadir' ? 1 : 0,
+                'izin'       => $record && $record->status == 'Izin' ? 1 : 0,
+                'sakit'      => $record && $record->status == 'Sakit' ? 1 : 0,
+                'alpa'       => $record && $record->status == 'Alpa' ? 1 : 0,
+                'keterangan' => $record ? $record->catatan : null,
+            ];
         }
 
         return response()->json([
             'santri' => [
                 'nama_lengkap' => $santri->nama_lengkap
             ],
-            'periode' => $periode,
+            'periode' => $semester->nama_semester . " (" .
+                        Carbon::parse($semester->periode_mulai)->format('d M Y') . " - " .
+                        Carbon::parse($semester->periode_selesai)->format('d M Y') . ")",
             'pembimbing' => $santri->pembimbing ?? '-',
             'data' => $absensi
         ]);
     }
+
         
     public function exportPdfAbsensi(Request $request)
     {

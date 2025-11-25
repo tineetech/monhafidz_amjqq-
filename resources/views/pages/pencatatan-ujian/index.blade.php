@@ -54,62 +54,84 @@
 
       <table class="table table-bordered table-striped">
         <thead>
-          <tr>
-            <th>#</th>
-            <th>Nama Santri</th>
-            <th>Semester</th>
-            {{-- <th>Pengawas</th> --}}
-            <th>Tanggal</th>
-            <th>Jenis Ujian</th>
-            <th>Nilai Tajwid</th>
-            <th>Nilai Kelancaran</th>
-            <th>Kesalahan</th>
-            <th>Nilai Akhir</th>
-            <th>Peringkat</th>
-            {{-- <th>Status</th> --}}
-            {{-- @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
-            @endif --}}
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach ($ujian as $index => $u)
             <tr>
-              <td>{{ $index + 1 }}</td>
-              <td>{{ $u->jadwalUjian->santri->nama_lengkap ?? '-' }}</td>
-              <td>{{ $u->jadwalUjian->semester->nama_semester ?? '-' }}</td>
-              {{-- <td>{{ $u->ustadzah->nama_lengkap ?? '-' }}</td> --}}
-              <td>{{ date('d-m-Y', strtotime($u->jadwalUjian->tanggal)) }}</td>
-              <td>{{ ucfirst($u->jadwalUjian->jenis_ujian) }}</td>
-              <td>{{ $u->nilai_tajwid ? number_format($u->nilai_tajwid, 0) : '-' }}</td>
-              <td>{{ $u->nilai_kelancaran ? number_format($u->nilai_kelancaran, 0) : '-' }}</td>
-              <td>{{ $u->kesalahan ? number_format($u->kesalahan, 0) : '-' }}</td>
-              <td>{{ $u->nilai_akhir ? number_format($u->nilai_akhir, 0) : '-' }}</td>
-              <td>{{ $u->rank === "null" ? 'Belum Tersedia' : "Ke - " . $u->rank }}</td>
-              {{-- @dd() --}}
-              {{-- @if ($u->status_ujian == 'lulus')
-                <td><span class="label label-success">Lolos</span></td>
-              @elseif ($u->status_ujian == 'belum_diuji')
-                <td><span class="label label-danger">Belum Diuji</span></td>
-              @endif --}}
-              <td>
-                @if ($u->rank !== "null" && ($u->rank === 1 || $u->rank === 2 || $u->rank === 3))
-                <a href="{{ route('sertifikat.top3', ['id_ujian' => $u->id]) }}" class="btn btn-success btn-sm" target="_blank">Lihat Sertifikat</a>
-                @endif
-                @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
-                <a href="{{ route('pencatatan-ujian.edit', $u->id) }}" class="btn btn-warning btn-sm">Edit</a>
-
-                <form action="{{ route('pencatatan-ujian.destroy', $u->id) }}" method="POST" style="display:inline;">
-                  @csrf
-                  @method('DELETE')
-                  <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus data ini?')">Hapus</button>
-                </form>
-                @endif
-              </td>
+                <th>#</th>
+                <th>Nama Santri</th>
+                <th>Semester</th>
+                <th>Tanggal</th>
+                <th>Jenis Ujian</th>
+                <th>Nilai Tajwid</th>
+                <th>Nilai Kelancaran</th>
+                <th>Kesalahan</th>
+                <th>Nilai Akhir</th>
+                <th>Peringkat</th>
+                <th>Aksi</th>
             </tr>
-          @endforeach
+        </thead>
+
+        <tbody>
+            @foreach ($ujian as $index => $u)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+
+                {{-- NAMA SANTRI --}}
+                <td>{{ $u->santri->nama_lengkap ?? '-' }}</td>
+
+                {{-- SEMESTER --}}
+                <td>{{ $u->semester->nama_semester ?? '-' }}</td>
+
+                {{-- TANGGAL --}}
+                <td>{{ $u->tanggal ? date('d-m-Y', strtotime($u->tanggal)) : '-' }}</td>
+
+                {{-- JENIS UJIAN --}}
+                <td>{{ ucfirst($u->jenis_ujian) }}</td>
+
+                {{-- NILAI NILAI --}}
+                <td>{{ $u->nilai_tajwid !== null ? number_format($u->nilai_tajwid, 0) : '-' }}</td>
+                <td>{{ $u->nilai_kelancaran !== null ? number_format($u->nilai_kelancaran, 0) : '-' }}</td>
+                <td>{{ $u->kesalahan !== null ? number_format($u->kesalahan, 0) : '-' }}</td>
+                <td>{{ $u->nilai_akhir !== null ? number_format($u->nilai_akhir, 0) : '-' }}</td>
+
+                {{-- PERINGKAT --}}
+                <td>
+                    @if ($u->rank === null)
+                        <span class="text-danger">Belum Tersedia</span>
+                    @else
+                        Ke - {{ $u->rank }}
+                    @endif
+                </td>
+
+                {{-- AKSI --}}
+                <td>
+                    @if (!is_null($u->rank) && in_array($u->rank, [1,2,3]))
+                        <a href="{{ route('sertifikat.top3', ['id_ujian' => $u->id]) }}" 
+                          class="btn btn-success btn-sm" target="_blank">
+                          Lihat Sertifikat
+                        </a>
+                    @endif
+
+                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
+                        <a href="{{ route('pencatatan-ujian.edit', $u->id) }}" 
+                          class="btn btn-warning btn-sm">
+                          Edit
+                        </a>
+
+                        <form action="{{ route('pencatatan-ujian.destroy', $u->id) }}" 
+                              method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm"
+                                onclick="return confirm('Hapus data ini?')">
+                                Hapus
+                            </button>
+                        </form>
+                    @endif
+                </td>
+            </tr>
+            @endforeach
         </tbody>
-      </table>
+    </table>
+
 
     </div>
   </div>

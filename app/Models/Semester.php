@@ -29,4 +29,9 @@ class Semester extends Model
     {
         return $this->hasMany(Santri::class);
     }
+    public function pencatatanUjian()
+    {
+        return $this->hasMany(PencatatanUjian::class);
+    }
+
 }

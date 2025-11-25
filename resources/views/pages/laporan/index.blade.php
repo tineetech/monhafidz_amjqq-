@@ -59,7 +59,7 @@
         </div>
         <div class="row" style="margin-top: 10px">
             <div class="form-group col-md-6">
-                <select name="santri_id" id="santri_id" class="form-control" required>
+                <select name="santri_id" id="selectSantri" class="form-control select2" required>
                     <option value="">-- Pilih Santri --</option>
                     @foreach($santri as $s)
                         <option value="{{ $s->id }}" {{ old('santri_id') == $s->id ? 'selected' : '' }}>
@@ -165,7 +165,7 @@
         </div>
         <div class="row" style="margin-top: 10px">
             <div class="form-group col-md-6">
-                <select name="santri_id" id="santri_id" class="form-control" required>
+                <select name="santri_id" id="santri_id" class="form-control select2" required>
                     <option value="">-- Pilih Santri --</option>
                     @foreach($santri as $s)
                         <option value="{{ $s->id }}" {{ old('santri_id') == $s->id ? 'selected' : '' }}>
@@ -174,16 +174,20 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-3">
-                <select name="jenis_laporan" id="jenis_laporan" class="form-control" required>
-                    <option value="">-- Pilih Jenis --</option>
-                    <option value="hari" {{ old('jenis_laporan') == 'hari' ? 'selected' : '' }}>Harian</option>
-                    <option value="bulan" {{ old('jenis_laporan') == 'bulan' ? 'selected' : '' }}>Bulanan</option>
+            <div class="form-group col-md-6">
+                <select name="semester_id" id="semester_id" class="form-control" required>
+                    <option value="">-- Pilih Semester --</option>
+                      @foreach($semesters as $sem)
+                          <option value="{{ $sem->id }}"
+                                  {{ old('semester_id') == $sem->id ? 'selected' : '' }}>
+                              {{ $sem->nama_semester }}
+                          </option>
+                      @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-3">
+            {{-- <div class="form-group col-md-3">
               <input type="date" name="tanggal" id="tanggal" class="form-control" required>
-            </div>
+            </div> --}}
         </div>
       </form>
 
