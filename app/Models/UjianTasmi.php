@@ -10,6 +10,9 @@ class UjianTasmi extends Model
 
     protected $fillable = [
         'jadwal_ujian_id',
+        'santri_id',
+        'semester_id',
+        'tanggal',
         'ustadzah_id',
         'tanggal_tasmi',
         'juz_yang_ditasmi',
@@ -20,6 +23,16 @@ class UjianTasmi extends Model
     public function jadwalUjian()
     {
         return $this->belongsTo(JadwalUjian::class);
+    }
+    
+    public function santri()
+    {
+        return $this->belongsTo(Santri::class);
+    }
+    
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
     }
 
     // Relasi ke Ustadzah (penilai)

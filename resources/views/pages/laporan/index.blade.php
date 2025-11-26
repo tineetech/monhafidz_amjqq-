@@ -54,12 +54,12 @@
             <a id="btnExportPdf" class="btn btn-danger" target="_blank" style="display:none">
                 <i class="fa fa-file-pdf-o"></i> Export PDF
             </a>
-            <button type="submit" class="btn btn-success"> Selanjutnya <i class="fa fa-arrow-right"></i></button>
+            <button type="submit" class="btn btn-success"> Simpan <i class="fa fa-arrow-right"></i></button>
         </div>
         </div>
         <div class="row" style="margin-top: 10px">
             <div class="form-group col-md-6">
-                <select name="santri_id" id="selectSantri" class="form-control select2" required>
+                <select name="santri_id" id="selectSantri" class="form-control" required>
                     <option value="">-- Pilih Santri --</option>
                     @foreach($santri as $s)
                         <option value="{{ $s->id }}" {{ old('santri_id') == $s->id ? 'selected' : '' }}>
@@ -160,12 +160,12 @@
             <a id="btnExportPdfAbsensi" class="btn btn-danger" target="_blank" style="display:none">
                 <i class="fa fa-file-pdf-o"></i> Export PDF
             </a>
-            <button type="submit" class="btn btn-success"> Selanjutnya <i class="fa fa-arrow-right"></i></button>
+            <button type="submit" class="btn btn-success"> Simpan <i class="fa fa-arrow-right"></i></button>
         </div>
         </div>
         <div class="row" style="margin-top: 10px">
             <div class="form-group col-md-6">
-                <select name="santri_id" id="santri_id" class="form-control select2" required>
+                <select name="santri_id" id="selectSantri2" class="form-control" required>
                     <option value="">-- Pilih Santri --</option>
                     @foreach($santri as $s)
                         <option value="{{ $s->id }}" {{ old('santri_id') == $s->id ? 'selected' : '' }}>

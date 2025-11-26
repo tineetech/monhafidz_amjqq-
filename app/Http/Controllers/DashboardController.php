@@ -33,9 +33,9 @@ class DashboardController extends Controller
         $filterJenisUjian = request('filter_jenis_ujian');
 
         $jadwalQuery = JadwalUjian::with(['santri', 'semester', 'pembimbingPutra', 'pembimbingPutri'])
-            ->when($filter, function ($query) use ($filter) {
-                $query->where('semester_id', $filter);
-            })
+            // ->when($filter, function ($query) use ($filter) {
+            //     $query->where('semester_id', $filter);
+            // })
             ->when($filterJenisUjian, function ($query) use ($filterJenisUjian) {
                 $query->where('jenis_ujian', $filterJenisUjian);
             });
@@ -43,21 +43,21 @@ class DashboardController extends Controller
         if (Auth::user()->role === 'santri') {
             $santri = Auth::user()->santri;
 
-            if ($santri) {
-                $jadwalQuery->where('santri_id', $santri->id);
-            } else {
-                $jadwalQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
-            }
+            // if ($santri) {
+            //     $jadwalQuery->where('santri_id', $santri->id);
+            // } else {
+            //     $jadwalQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
+            // }
         }
         if (Auth::user()->role === 'walisantri') {
             $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
             $santri = $walisantri->santri;
 
-            if ($santri) {
-                $jadwalQuery->where('santri_id', $santri->id);
-            } else {
-                $jadwalQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
-            }
+            // if ($santri) {
+            //     $jadwalQuery->where('santri_id', $santri->id);
+            // } else {
+            //     $jadwalQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
+            // }
         }
 
         $jadwal = $jadwalQuery->orderBy('tanggal', 'asc')->get();

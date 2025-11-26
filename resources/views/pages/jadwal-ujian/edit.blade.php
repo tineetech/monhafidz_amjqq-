@@ -13,15 +13,16 @@
 <section class="content">
   <div class="box">
     <div class="box-header with-border">
-      <h3 class="box-title">Edit Jadwal</h3>
+      <h3 class="box-title">Edit Jadwal Ujian</h3>
       <div class="box-tools">
         <a href="{{ route('jadwal-ujian.index') }}" class="btn btn-primary btn-sm">
           <i class="fa fa-arrow-left"></i> Kembali
         </a>
       </div>
     </div>
+
     @if ($errors->any())
-      <div class="alert alert-danger">
+      <div class="alert alert-danger m-3">
         <ul>
           @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -35,37 +36,35 @@
         @csrf
         @method('PUT')
 
+        {{-- === ROW 1 : Is Bertahap + Tahap === --}}
         <div class="row">
           <div class="col-md-6 form-group">
-            <label>Santri</label>
-            <select name="santri_id" id="selectSantri" class="form-control" required>
-              @foreach($santri as $s)
-                <option value="{{ $s->id }}" {{ $jadwal->santri_id == $s->id ? 'selected' : '' }}>
-                  {{ $s->nama_lengkap }}
-                </option>
-              @endforeach
+            <label>Apakah Jadwal Bertahap</label>
+            <select name="is_bertahap" class="form-control" required>
+              <option value="0" {{ $jadwal->is_bertahap == 0 ? 'selected' : '' }}>Tidak</option>
+              <option value="1" {{ $jadwal->is_bertahap == 1 ? 'selected' : '' }}>Ya</option>
             </select>
           </div>
 
           <div class="col-md-6 form-group">
-            <label>Tanggal Ujian</label>
-            <input type="date" name="tanggal" class="form-control" value="{{ $jadwal->tanggal }}" required>
+            <label>Tahap</label>
+            <input type="number"
+                   name="tahap"
+                   class="form-control"
+                   placeholder="Masukan tahap keberapa (kosongkan jika tidak bertahap)"
+                   value="{{ $jadwal->tahap }}">
           </div>
         </div>
 
+        {{-- === ROW 2 : Tanggal === --}}
         <div class="row">
           <div class="col-md-12 form-group">
-            <label>Pilih semester</label>
-            <select name="semester_id" class="form-control" required>
-              @foreach ($semesters as $semester)
-                <option value="{{ $semester->id }}" {{ $jadwal->semester_id == $semester->id ? 'selected' : '' }}> 
-                  {{ ucfirst($semester->nama_semester) }}
-                </option>
-              @endforeach
-            </select>
+            <label>Tanggal Ujian</label>
+            <input type="date" name="tanggal" value="{{ $jadwal->tanggal }}" class="form-control" required>
           </div>
         </div>
 
+        {{-- === ROW 3 : Jam Mulai + Jam Selesai === --}}
         <div class="row">
           <div class="col-md-6 form-group">
             <label>Jam Mulai</label>
@@ -74,16 +73,17 @@
 
           <div class="col-md-6 form-group">
             <label>Jam Selesai</label>
-            <input type="time" name="jam_selesai" class="form-control" value="{{ $jadwal->jam_selesai }}" required>
+            <input type="time" name="jam_selesai" class="form-control" value="{{ $jadwal->jam_selesai }}">
           </div>
         </div>
 
+        {{-- === ROW 4 : Pembimbing === --}}
         <div class="row">
           <div class="col-md-6 form-group">
             <label>Pembimbing Putra</label>
             <select name="pembimbing_putra_id" class="form-control">
               <option value="">-- Tidak Ada --</option>
-              @foreach($ustadzah as $u)
+              @foreach ($ustadzah as $u)
                 <option value="{{ $u->id }}" {{ $jadwal->pembimbing_putra_id == $u->id ? 'selected' : '' }}>
                   {{ $u->nama_lengkap }}
                 </option>
@@ -95,7 +95,7 @@
             <label>Pembimbing Putri</label>
             <select name="pembimbing_putri_id" class="form-control">
               <option value="">-- Tidak Ada --</option>
-              @foreach($ustadzah as $u)
+              @foreach ($ustadzah as $u)
                 <option value="{{ $u->id }}" {{ $jadwal->pembimbing_putri_id == $u->id ? 'selected' : '' }}>
                   {{ $u->nama_lengkap }}
                 </option>
@@ -104,18 +104,31 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Jenis Ujian</label>
-          <select name="jenis_ujian" class="form-control" required>
-            <option value="tasmi" {{ $jadwal->jenis_ujian == 'tasmi' ? 'selected' : '' }}>Tasmi'</option>
-            <option value="ujian_akhir" {{ $jadwal->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option>
-            <option value="ziyadah" {{ $jadwal->jenis_ujian == 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>
-            <option value="murajaah" {{ $jadwal->jenis_ujian == 'murajaah' ? 'selected' : '' }}>Murajaah</option>
-          </select>
+        {{-- === ROW 5 : Jenis Ujian === --}}
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label>Jenis Ujian</label>
+            <select name="jenis_ujian" class="form-control" required>
+              <option value="tasmi"        {{ $jadwal->jenis_ujian == 'tasmi' ? 'selected' : '' }}>Tasmi'</option>
+              <option value="ujian_akhir"  {{ $jadwal->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option>
+              <option value="ziyadah"      {{ $jadwal->jenis_ujian == 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>
+              <option value="murajaah"     {{ $jadwal->jenis_ujian == 'murajaah' ? 'selected' : '' }}>Murajaah</option>
+            </select>
+          </div>
+        </div>
+
+        {{-- === ROW 6 : Tempat Ujian === --}}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Tempat Ujian</label>
+              <textarea name="tempat" class="form-control" rows="3" placeholder="Tambahkan tempat jika ada">{{ $jadwal->tempat }}</textarea>
+            </div>
+          </div>
         </div>
 
         <div class="text-right">
-          <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Update</button>
+          <button class="btn btn-success"><i class="fa fa-save"></i> Simpan Perubahan</button>
           <a href="{{ route('jadwal-ujian.index') }}" class="btn btn-default">Batal</a>
         </div>
 

@@ -52,7 +52,7 @@
           @foreach ($ujian as $index => $u)
             <tr>
               <td>{{ $index + 1 }}</td>
-              <td>{{ $u->jadwalUjian->santri->nama_lengkap ?? '-' }}</td>
+              <td>{{ $u->santri->nama_lengkap ?? '-' }}</td>
               <td>{{ $u->ustadzah->nama_lengkap ?? '-' }}</td>
               <td>{{ $u->tanggal_tasmi ? date('d-m-Y', strtotime($u->tanggal_tasmi)) : '-' }}</td>
               <td>{{ $u->juz_yang_ditasmi ?? '-' }}</td>

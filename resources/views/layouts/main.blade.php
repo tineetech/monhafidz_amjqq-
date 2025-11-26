@@ -260,11 +260,16 @@
             allowClear: true,
             width: '100%'
         });
-        $('.select2').select2({
+        $('#selectSantri2').select2({
             placeholder: "Pilih Santri",
             allowClear: true,
             width: '100%'
         });
+        // $('.select2').select2({
+        //     placeholder: "Pilih Santri",
+        //     allowClear: true,
+        //     width: '100%'
+        // });
     });
   </script>
 <script>

@@ -145,7 +145,7 @@
         <section class="col-lg-12 connectedSortable">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Jadwal Ujian</h3>
+              <h3 class="box-title">Jadwal Ujian Akhir semester</h3>
               <div class="box-tools">
                 
               <div class="" style="display: flex; gap: 8px;width: auto;">
@@ -187,13 +187,14 @@
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Santri</th>
-                    <th>Semester</th>
+                    {{-- <th>Santri</th>
+                    <th>Semester</th> --}}
+                    <th>Jenis Ujian</th>
+                    <th>Tahap</th>
                     <th>Tanggal</th>
                     <th>Jam</th>
                     <th>Pembimbing Putra</th>
                     <th>Pembimbing Putri</th>
-                    <th>Jenis Ujian</th>
                     @if (Auth::user()->role === 'ustad')
                     <th>Aksi</th>
                     @endif
@@ -204,13 +205,17 @@
                   @foreach ($jadwal as $i => $j)
                   <tr>
                     <td>{{ $i + 1 }}</td>
-                    <td>{{ $j->santri->nama_lengkap }}</td>
-                    <td>{{ $j->semester->nama_semester ?? '-' }}</td>
+                    {{-- <td>{{ $j->santri->nama_lengkap }}</td>
+                    <td>{{ $j->semester->nama_semester ?? '-' }}</td> --}}
+                    <td>{{ ucfirst($j->jenis_ujian) }}</td>
+                    <td>{{ $j->tahap ? 'ke - ' . $j->tahap : 'Tidak ada tahapan' }}</td>
                     <td>{{ $j->tanggal }}</td>
-                    <td>{{ substr($j->jam_mulai, 0, 5) }} - {{ substr($j->jam_selesai, 0, 5) }}</td>
+                    <td>
+                        {{ substr($j->jam_mulai, 0, 5) }} -
+                        {{ $j->jam_selesai ? substr($j->jam_selesai, 0, 5) : 'selesai' }}
+                    </td>
                     <td>{{ $j->pembimbingPutra->nama_lengkap ?? '-' }}</td>
                     <td>{{ $j->pembimbingPutri->nama_lengkap ?? '-' }}</td>
-                    <td>{{ ucfirst($j->jenis_ujian) }}</td>
                     @if (Auth::user()->role === 'ustad')
                     <td>
                         <a href="{{ route('jadwal-ujian.edit', $j->id) }}" class="btn btn-warning btn-sm">Edit</a>

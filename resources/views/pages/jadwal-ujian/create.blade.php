@@ -35,31 +35,48 @@
         @csrf
 
         <div class="row">
-          <div class="col-md-6 form-group">
+          {{-- <div class="col-md-6 form-group">
             <label>Santri</label>
             <select name="santri_id" id="selectSantri" class="form-control" required>
               <option value="">-- Pilih Santri --</option>
-              @foreach($santri as $s)
+              @foreach($santris as $s)
                 <option value="{{ $s->id }}">{{ $s->nama_lengkap }}</option>
               @endforeach
             </select>
-          </div>
+          </div> --}}
 
-          <div class="col-md-6 form-group">
+          {{-- <div class="col-md-6 form-group">
             <label>Tanggal Ujian</label>
             <input type="date" name="tanggal" class="form-control" value="{{ now()->format('Y-m-d') }}" required>
+          </div> --}}
+          <div class="col-md-6 form-group">
+            <label>Apakah Jadwal Bertahap</label>
+            <select name="is_bertahap" class="form-control" value='tidak' required>
+              {{-- <option value="">-- Tidak Ada --</option> --}}
+              <option value="0">Tidak</option>
+              <option value="1">Ya</option>
+            </select>
+          </div>
+          <div class="col-md-6 form-group">
+            <label>Tahap</label>
+            <input type="number" name="tahap" placeholder="Masukan tahap keberapa (kosongkan jika tidak bertahap)" class="form-control">
           </div>
         </div>
 
         <div class="row">
+          
           <div class="col-md-12 form-group">
+            <label>Tanggal Ujian</label>
+            <input type="date" name="tanggal" class="form-control" value="{{ now()->format('Y-m-d') }}" required>
+          </div>
+          {{-- <div class="col-md-6 form-group">
             <label>Pilih semester</label>
             <select name="semester_id" class="form-control" required>
               @foreach ($semesters as $semester)
                 <option value="{{ $semester->id }}">{{ ucfirst($semester->nama_semester) }}</option>
               @endforeach
             </select>
-          </div>
+          </div> --}}
         </div>
 
         <div class="row">
@@ -70,7 +87,7 @@
 
           <div class="col-md-6 form-group">
             <label>Jam Selesai</label>
-            <input type="time" name="jam_selesai" class="form-control" required>
+            <input type="time" name="jam_selesai" class="form-control">
           </div>
         </div>
 
@@ -104,6 +121,14 @@
               <option value="ziyadah">Ziyadah</option>
               <option value="murajaah">Murajaah</option>
             </select>
+          </div>
+
+          
+          <div class="col-md-12">
+              <div class="form-group">
+                  <label>Tempat Ujian</label>
+                  <textarea name="tempat" class="form-control" rows="3" placeholder="Tambahkan tempat jika ada"></textarea>
+              </div>
           </div>
         </div>
 

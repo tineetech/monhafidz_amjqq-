@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\UjianTasmi;
 use App\Models\JadwalUjian;
+use App\Models\Santri;
+use App\Models\Semester;
 use App\Models\Ustadzah;
 use App\Models\WaliSantri;
 use Illuminate\Http\Request;
@@ -16,18 +18,14 @@ class UjianTasmiController extends Controller
      */
     public function index()
     {
-        $ujian = UjianTasmi::with(['jadwalUjian', 'ustadzah'])
+        $ujian = UjianTasmi::with(['santri', 'semester', 'ustadzah'])
             ->when(Auth::user()->role === 'santri', function ($q) {
-                $q->whereHas('jadwalUjian', function ($q2) {
-                    $q2->where('santri_id', Auth::user()->santri->id ?? 0);
-                });
+                $q->where('santri_id', Auth::user()->santri->id ?? 0);
             })
             ->when(Auth::user()->role === 'walisantri', function ($q) {
-                $q->whereHas('jadwalUjian', function ($q2) {
-                    $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
-                    $santri = $walisantri->santri;
-                    $q2->where('santri_id', $santri->id ?? 0);
-                });
+                $wali = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
+                $idSantri = $wali->santri->id ?? 0;
+                $q->where('santri_id', $idSantri);
             })
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
@@ -35,19 +33,22 @@ class UjianTasmiController extends Controller
         return view('pages.ujian-tasmi.index', compact('ujian'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         $ustadzah = Ustadzah::all();
-        $jadwalUjian = JadwalUjian::with('santri')
-            ->where('jenis_ujian', 'tasmi')
-            ->whereDoesntHave('ujianTasmi') // penting
-            ->orderBy('tanggal', 'desc')
-            ->get();
+        $santri = Santri::all();
+        $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
+        // $jadwalUjian = JadwalUjian::with('santri')
+        //     ->where('jenis_ujian', 'tasmi')
+        //     ->whereDoesntHave('ujianTasmi') // penting
+        //     ->orderBy('tanggal', 'desc')
+        //     ->get();
 
-        return view('pages.ujian-tasmi.create', compact('jadwalUjian', 'ustadzah'));
+        return view('pages.ujian-tasmi.create', compact('ustadzah', 'santri', 'semester'));
     }
 
     /**
@@ -56,7 +57,10 @@ class UjianTasmiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'jadwal_ujian_id' => 'required|exists:jadwal_ujian,id',
+            // 'jadwal_ujian_id' => 'required|exists:jadwal_ujian,id',
+            'santri_id'       => 'required|exists:santri,id',
+            'semester_id'     => 'required|exists:semester,id',
+            'tanggal'         => 'required',
             'ustadzah_id'     => 'nullable|exists:ustadzah,id',
             'tanggal_tasmi'   => 'required|date',
             'juz_yang_ditasmi' => 'required|string',
@@ -91,8 +95,10 @@ class UjianTasmiController extends Controller
             ->orderBy('tanggal', 'desc')
             ->get();
         $ustadzah = Ustadzah::all();
+        $santri = Santri::all();
+        $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
 
-        return view('pages.ujian-tasmi.edit', compact('ujian', 'jadwalUjian', 'ustadzah'));
+        return view('pages.ujian-tasmi.edit', compact('ujian', 'jadwalUjian', 'ustadzah', 'santri', 'semester'));
     }
 
     /**
@@ -101,11 +107,14 @@ class UjianTasmiController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'jadwal_ujian_id' => 'required|exists:jadwal_ujian,id',
+            // 'jadwal_ujian_id' => 'required|exists:jadwal_ujian,id',
+            'santri_id'       => 'required|exists:santri,id',
+            'semester_id'     => 'required|exists:semester,id',
+            'tanggal'         => 'required',
             'ustadzah_id'     => 'nullable|exists:ustadzah,id',
             'tanggal_tasmi'   => 'required|date',
             'juz_yang_ditasmi' => 'required|string',
-            'status_ujian'    => 'required|in:belum_diuji,selesai',
+            'status_ujian'    => 'required|in:selesai,belum_diuji',
             'catatan' => 'nullable|string',
         ]);
 

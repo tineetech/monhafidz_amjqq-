@@ -11,11 +11,14 @@ class JadwalUjian extends Model
 
     protected $table = "jadwal_ujian";
     protected $fillable = [
-        'santri_id',
-        'semester_id',
+        // 'santri_id',
+        // 'semester_id',
+        'is_bertahap',
+        'tahap',
         'tanggal',
         'jam_mulai',
         'jam_selesai',
+        'tempat',
         'pembimbing_putra_id',
         'pembimbing_putri_id',
         'jenis_ujian',
