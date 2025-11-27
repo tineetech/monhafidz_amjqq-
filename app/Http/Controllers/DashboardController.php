@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JadwalHafalan;
 use App\Models\JadwalUjian;
+use App\Models\JadwalUjianTasmi;
 use App\Models\PencatatanHafalan;
 use App\Models\Santri;
 use App\Models\Semester;
@@ -39,33 +40,41 @@ class DashboardController extends Controller
             ->when($filterJenisUjian, function ($query) use ($filterJenisUjian) {
                 $query->where('jenis_ujian', $filterJenisUjian);
             });
+        $jadwalTasmiQuery = JadwalUjianTasmi::with(['santri', 'semester', 'pembimbingPutra', 'pembimbingPutri'])
+            // ->when($filter, function ($query) use ($filter) {
+            //     $query->where('semester_id', $filter);
+            // })
+            ->when($filterJenisUjian, function ($query) use ($filterJenisUjian) {
+                $query->where('jenis_ujian', $filterJenisUjian);
+            });
 
         if (Auth::user()->role === 'santri') {
             $santri = Auth::user()->santri;
 
-            // if ($santri) {
-            //     $jadwalQuery->where('santri_id', $santri->id);
-            // } else {
-            //     $jadwalQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
-            // }
+            if ($santri) {
+                $jadwalTasmiQuery->where('santri_id', $santri->id);
+            } else {
+                $jadwalTasmiQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
+            }
         }
         if (Auth::user()->role === 'walisantri') {
             $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
             $santri = $walisantri->santri;
 
-            // if ($santri) {
-            //     $jadwalQuery->where('santri_id', $santri->id);
-            // } else {
-            //     $jadwalQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
-            // }
+            if ($santri) {
+                $jadwalTasmiQuery->where('santri_id', $santri->id);
+            } else {
+                $jadwalTasmiQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
+            }
         }
 
         $jadwal = $jadwalQuery->orderBy('tanggal', 'asc')->get();
+        $jadwalTasmi = $jadwalTasmiQuery->orderBy('tanggal', 'asc')->get();
 
         if (Auth::user()->role === 'santri') {
             $santri_personal = Santri::where('user_id', Auth::id())->first();
-            return view('pages.dashboard' , compact('ziyadah','semesters', 'jadwal', 'murajaah', 'santri', 'santri_personal', 'ustad', 'pencatatan_hafalan', 'santri_lulus'));
+            return view('pages.dashboard' , compact('ziyadah','semesters', 'jadwal', 'jadwalTasmi', 'murajaah', 'santri', 'santri_personal', 'ustad', 'pencatatan_hafalan', 'santri_lulus'));
         }
-        return view('pages.dashboard' , compact('ziyadah', 'semesters', 'jadwal', 'murajaah', 'santri_count', 'ustad', 'pencatatan_hafalan', 'santri_lulus'));
+        return view('pages.dashboard' , compact('ziyadah', 'semesters', 'jadwal', 'jadwalTasmi', 'murajaah', 'santri_count', 'ustad', 'pencatatan_hafalan', 'santri_lulus'));
     }
 }

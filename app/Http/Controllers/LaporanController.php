@@ -249,19 +249,30 @@ return response()->json([
         // =====================================================
         $jenis_kelamin = $santri->jenis_kelamin;
 
-        $ranking = \App\Models\PencatatanUjian::with(['jadwalUjian.santri'])
-            ->whereHas('jadwalUjian', function ($q) use ($jenis_kelamin, $semester, $jenis_hafalan) {
-                $q->whereHas('santri', function ($q2) use ($jenis_kelamin) {
-                    $q2->where('jenis_kelamin', $jenis_kelamin);
-                })
-                ->where('semester_id', $semester->id)
-                ->where('jenis_ujian', $jenis_hafalan);
+        // $ranking = \App\Models\PencatatanUjian::with(['jadwalUjian.santri'])
+        //     ->whereHas('jadwalUjian', function ($q) use ($jenis_kelamin, $semester, $jenis_hafalan) {
+        //         $q->whereHas('santri', function ($q2) use ($jenis_kelamin) {
+        //             $q2->where('jenis_kelamin', $jenis_kelamin);
+        //         })
+        //         ->where('semester_id', $semester->id)
+        //         ->where('jenis_ujian', $jenis_hafalan);
+        //     })
+        //     ->join('jadwal_ujian', 'jadwal_ujian.id', '=', 'pencatatan_ujian.jadwal_ujian_id')
+        //     ->selectRaw('jadwal_ujian.santri_id, AVG(nilai_ujian) as rata_rata')
+        //     ->groupBy('jadwal_ujian.santri_id')
+        //     ->orderByDesc('rata_rata')
+        //     ->get();
+        $ranking = \App\Models\PencatatanUjian::with(['santri'])
+            ->whereHas('santri', function ($q) use ($jenis_kelamin) {
+                $q->where('jenis_kelamin', $jenis_kelamin);
             })
-            ->join('jadwal_ujian', 'jadwal_ujian.id', '=', 'pencatatan_ujian.jadwal_ujian_id')
-            ->selectRaw('jadwal_ujian.santri_id, AVG(nilai_ujian) as rata_rata')
-            ->groupBy('jadwal_ujian.santri_id')
+            ->where('semester_id', $semester->id)
+            ->where('jenis_ujian', $jenis_hafalan)
+            ->selectRaw('santri_id, AVG(nilai_ujian) as rata_rata')
+            ->groupBy('santri_id')
             ->orderByDesc('rata_rata')
             ->get();
+
 
         // Ambil nama santri juara 1, 2, 3
         $juara1 = $ranking->get(0) ? Santri::find($ranking->get(0)->santri_id)->nama_lengkap : '-';

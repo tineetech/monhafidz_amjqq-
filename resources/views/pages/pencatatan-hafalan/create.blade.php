@@ -98,7 +98,8 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Juz tercapai/diulang (untuk proggress ke 5juz ziyadah/10juz murajaah)</label>
+                        {{-- <label>Juz tercapai/diulang (untuk proggress ke 5juz ziyadah/10juz murajaah)</label> --}}
+                        <label>Target/progress Juz (untuk proggress ke 5juz ziyadah/10juz murajaah)</label>
                         <input type="number" name="juz_tercapai" class="form-control" step="0.1" min="0" max="100">
                     </div>
                 </div>

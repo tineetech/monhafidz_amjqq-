@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/rekap-hafalan', App\Http\Controllers\RekapHafalanController::class);
 
     Route::resource('/jadwal-ujian', App\Http\Controllers\JadwalUjianController::class);
+    Route::resource('/jadwal-ujian-tasmi', App\Http\Controllers\JadwalUjianTasmiController::class);
     Route::resource('/pencatatan-ujian', App\Http\Controllers\PencatatanUjianController::class);
     Route::resource('/ujian-tasmi', App\Http\Controllers\UjianTasmiController::class);
     Route::get('pencatatan-ujian/filter', [App\Http\Controllers\PencatatanUjianController::class, 'index'])->name('pencatatan-ujian.filter');

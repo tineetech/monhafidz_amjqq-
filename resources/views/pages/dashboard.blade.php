@@ -195,6 +195,7 @@
                     <th>Jam</th>
                     <th>Pembimbing Putra</th>
                     <th>Pembimbing Putri</th>
+                    <th>Tempat</th>
                     @if (Auth::user()->role === 'ustad')
                     <th>Aksi</th>
                     @endif
@@ -216,10 +217,112 @@
                     </td>
                     <td>{{ $j->pembimbingPutra->nama_lengkap ?? '-' }}</td>
                     <td>{{ $j->pembimbingPutri->nama_lengkap ?? '-' }}</td>
+                    <td>{{ $j->tempat ?? '-' }}</td>
                     @if (Auth::user()->role === 'ustad')
                     <td>
                         <a href="{{ route('jadwal-ujian.edit', $j->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('jadwal-ujian.destroy', $j->id) }}" method="POST" style="display:inline;">
+                          @csrf
+                          @method('DELETE')
+                          <button class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?')">Hapus</button>
+                        </form>
+                    </td>
+                    @endif
+                  </tr>
+                  @endforeach
+                </tbody>
+
+              </table>
+
+            </div>
+          </div>
+        </section>
+        <section class="col-lg-12 connectedSortable">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Jadwal Ujian Tasmi</h3>
+              <div class="box-tools">
+                
+              <div class="" style="display: flex; gap: 8px;width: auto;">
+                <form action="" method="GET" style="display: flex;gap:3px">
+                  <select name="filter_semester" class="form-control" style="margin-right: 5px;" id="">
+                    <option value="">-- Filter Semester --</option>
+                    @foreach ($semesters as $semester)
+                      <option value="{{ $semester->id }}"  {{ request('filter_semester') == $semester->id ? 'selected' : '' }}>
+                        {{ ucfirst($semester->nama_semester) }}
+                      </option>
+                    @endforeach
+                  </select>
+                  <select name="filter_jenis_ujian" class="form-control" style="margin-right: 5px;" id="">
+                    <option value="">-- Filter Jenis Ujian --</option>
+                    <option value="tasmi" {{ request('filter_jenis_ujian') == 'tasmi' ? 'selected' : '' }}>Tasmi</option>
+                    <option value="ujian_akhir" {{ request('filter_jenis_ujian') == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option>
+                    <option value="ziyadah" {{ request('filter_jenis_ujian') == 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>
+                    <option value="murajaah" {{ request('filter_jenis_ujian') == 'murajaah' ? 'selected' : '' }}>Murajaah</option>
+                  </select>
+                  @if (request('filter_semester') || request('filter_jenis_ujian'))
+                    <a href="{{ route('jadwal-ujian.index') }}" class="btn btn-default btn-sm">Reset</a>
+                  @endif
+                  <button class="btn btn-info btn-sm" type="submit">Filter</button>
+                </form>
+                  @if (Auth::user()->role === 'ustad')
+                <a href="{{ route('jadwal-ujian-tasmi.create') }}" class="btn btn-primary btn-sm">Tambah Data</a>
+                @endif
+              </div>
+              </div>
+            </div>
+
+            <div class="box-body table-responsive">
+
+              @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+              @endif
+
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    {{-- <th>Santri</th>
+                    <th>Semester</th> --}}
+                    @if (Auth::user()->role === 'ustad')
+                    <th>Santri</th>
+                    @endif
+                    <th>Jenis Ujian</th>
+                    <th>Tahap</th>
+                    <th>Tanggal</th>
+                    <th>Jam</th>
+                    <th>Pembimbing Putra</th>
+                    <th>Pembimbing Putri</th>
+                    <th>Tempat</th>
+                    @if (Auth::user()->role === 'ustad')
+                    <th>Aksi</th>
+                    @endif
+                  </tr>
+                </thead>
+
+                <tbody>
+                  @foreach ($jadwalTasmi as $i => $j)
+                  <tr>
+                    <td>{{ $i + 1 }}</td>
+                    {{-- <td>{{ $j->santri->nama_lengkap }}</td>
+                    <td>{{ $j->semester->nama_semester ?? '-' }}</td> --}}
+                    @if (Auth::user()->role === 'ustad')
+                    <td>{{ $j->santri->nama_lengkap }}</td>
+                    @endif
+                    <td>{{ ucfirst($j->jenis_ujian) }}</td>
+                    <td>{{ $j->tahap ? 'ke - ' . $j->tahap : 'Tidak ada tahapan' }}</td>
+                    <td>{{ $j->tanggal }}</td>
+                    <td>
+                        {{ substr($j->jam_mulai, 0, 5) }} -
+                        {{ $j->jam_selesai ? substr($j->jam_selesai, 0, 5) : 'selesai' }}
+                    </td>
+                    <td>{{ $j->pembimbingPutra->nama_lengkap ?? '-' }}</td>
+                    <td>{{ $j->pembimbingPutri->nama_lengkap ?? '-' }}</td>
+                    <td>{{ $j->tempat ?? '-' }}</td>
+                    @if (Auth::user()->role === 'ustad')
+                    <td>
+                        <a href="{{ route('jadwal-ujian-tasmi.edit', $j->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('jadwal-ujian-tasmi.destroy', $j->id) }}" method="POST" style="display:inline;">
                           @csrf
                           @method('DELETE')
                           <button class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?')">Hapus</button>
