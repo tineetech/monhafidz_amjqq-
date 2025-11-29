@@ -196,8 +196,8 @@
                         <strong>{{ $infoRankingZiyadah['nama'] }}</strong>
                         meraih 
                         <strong>peringkat {{ $infoRankingZiyadah['ranking'] }}</strong>
-                        dari <strong>{{ $infoRankingZiyadah['total_peserta'] }}</strong>
-                        santri {{ $infoRankingZiyadah['gender'] }}
+                        {{-- dari <strong>{{ $infoRankingZiyadah['total_peserta'] }}</strong>
+                        santri {{ $infoRankingZiyadah['gender'] }} --}}
                         {{-- pada <strong>{{ ucfirst($infoRankingZiyadah['kategori']) }}</strong> --}}
                         pada semester <strong>{{ $infoRankingZiyadah['semester'] }}</strong>
                         kategori <strong>{{ $infoRankingZiyadah['kategori'] }}</strong>.
@@ -209,8 +209,8 @@
                         <strong>{{ $infoRankingMurajaah['nama'] }}</strong>
                         meraih 
                         <strong>peringkat {{ $infoRankingMurajaah['ranking'] }}</strong>
-                        dari <strong>{{ $infoRankingMurajaah['total_peserta'] }}</strong>
-                        santri {{ $infoRankingMurajaah['gender'] }}
+                        {{-- dari <strong>{{ $infoRankingMurajaah['total_peserta'] }}</strong>
+                        santri {{ $infoRankingMurajaah['gender'] }} --}}
                         {{-- pada <strong>{{ ucfirst($infoRankingMurajaah['kategori']) }}</strong> --}}
                         pada semester <strong>{{ $infoRankingMurajaah['semester'] }}</strong>
                         kategori <strong>{{ $infoRankingMurajaah['kategori'] }}</strong>.
@@ -227,8 +227,8 @@
                         <strong>{{ $infoRankingZiyadah['nama'] }}</strong>
                         meraih 
                         <strong>peringkat {{ $infoRankingZiyadah['ranking'] }}</strong>
-                        dari <strong>{{ $infoRankingZiyadah['total_peserta'] }}</strong>
-                        santri {{ $infoRankingZiyadah['gender'] }}
+                        {{-- dari <strong>{{ $infoRankingZiyadah['total_peserta'] }}</strong> --}}
+                        {{-- santri {{ $infoRankingZiyadah['gender'] }} --}}
                         {{-- pada <strong>{{ ucfirst($infoRankingZiyadah['kategori']) }}</strong> --}}
                         pada semester <strong>{{ $infoRankingZiyadah['semester'] }}</strong>
                         kategori <strong>{{ $infoRankingZiyadah['kategori'] }}</strong>.
@@ -240,8 +240,8 @@
                         <strong>{{ $infoRankingMurajaah['nama'] }}</strong>
                         meraih 
                         <strong>peringkat {{ $infoRankingMurajaah['ranking'] }}</strong>
-                        dari <strong>{{ $infoRankingMurajaah['total_peserta'] }}</strong>
-                        santri {{ $infoRankingMurajaah['gender'] }}
+                        {{-- dari <strong>{{ $infoRankingMurajaah['total_peserta'] }}</strong>
+                        santri {{ $infoRankingMurajaah['gender'] }} --}}
                         {{-- pada <strong>{{ ucfirst($infoRankingMurajaah['kategori']) }}</strong> --}}
                         pada semester <strong>{{ $infoRankingMurajaah['semester'] }}</strong>
                         kategori <strong>{{ $infoRankingMurajaah['kategori'] }}</strong>.
