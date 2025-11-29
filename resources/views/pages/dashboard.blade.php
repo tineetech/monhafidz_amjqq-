@@ -199,7 +199,7 @@
                         {{-- dari <strong>{{ $infoRankingZiyadah['total_peserta'] }}</strong>
                         santri {{ $infoRankingZiyadah['gender'] }} --}}
                         {{-- pada <strong>{{ ucfirst($infoRankingZiyadah['kategori']) }}</strong> --}}
-                        pada semester <strong>{{ $infoRankingZiyadah['semester'] }}</strong>
+                        pada <strong>{{ $infoRankingZiyadah['semester'] }}</strong>
                         kategori <strong>{{ $infoRankingZiyadah['kategori'] }}</strong>.
                     </p>
                   @endif
@@ -212,7 +212,7 @@
                         {{-- dari <strong>{{ $infoRankingMurajaah['total_peserta'] }}</strong>
                         santri {{ $infoRankingMurajaah['gender'] }} --}}
                         {{-- pada <strong>{{ ucfirst($infoRankingMurajaah['kategori']) }}</strong> --}}
-                        pada semester <strong>{{ $infoRankingMurajaah['semester'] }}</strong>
+                        pada <strong>{{ $infoRankingMurajaah['semester'] }}</strong>
                         kategori <strong>{{ $infoRankingMurajaah['kategori'] }}</strong>.
                     </p>
                   @endif
@@ -230,7 +230,7 @@
                         {{-- dari <strong>{{ $infoRankingZiyadah['total_peserta'] }}</strong> --}}
                         {{-- santri {{ $infoRankingZiyadah['gender'] }} --}}
                         {{-- pada <strong>{{ ucfirst($infoRankingZiyadah['kategori']) }}</strong> --}}
-                        pada semester <strong>{{ $infoRankingZiyadah['semester'] }}</strong>
+                        pada <strong>{{ $infoRankingZiyadah['semester'] }}</strong>
                         kategori <strong>{{ $infoRankingZiyadah['kategori'] }}</strong>.
                     </p>
                   @endif
@@ -243,7 +243,7 @@
                         {{-- dari <strong>{{ $infoRankingMurajaah['total_peserta'] }}</strong>
                         santri {{ $infoRankingMurajaah['gender'] }} --}}
                         {{-- pada <strong>{{ ucfirst($infoRankingMurajaah['kategori']) }}</strong> --}}
-                        pada semester <strong>{{ $infoRankingMurajaah['semester'] }}</strong>
+                        pada <strong>{{ $infoRankingMurajaah['semester'] }}</strong>
                         kategori <strong>{{ $infoRankingMurajaah['kategori'] }}</strong>.
                     </p>
                   @endif
