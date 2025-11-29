@@ -248,7 +248,7 @@
             <div class="p-4">
               <h3 class="font-semibold text-gray-800">Wisuda Tahfidz</h3>
               <p class="text-sm text-gray-600 mt-2">
-                Pemberian Sertifikat bagi santri yang telah menyelesaikan hafalan 30 juz.
+                Acara peresmian bagi santri yang sudah menyelesaikan hafalan Al-Qur’an 30 juz.
               </p>
             </div>
           </div>
@@ -259,14 +259,14 @@
             <div class="p-4">
               <h3 class="font-semibold text-gray-800">Ujian Tasmi</h3>
               <p class="text-sm text-gray-600 mt-2">
-                Kegiatan penyetoran hafalan secara terbuka sebagai bentuk evaluasi dan motivasi bersama.
+                Ujian hafalan dengan cara membacakan ayat-ayat Al-Qur’an yang sudah dihafal tanpa melihat mushaf untuk memperkuat hafalan.
               </p>
             </div>
           </div>
 
           <!-- Card 3 -->
           <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition">
-            <img src="{{ asset('/images/info-ujian.png') }}" class="w-full">
+            <img src="{{ asset('/images/info-ujian.png') }}" class="w-full h-[134px] objectc">
             <div class="p-4">
               <h3 class="font-semibold text-gray-800">Ujian Akhir Semester</h3>
               <p class="text-sm text-gray-600 mt-2">
