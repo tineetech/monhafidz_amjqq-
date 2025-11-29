@@ -38,7 +38,7 @@
           <tr>
             <th>#</th>
             <th>Nama Santri</th>
-            <th>Ustadzah</th>
+            <th>Pembimbing</th>
             <th>Tanggal Tasmi</th>
             <th>Juz yang ditasmi</th>
             <th>Catatan</th>

@@ -61,7 +61,7 @@
                 <th>No</th>
                 {{-- <th>Semester</th> --}}
                 <th>Tanggal</th>
-                <th>Jam</th>
+                {{-- <th>Jam</th> --}}
                 <th>Pembimbing Putra</th>
                 <th>Pembimbing Putri</th>
                 <th>Jenis Ujian</th>
@@ -77,7 +77,7 @@
                 <td>{{ $i + 1 }}</td>
                 {{-- <td>{{ $j->semester->nama_semester ?? '-' }}</td> --}}
                 <td>{{ $j->tanggal }}</td>
-                <td>{{ substr($j->jam_mulai, 0, 5) }} - {{ substr($j->jam_selesai, 0, 5) }}</td>
+                {{-- <td>{{ substr($j->jam_mulai, 0, 5) }} - {{ substr($j->jam_selesai, 0, 5) }}</td> --}}
                 <td>{{ $j->pembimbingPutra->nama_lengkap ?? '-' }}</td>
                 <td>{{ $j->pembimbingPutri->nama_lengkap ?? '-' }}</td>
                 <td>{{ ucfirst($j->jenis_ujian) }}</td>

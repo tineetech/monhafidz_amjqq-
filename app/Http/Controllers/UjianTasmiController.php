@@ -59,7 +59,7 @@ class UjianTasmiController extends Controller
         $request->validate([
             // 'jadwal_ujian_id' => 'required|exists:jadwal_ujian,id',
             'santri_id'       => 'required|exists:santri,id',
-            'semester_id'     => 'required|exists:semester,id',
+            // 'semester_id'     => 'required|exists:semester,id',
             'tanggal'         => 'required',
             'ustadzah_id'     => 'nullable|exists:ustadzah,id',
             'tanggal_tasmi'   => 'required|date',
@@ -109,7 +109,7 @@ class UjianTasmiController extends Controller
         $request->validate([
             // 'jadwal_ujian_id' => 'required|exists:jadwal_ujian,id',
             'santri_id'       => 'required|exists:santri,id',
-            'semester_id'     => 'required|exists:semester,id',
+            // 'semester_id'     => 'required|exists:semester,id',
             'tanggal'         => 'required',
             'ustadzah_id'     => 'nullable|exists:ustadzah,id',
             'tanggal_tasmi'   => 'required|date',

@@ -92,7 +92,7 @@
           </div> --}}
         </div>
 
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-md-6 form-group">
             <label>Jam Mulai</label>
             <input type="time" name="jam_mulai" class="form-control" required>
@@ -102,7 +102,7 @@
             <label>Jam Selesai</label>
             <input type="time" name="jam_selesai" class="form-control">
           </div>
-        </div>
+        </div> --}}
 
         <div class="row">
           <div class="col-md-6 form-group">
@@ -126,7 +126,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12 form-group">
+          {{-- <div class="col-md-12 form-group">
             <label>Jenis Ujian</label>
             <select name="jenis_ujian" class="form-control" required>
               <option value="tasmi" selected>Tasmi'</option>
@@ -134,7 +134,7 @@
               <option value="ziyadah">Ziyadah</option>
               <option value="murajaah">Murajaah</option>
             </select>
-          </div>
+          </div> --}}
 
           
           <div class="col-md-12">

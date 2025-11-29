@@ -75,7 +75,7 @@
                   <label>Jenis Ujian</label>
                   <select name="jenis_ujian" class="form-control" required>
                     {{-- <option value="tasmi" selected>Tasmi'</option> --}}
-                    <option value="ujian_akhir">Ujian Akhir</option>
+                    {{-- <option value="ujian_akhir">Ujian Akhir</option> --}}
                     <option value="ziyadah">Ziyadah</option>
                     <option value="murajaah">Murajaah</option>
                   </select>

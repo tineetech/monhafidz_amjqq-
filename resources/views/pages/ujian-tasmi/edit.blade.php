@@ -52,7 +52,7 @@
             </select>
           </div>
 
-          <div class="col-md-12">
+          {{-- <div class="col-md-12">
             <div class="form-group">
               <label>Semester</label>
               <select name="semester_id" class="form-control" required>
@@ -65,14 +65,14 @@
                 @endforeach
               </select>
             </div>
-          </div>
+          </div> --}}
 
         </div>
 
         <div class="row">
 
           <div class="form-group col-md-6">
-            <label>Ustadzah</label>
+            <label>Pembimbing</label>
             <select name="ustadzah_id" class="form-control">
               <option value="">Tidak Ada</option>
               @foreach ($ustadzah as $u)

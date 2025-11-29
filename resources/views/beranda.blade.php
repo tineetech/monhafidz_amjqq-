@@ -208,7 +208,7 @@
 </section>
 
 <!-- PROGRAM -->
-<section class="py-20 max-w-6xl mx-auto px-6 fade-in">
+{{-- <section class="py-20 max-w-6xl mx-auto px-6 fade-in">
   <h2 class="text-center text-3xl font-bold text-green-700">Sistem Hafalan Santri Tahfidz</h2>
 
   <div class="grid md:grid-cols-1 gap-10 justify-center items-center">
@@ -222,7 +222,7 @@
       </a>
     </div>
   </div>
-</section>
+</section> --}}
 
 <!-- INFORMASI -->
 <section class=" py-20 fade-in">

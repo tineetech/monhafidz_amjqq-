@@ -80,16 +80,17 @@ class JadwalUjianTasmiController extends Controller
             'tahap'                 => 'nullable',
             // 'semester_id'           => 'required|exists:semester,id',
             'tanggal'               => 'required|date',
-            'jam_mulai'             => 'required|date_format:H:i',
-            'jam_selesai'           => 'nullable|date_format:H:i|after:jam_mulai',
+            // 'jam_mulai'             => 'required|date_format:H:i',
+            // 'jam_selesai'           => 'nullable|date_format:H:i|after:jam_mulai',
             'tempat'                => 'nullable',
             'pembimbing_putra_id'   => 'nullable|exists:ustadzah,id',
             'pembimbing_putri_id'   => 'nullable|exists:ustadzah,id',
-            'jenis_ujian'           => 'required'
+            // 'jenis_ujian'           => 'required'
         ]);
 
 
-        
+        $validated['jenis_ujian'] = 'tasmi';
+
         $jadwal = JadwalUjianTasmi::create($validated);
 
         // ambil nomor WA santri
@@ -120,11 +121,10 @@ class JadwalUjianTasmiController extends Controller
      */
     public function edit(string $id)
     {
-        $jadwal = JadwalUjian::findOrFail($id);
+        $jadwal = JadwalUjianTasmi::findOrFail($id);
         $santri = Santri::orderBy('nama_lengkap','asc')->get();
         $ustadzah = Ustadzah::orderBy('nama_lengkap','asc')->get();
         $semesters = Semester::where('jenis_hafalan', 'ziyadah')->orderBy('nama_semester','asc')->get();
-
         return view('pages.jadwal-ujian-tasmi.edit', compact('jadwal','santri','ustadzah','semesters'));
     }
 
@@ -139,12 +139,12 @@ class JadwalUjianTasmiController extends Controller
             'tahap'                 => 'nullable',
             // 'semester_id'           => 'required|exists:semester,id',
             'tanggal'               => 'required|date',
-            'jam_mulai'             => 'required|date_format:H:i',
-            'jam_selesai'           => 'nullable|date_format:H:i|after:jam_mulai',
+            // 'jam_mulai'             => 'required|date_format:H:i',
+            // 'jam_selesai'           => 'nullable|date_format:H:i|after:jam_mulai',
             'tempat'                => 'nullable',
             'pembimbing_putra_id'   => 'nullable|exists:ustadzah,id',
             'pembimbing_putri_id'   => 'nullable|exists:ustadzah,id',
-            'jenis_ujian'           => 'required'
+            // 'jenis_ujian'           => 'required'
         ]);
 
         $jadwal = JadwalUjianTasmi::findOrFail($id);
@@ -167,7 +167,7 @@ class JadwalUjianTasmiController extends Controller
                 Log::error("Gagal kirim WA ke $phone: " . $e->getMessage());
             }
         }
-        return redirect()->route('jadwal-ujian.index')
+        return redirect()->route('dashboard')
                 ->with('success', 'Jadwal ujian berhasil diperbarui!');
     }
 

@@ -21,13 +21,13 @@ class SertifikatController extends Controller
 
         $idSantri = $request->query('id_santri');
         $santri = Santri::where('id', $idSantri)->where('total_juz_tercapai', '>=', 30)->firstOrFail();
-        $jadwalUjianTasmi = JadwalUjian::where('santri_id', $idSantri)->where('jenis_ujian', 'tasmi')->first();
-        if (!$jadwalUjianTasmi) {
-            // dd('woi gaboleh');
-            return abort(404, 'belum ada akses');
-        }
+        // $jadwalUjianTasmi = JadwalUjian::where('santri_id', $idSantri)->where('jenis_ujian', 'tasmi')->first();
+        // if (!$jadwalUjianTasmi) {
+        //     // dd('woi gaboleh');
+        //     return abort(404, 'belum ada akses');
+        // }
 
-        $findSantriInUjianTasmi = UjianTasmi::where('jadwal_ujian_id', $jadwalUjianTasmi->id)->where('status_ujian', 'selesai')->first();
+        $findSantriInUjianTasmi = UjianTasmi::where('santri_id', $idSantri)->where('status_ujian', 'selesai')->first();
         if (!$findSantriInUjianTasmi) {
             // dd('woi gaboleh');
             return abort(404, 'belum ada akses');
@@ -55,12 +55,12 @@ class SertifikatController extends Controller
 
         $santri = Santri::where('id', $idSantri)
         ->where('status_santri', 'Lulus')
-        ->whereHas('jadwalUjian', function ($q) {
-            $q->where('jenis_ujian', 'ujian_akhir')
-            ->whereHas('pencatatanUjian', function ($q2) {
-                $q2->where('status_ujian', 'lulus');
-            });
-        })
+        // ->whereHas('jadwalUjian', function ($q) {
+        //     $q->where('jenis_ujian', 'ujian_akhir')
+        //     ->whereHas('pencatatanUjian', function ($q2) {
+        //         $q2->where('status_ujian', 'lulus');
+        //     });
+        // })
         ->first();
 
         if (!$santri) {

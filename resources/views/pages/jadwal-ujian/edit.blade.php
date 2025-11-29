@@ -109,8 +109,8 @@
           <div class="col-md-12 form-group">
             <label>Jenis Ujian</label>
             <select name="jenis_ujian" class="form-control" required>
-              <option value="tasmi"        {{ $jadwal->jenis_ujian == 'tasmi' ? 'selected' : '' }}>Tasmi'</option>
-              <option value="ujian_akhir"  {{ $jadwal->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option>
+              {{-- <option value="tasmi"        {{ $jadwal->jenis_ujian == 'tasmi' ? 'selected' : '' }}>Tasmi'</option>
+              <option value="ujian_akhir"  {{ $jadwal->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option> --}}
               <option value="ziyadah"      {{ $jadwal->jenis_ujian == 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>
               <option value="murajaah"     {{ $jadwal->jenis_ujian == 'murajaah' ? 'selected' : '' }}>Murajaah</option>
             </select>

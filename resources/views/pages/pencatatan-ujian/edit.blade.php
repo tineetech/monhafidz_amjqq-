@@ -60,7 +60,7 @@
               <div class="form-group">
                   <label>Jenis Ujian</label>
                   <select name="jenis_ujian" class="form-control" required>
-                      <option value="ujian_akhir" {{ $ujian->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option>
+                      {{-- <option value="ujian_akhir" {{ $ujian->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option> --}}
                       <option value="ziyadah" {{ $ujian->jenis_ujian == 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>
                       <option value="murajaah" {{ $ujian->jenis_ujian == 'murajaah' ? 'selected' : '' }}>Murajaah</option>
                   </select>

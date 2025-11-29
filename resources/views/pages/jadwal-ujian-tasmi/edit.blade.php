@@ -37,7 +37,22 @@
         @method('PUT')
 
         {{-- === ROW 1 : Is Bertahap + Tahap === --}}
+        
         <div class="row">
+          
+          <div class="col-md-12">
+              <div class="form-group">
+                  <label>Santri</label>
+                  <select name="santri_id" class="form-control select2" id="selectSantri" required>
+                      <option value="">-- Pilih Santri --</option>
+                      @foreach($santri as $s)
+                          <option value="{{ $s->id }}" {{ $s->id == $jadwal->santri_id ? 'selected' : '' }} data-semester="{{ $s->semester_id }}">
+                              {{ $s->nama_lengkap }}
+                          </option>
+                      @endforeach
+                  </select>
+              </div>
+          </div>
           <div class="col-md-6 form-group">
             <label>Apakah Jadwal Bertahap</label>
             <select name="is_bertahap" class="form-control" required>
@@ -56,16 +71,18 @@
           </div>
         </div>
 
-        {{-- === ROW 2 : Tanggal === --}}
         <div class="row">
           <div class="col-md-12 form-group">
             <label>Tanggal Ujian</label>
-            <input type="date" name="tanggal" value="{{ $jadwal->tanggal }}" class="form-control" required>
+            <input type="date" name="tanggal"
+                  value="{{ $jadwal->tanggal ? \Carbon\Carbon::parse($jadwal->tanggal)->format('Y-m-d') : '' }}"
+                  class="form-control" required>
           </div>
         </div>
 
+
         {{-- === ROW 3 : Jam Mulai + Jam Selesai === --}}
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-md-6 form-group">
             <label>Jam Mulai</label>
             <input type="time" name="jam_mulai" class="form-control" value="{{ $jadwal->jam_mulai }}" required>
@@ -75,7 +92,7 @@
             <label>Jam Selesai</label>
             <input type="time" name="jam_selesai" class="form-control" value="{{ $jadwal->jam_selesai }}">
           </div>
-        </div>
+        </div> --}}
 
         {{-- === ROW 4 : Pembimbing === --}}
         <div class="row">
@@ -105,7 +122,7 @@
         </div>
 
         {{-- === ROW 5 : Jenis Ujian === --}}
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-md-12 form-group">
             <label>Jenis Ujian</label>
             <select name="jenis_ujian" class="form-control" required>
@@ -115,7 +132,7 @@
               <option value="murajaah"     {{ $jadwal->jenis_ujian == 'murajaah' ? 'selected' : '' }}>Murajaah</option>
             </select>
           </div>
-        </div>
+        </div> --}}
 
         {{-- === ROW 6 : Tempat Ujian === --}}
         <div class="row">

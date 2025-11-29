@@ -209,7 +209,11 @@ class PencatatanUjianController extends Controller
             return $jenisOrder . '-' . $rankOrder;
         })->values();
 
-        return view('pages.pencatatan-ujian.index', compact('ujian', 'semesters'));
+        $ujianZiyadah = $ujian->filter(fn($u) => $u->jenis_ujian === 'ziyadah')->values();
+
+        $ujianMurajaah = $ujian->filter(fn($u) => $u->jenis_ujian === 'murajaah')->values();
+        // dd($ujian);
+        return view('pages.pencatatan-ujian.index', compact('ujian', 'ujianZiyadah', 'ujianMurajaah', 'semesters'));
     }
 
 
