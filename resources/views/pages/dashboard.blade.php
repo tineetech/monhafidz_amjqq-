@@ -370,7 +370,7 @@
                     {{-- <th>Santri</th>
                     <th>Semester</th> --}}
                     <th>Jenis Ujian</th>
-                    <th>Tahap</th>
+                    {{-- <th>Tahap</th> --}}
                     <th>Tanggal</th>
                     <th>Jam</th>
                     <th>Pembimbing Putra</th>
@@ -389,7 +389,7 @@
                     {{-- <td>{{ $j->santri->nama_lengkap }}</td>
                     <td>{{ $j->semester->nama_semester ?? '-' }}</td> --}}
                     <td>{{ ucfirst($j->jenis_ujian) }}</td>
-                    <td>{{ $j->tahap ? 'ke - ' . $j->tahap : 'Tidak ada tahapan' }}</td>
+                    {{-- <td>{{ $j->tahap ? 'ke - ' . $j->tahap : 'Tidak ada tahapan' }}</td> --}}
                     <td>{{ $j->tanggal }}</td>
                     <td>
                         {{ substr($j->jam_mulai, 0, 5) }} -
