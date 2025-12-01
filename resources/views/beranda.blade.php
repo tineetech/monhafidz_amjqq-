@@ -266,7 +266,7 @@
 
           <!-- Card 3 -->
           <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition">
-            <img src="{{ asset('/images/info-ujian.png') }}" class="w-full h-[134px] objectc">
+            <img src="{{ asset('/images/info-ujian-terbaru.png') }}" class="w-full h-[134px] objectc">
             <div class="p-4">
               <h3 class="font-semibold text-gray-800">Ujian Akhir Semester</h3>
               <p class="text-sm text-gray-600 mt-2">
