@@ -93,6 +93,7 @@
                           </div>
                         </div>
                         @endif
+                        
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal{{ $s->id . 'wa' }}">
                           <i class="fa fa-whatsapp"></i>
                         </button>

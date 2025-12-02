@@ -54,6 +54,11 @@
             <a id="btnExportPdf" class="btn btn-danger" target="_blank" style="display:none">
                 <i class="fa fa-file-pdf-o"></i> Export PDF
             </a>
+            <button type="button" class="btn btn-success" style="display:none" data-toggle="modal" id="btnWa" data-target="">
+              <i class="fa fa-whatsapp"></i>
+              Kirim Notifikasi
+            </button>
+
             <button type="submit" class="btn btn-success"> Simpan <i class="fa fa-arrow-right"></i></button>
         </div>
         </div>
@@ -348,6 +353,7 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
         console.log(res);
 
         const boxdisplay = document.querySelector('.box-display-laporan-hafalan');
+        document.getElementById("btnWa").style.display = "inline-block";
         document.getElementById("btnExportPdf").style.display = "inline-block";
         document.getElementById("btnExportPdf").href =
             `/export/laporan/hafalan/export-pdf?santri_id=${formData.get('santri_id')}&semester=${formData.get('semester')}&jenis_hafalan=${formData.get('jenis_hafalan')}`;
@@ -378,6 +384,67 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
                 </tr>
             `;
         });
+
+        // =====================
+        // DYNAMIC MODAL WA
+        // =====================
+        let santriId = res.santri.id;
+        let modalId = `modalWa-${santriId}`;
+
+        // Hapus modal lama jika ada
+        let existingModal = document.getElementById(modalId);
+        if (existingModal) existingModal.remove();
+
+        // Render modal ke body
+        document.body.insertAdjacentHTML("beforeend", `
+        <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Kirim Notifikasi</h5>
+              </div>
+
+              <div class="modal-body" style="display:flex;flex-direction:column;gap:8px;">
+                <span class="text-center">Kirim ke santri langsung</span>
+
+                <button class="btn btn-primary btn-send-wa" data-id="${santriId}" data-template="1" data-tujuan="santri">
+                  Pengingat Hafalan Ziyadah Belum Tercapai <i class="fa fa-book"></i>
+                </button>
+
+                <button class="btn btn-success btn-send-wa" data-id="${santriId}" data-template="2" data-tujuan="santri">
+                  Pengingat Hafalan Murajaah Belum Tercapai <i class="fa fa-book"></i>
+                </button>
+
+                <button class="btn btn-info btn-send-wa" data-id="${santriId}" data-template="3" data-tujuan="santri">
+                  Apresiasi Santri Telah tercapai ziyadah/murajaah <i class="fa fa-check"></i>
+                </button>
+
+                <span class="text-center">Kirim ke wali santri</span>
+
+                <button class="btn btn-primary btn-send-wa" data-id="${santriId}" data-template="1" data-tujuan="ortu">
+                  Pengingat Hafalan Ziyadah Belum Tercapai <i class="fa fa-book"></i>
+                </button>
+
+                <button class="btn btn-success btn-send-wa" data-id="${santriId}" data-template="2" data-tujuan="ortu">
+                  Pengingat Hafalan Murajaah Belum Tercapai <i class="fa fa-book"></i>
+                </button>
+
+                <button class="btn btn-info btn-send-wa" data-id="${santriId}" data-template="3" data-tujuan="ortu">
+                  Apresiasi Santri Telah tercapai ziyadah/murajaah<i class="fa fa-check"></i>
+                </button>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        `);
+
+        // Set button WA untuk membuka modal
+        document.getElementById("btnWa").setAttribute("data-target", `#${modalId}`);
+
     });
   });
 
@@ -458,5 +525,46 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
     });
   });
 
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  
+$(document).on("click", ".btn-send-wa", function() {
+    let id_santri   = $(this).data("id");
+    let no_template = $(this).data("template");
+    let tujuan      = $(this).data("tujuan");
+
+    Swal.fire({
+        title: 'Mengirim pesan...',
+        text: 'Mohon tunggu sebentar',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    $.ajax({
+        url: "{{ route('wablast') }}",
+        type: "GET",
+        data: {
+            id_santri: id_santri,
+            no_template: no_template,
+            tujuan: tujuan
+        },
+        success: function(res) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil terkirim',
+                html: res.message ?? 'Pesan berhasil dikirim!',
+                timer: 2000
+            });
+        },
+        error: function(xhr) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal mengirim',
+                html: xhr.responseText ?? 'Terjadi kesalahan'
+            });
+        }
+    });
+});
 </script>
 @endsection

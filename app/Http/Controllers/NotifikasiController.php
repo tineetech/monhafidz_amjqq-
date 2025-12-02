@@ -49,11 +49,11 @@ class NotifikasiController extends Controller
 
         // Template pesan
         $templateList = [
-            1 => "Assalamu’alaikum, {nama}. Pada semester ini, {subjek} belum mencapai target ziyadah yang ditentukan. Target per semester adalah 5 juz. Mohon memperbanyak setoran supaya target tercapai. Jika perlu bantuan, hubungi ustadz pembimbing.",
+            1 => "Assalamu’alaikum, {nama}. Pada semester ini, Anda belum mencapai target ziyadah yang ditentukan. Target per semester adalah 5 juz. Mohon memperbanyak setoran supaya target tercapai. Jika perlu bantuan, hubungi ustadz pembimbing.",
             
-            2 => "Assalamu’alaikum, {nama}. Pada semester ini, {subjek} belum mencapai target muroja’ah yang ditentukan. Diharapkan untuk lebih rutin mengulang hafalan. Target muroja’ah per semester adalah 10 juz. Mohon terus bersemangat.",
+            2 => "Assalamu’alaikum, {nama}. Pada semester ini, Anda belum mencapai target muroja’ah yang ditentukan. Diharapkan untuk lebih rutin mengulang hafalan. Target muroja’ah per semester adalah 10 juz. Mohon terus bersemangat.",
             
-            3 => "Assalamu’alaikum, {nama}. Alhamdulillah, {subjek} telah mencapai target muroja’ah/ziyadah semester ini. Terus pertahankan hafalannya. Semoga Allah memberikan keberkahan."
+            3 => "Assalamu’alaikum, {nama}. Alhamdulillah, Anda telah mencapai target muroja’ah/ziyadah semester ini. Terus pertahankan hafalannya. Semoga Allah memberikan keberkahan."
         ];
 
         $text = str_replace('{nama}', $nama, $templateList[$request->no_template]);
