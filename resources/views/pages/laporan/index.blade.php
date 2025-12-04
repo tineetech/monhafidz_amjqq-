@@ -54,10 +54,14 @@
             <a id="btnExportPdf" class="btn btn-danger" target="_blank" style="display:none">
                 <i class="fa fa-file-pdf-o"></i> Export PDF
             </a>
+            @if (Auth::user()->role === "ustad")
             <button type="button" class="btn btn-success" style="display:none" data-toggle="modal" id="btnWa" data-target="">
               <i class="fa fa-whatsapp"></i>
               Kirim Notifikasi
             </button>
+            @endif
+            {{-- <div id="btnWa" data-target="">
+            </div> --}}
 
             <button type="submit" class="btn btn-success"> Simpan <i class="fa fa-arrow-right"></i></button>
         </div>
@@ -200,7 +204,7 @@
         <div class="box">
           <div class="box-header with-border" style="display: flex;flex-direction: column;gap: 15px">
             <h3 class="box-title">Nama Santri : </h3>
-            <h3 class="box-title">Jenis hafalan : Ziyadah & Murajaah</h3>
+            <h3 class="box-title">Jenis hafalan : Ziyadah</h3>
             <h3 class="box-title">Periode : </h3>
             <h3 class="box-title">Pembimbing : </h3>
           </div>
@@ -353,7 +357,7 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
         console.log(res);
 
         const boxdisplay = document.querySelector('.box-display-laporan-hafalan');
-        document.getElementById("btnWa").style.display = "inline-block";
+        // document.getElementById("btnWa").style.display = "inline-block";
         document.getElementById("btnExportPdf").style.display = "inline-block";
         document.getElementById("btnExportPdf").href =
             `/export/laporan/hafalan/export-pdf?santri_id=${formData.get('santri_id')}&semester=${formData.get('semester')}&jenis_hafalan=${formData.get('jenis_hafalan')}`;
@@ -388,62 +392,68 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
         // =====================
         // DYNAMIC MODAL WA
         // =====================
-        let santriId = res.santri.id;
-        let modalId = `modalWa-${santriId}`;
+        const btnWa = document.getElementById("btnWa");
 
-        // Hapus modal lama jika ada
-        let existingModal = document.getElementById(modalId);
-        if (existingModal) existingModal.remove();
+        if (btnWa) {
 
-        // Render modal ke body
-        document.body.insertAdjacentHTML("beforeend", `
-        <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Kirim Notifikasi</h5>
-              </div>
+            let santriId = res.santri.id;
+            let modalId = `modalWa-${santriId}`;
 
-              <div class="modal-body" style="display:flex;flex-direction:column;gap:8px;">
-                <span class="text-center">Kirim ke santri langsung</span>
+            // Hapus modal lama jika ada
+            let existingModal = document.getElementById(modalId);
+            if (existingModal) existingModal.remove();
 
-                <button class="btn btn-primary btn-send-wa" data-id="${santriId}" data-template="1" data-tujuan="santri">
-                  Pengingat Hafalan Ziyadah Belum Tercapai <i class="fa fa-book"></i>
-                </button>
+            // Render modal ke body
+            document.body.insertAdjacentHTML("beforeend", `
+            <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Kirim Notifikasi</h5>
+                  </div>
 
-                <button class="btn btn-success btn-send-wa" data-id="${santriId}" data-template="2" data-tujuan="santri">
-                  Pengingat Hafalan Murajaah Belum Tercapai <i class="fa fa-book"></i>
-                </button>
+                  <div class="modal-body" style="display:flex;flex-direction:column;gap:8px;">
+                    <span class="text-center">Kirim ke santri langsung</span>
 
-                <button class="btn btn-info btn-send-wa" data-id="${santriId}" data-template="3" data-tujuan="santri">
-                  Apresiasi Santri Telah tercapai ziyadah/murajaah <i class="fa fa-check"></i>
-                </button>
+                    <button class="btn btn-primary btn-send-wa" data-id="${santriId}" data-template="1" data-tujuan="santri">
+                      Pengingat Hafalan Ziyadah Belum Tercapai <i class="fa fa-book"></i>
+                    </button>
 
-                <span class="text-center">Kirim ke wali santri</span>
+                    <button class="btn btn-success btn-send-wa" data-id="${santriId}" data-template="2" data-tujuan="santri">
+                      Pengingat Hafalan Murajaah Belum Tercapai <i class="fa fa-book"></i>
+                    </button>
 
-                <button class="btn btn-primary btn-send-wa" data-id="${santriId}" data-template="1" data-tujuan="ortu">
-                  Pengingat Hafalan Ziyadah Belum Tercapai <i class="fa fa-book"></i>
-                </button>
+                    <button class="btn btn-info btn-send-wa" data-id="${santriId}" data-template="3" data-tujuan="santri">
+                      Apresiasi Santri Telah Tercapai <i class="fa fa-check"></i>
+                    </button>
 
-                <button class="btn btn-success btn-send-wa" data-id="${santriId}" data-template="2" data-tujuan="ortu">
-                  Pengingat Hafalan Murajaah Belum Tercapai <i class="fa fa-book"></i>
-                </button>
+                    <span class="text-center">Kirim ke wali santri</span>
 
-                <button class="btn btn-info btn-send-wa" data-id="${santriId}" data-template="3" data-tujuan="ortu">
-                  Apresiasi Santri Telah tercapai ziyadah/murajaah<i class="fa fa-check"></i>
-                </button>
-              </div>
+                    <button class="btn btn-primary btn-send-wa" data-id="${santriId}" data-template="1" data-tujuan="ortu">
+                      Pengingat Hafalan Ziyadah Belum Tercapai <i class="fa fa-book"></i>
+                    </button>
 
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-success btn-send-wa" data-id="${santriId}" data-template="2" data-tujuan="ortu">
+                      Pengingat Hafalan Murajaah Belum Tercapai <i class="fa fa-book"></i>
+                    </button>
+
+                    <button class="btn btn-info btn-send-wa" data-id="${santriId}" data-template="3" data-tujuan="ortu">
+                      Apresiasi Santri Telah Tercapai <i class="fa fa-check"></i>
+                    </button>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        `);
+            `);
 
-        // Set button WA untuk membuka modal
-        document.getElementById("btnWa").setAttribute("data-target", `#${modalId}`);
+            // Set button WA untuk membuka modal
+            btnWa.setAttribute("data-target", `#${modalId}`);
+            btnWa.style.display = "inline-block";
+        }
 
     });
   });

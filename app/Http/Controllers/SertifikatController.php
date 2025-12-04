@@ -91,27 +91,55 @@ class SertifikatController extends Controller
 
         $idUjian = $request->query('id_ujian');
 
-        // ambil data ujian ini
+        // Ambil ujian yang akan dicetak
         $pencatatanUjian = \App\Models\PencatatanUjian::with([
-            'jadwalUjian.santri',
-            'jadwalUjian.semester'
+            'santri', 'semester'
         ])->findOrFail($idUjian);
 
-        $semesterId = $pencatatanUjian->jadwalUjian->semester_id;
-        $jenis = $pencatatanUjian->jadwalUjian->jenis_ujian;
+        $semesterId = $pencatatanUjian->semester_id;
+        $jenis = $pencatatanUjian->jenis_ujian;
 
-        // ✅ ambil semua pencatatan pada semester & jenis yang sama
-        $group = \App\Models\PencatatanUjian::with(['jadwalUjian.santri'])
-            ->whereHas('jadwalUjian', function ($q) use ($semesterId, $jenis) {
-                $q->where('semester_id', $semesterId)
-                ->where('jenis_ujian', $jenis);
-            })
-            ->orderBy('nilai_ujian', 'DESC')
+        // ===============================================================
+        // 1) Ambil semua pencatatan ujian semester ini dan jenis ini
+        // ===============================================================
+        $group = \App\Models\PencatatanUjian::with(['santri', 'semester'])
+            ->where('semester_id', $semesterId)
+            ->where('jenis_ujian', $jenis)
             ->get();
 
-        // ✅ Tetapkan ranking
+        // ===============================================================
+        // 2) Hitung total peserta (unik santri)
+        // ===============================================================
+        $totalPeserta = \App\Models\PencatatanUjian::where('semester_id', $semesterId)
+            ->distinct('santri_id')
+            ->count('santri_id');
+
+        // Sudah ujian (jumlah data jenis ujian ini)
+        $sudahUjian = $group->count();
+
+        // ===============================================================
+        // 3) Sorting nilai akhir desc → sama seperti di index()
+        // ===============================================================
+        $sorted = $group->sortByDesc('nilai_akhir')->values();
+
+        // ===============================================================
+        // 4) Cek kelengkapan peserta
+        // ===============================================================
+        // Jika peserta belum lengkap → semua rank = null
+        if ($totalPeserta == 0 || $sudahUjian < $totalPeserta) {
+            $pencatatanUjian->rank = null;
+
+            return back()->with(
+                'error',
+                'Ranking belum dapat ditentukan karena peserta ujian belum lengkap.'
+            );
+        }
+
+        // ===============================================================
+        // 5) Jika lengkap → tetapkan ranking
+        // ===============================================================
         $rank = 1;
-        foreach ($group as $item) {
+        foreach ($sorted as $item) {
             if ($item->id == $pencatatanUjian->id) {
                 $pencatatanUjian->rank = $rank;
                 break;
@@ -119,17 +147,21 @@ class SertifikatController extends Controller
             $rank++;
         }
 
-        // ✅ Batasi hanya top 3 yang boleh cetak
-        if ($pencatatanUjian->rank > 3) {
+        // ===============================================================
+        // 6) Batasi hanya peringkat 1–3 yang boleh cetak sertifikat
+        // ===============================================================
+        if (!$pencatatanUjian->rank || $pencatatanUjian->rank > 3) {
             return back()->with('error', 'Maaf, hanya Peringkat 1-3 yang mendapat sertifikat.');
         }
 
-        $namaSantri = $pencatatanUjian->jadwalUjian->santri->nama_lengkap;
+        // ===============================================================
+        // 7) Render PDF
+        // ===============================================================
+        $namaSantri = $pencatatanUjian->santri->nama_lengkap;
         $nilai = $pencatatanUjian->nilai_ujian;
-        $tanggal = Carbon::parse($pencatatanUjian->jadwalUjian->tanggal)->format('d-m-Y');
-        $semester = ucfirst($pencatatanUjian->jadwalUjian->semester->nama_semester);
+        $tanggal = Carbon::parse($pencatatanUjian->tanggal)->format('d-m-Y');
+        $semester = ucfirst($pencatatanUjian->semester->nama_semester);
 
-        // ✅ Render ke PDF
         $pdf = Pdf::loadView('pdf.sertifikat_peringkat', compact(
             'namaSantri',
             'nilai',
@@ -139,7 +171,7 @@ class SertifikatController extends Controller
             'pencatatanUjian'
         ))->setPaper('legal', 'landscape');
 
-        return $pdf->stream("Sertifikat-{$namaSantri}-peringkat{$pencatatanUjian->rank}-ujian{$pencatatanUjian->jadwalUjian->jenis_ujian}-{$semester}.pdf");
+        return $pdf->stream("Sertifikat-{$namaSantri}-peringkat{$pencatatanUjian->rank}-ujian{$pencatatanUjian->jenis_ujian}-{$semester}.pdf");
     }
 
 }
