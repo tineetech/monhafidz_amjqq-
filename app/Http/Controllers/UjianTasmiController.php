@@ -30,6 +30,11 @@ class UjianTasmiController extends Controller
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
+        if (Auth::user()->role === 'santri') {
+            $santri_personal = Santri::where('user_id', Auth::id())->first();
+            return view('pages.ujian-tasmi.index', compact('ujian', 'santri_personal'));
+        }
+
         return view('pages.ujian-tasmi.index', compact('ujian'));
     }
 
