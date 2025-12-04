@@ -478,7 +478,7 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
 
         document.getElementById("btnExportPdfAbsensi").style.display = "inline-block";
         document.getElementById("btnExportPdfAbsensi").href =
-            `/export/laporan/absensi/export-pdf?santri_id=${formData.get('santri_id')}&jenis_laporan=${formData.get('jenis_laporan')}&tanggal=${formData.get('tanggal')}`;
+            `/export/laporan/absensi/export-pdf?santri_id=${formData.get('santri_id')}&semester_id=${formData.get('semester_id')}`;
 
         boxdisplay.classList.remove('hidden');
 

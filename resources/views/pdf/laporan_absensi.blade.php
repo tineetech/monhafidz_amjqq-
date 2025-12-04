@@ -35,10 +35,10 @@
             <tr>
                 <td>{{ $i+1 }}</td>
                 <td>{{ $row['tanggal'] }}</td>
-                <td>{{ $row['hadir'] ? '✔' : '' }}</td>
-                <td>{{ $row['izin'] ? '✔' : '' }}</td>
-                <td>{{ $row['sakit'] ? '✔' : '' }}</td>
-                <td>{{ $row['alpa'] ? '✔' : '' }}</td>
+                <td>{{ $row['hadir'] ? 'Y' : '' }}</td>
+                <td>{{ $row['izin'] ? 'Y' : '' }}</td>
+                <td>{{ $row['sakit'] ? 'Y' : '' }}</td>
+                <td>{{ $row['alpa'] ? 'Y' : '' }}</td>
                 <td>{{ $row['keterangan'] ?? '-' }}</td>
             </tr>
             @endforeach

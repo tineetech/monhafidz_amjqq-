@@ -79,39 +79,39 @@ class LaporanController extends Controller
         }
 
         // --- DISTRIBUSI JUZ --- //
-$totalSantri = $santri->count();
-$distribusi = array_fill(1, 30, 0); // juz 1–30, default 0
+        $totalSantri = $santri->count();
+        $distribusi = array_fill(1, 30, 0); // juz 1–30, default 0
 
-foreach ($santri as $s) {
+        foreach ($santri as $s) {
 
-    // total juz hafalan santri ini
-    $total = $s->pencatatanHafalan()
-        ->where('jenis_hafalan', 'ziyadah')
-        ->sum('juz_tercapai');
+            // total juz hafalan santri ini
+            $total = $s->pencatatanHafalan()
+                ->where('jenis_hafalan', 'ziyadah')
+                ->sum('juz_tercapai');
 
-    // posisi juz saat ini (dibulatkan ke bawah)
-    $posisi = floor($total);
+            // posisi juz saat ini (dibulatkan ke bawah)
+            $posisi = floor($total);
 
-    if ($posisi < 1) $posisi = 1;
-    if ($posisi > 30) $posisi = 30;
+            if ($posisi < 1) $posisi = 1;
+            if ($posisi > 30) $posisi = 30;
 
-    // tambahkan ke distribusi
-    $distribusi[$posisi]++;
-}
+            // tambahkan ke distribusi
+            $distribusi[$posisi]++;
+        }
 
-// ubah jadi persentase
-$persentaseJuz = [];
-foreach ($distribusi as $juz => $jumlah) {
-    $persentase = $totalSantri > 0 ? ($jumlah / $totalSantri * 100) : 0;
-    $persentaseJuz[] = round($persentase, 2);
-}
+        // ubah jadi persentase
+        $persentaseJuz = [];
+        foreach ($distribusi as $juz => $jumlah) {
+            $persentase = $totalSantri > 0 ? ($jumlah / $totalSantri * 100) : 0;
+            $persentaseJuz[] = round($persentase, 2);
+        }
 
-return response()->json([
-    'labels'         => $semesters->pluck('nama_semester'),
-    'datasets'       => $datasets,
-    'donut_labels'   => range(1, 30), // label DONUT = juz 1 - juz 30
-    'donut_dataset'  => $persentaseJuz
-]);
+        return response()->json([
+            'labels'         => $semesters->pluck('nama_semester'),
+            'datasets'       => $datasets,
+            'donut_labels'   => range(1, 30), // label DONUT = juz 1 - juz 30
+            'donut_dataset'  => $persentaseJuz
+        ]);
     }
 
     // public function getLaporanHafalan(Request $request)
@@ -341,74 +341,6 @@ return response()->json([
         ]);
     }
 
-    // public function exportPdf(Request $request)
-    // {
-    //     $santri = Santri::find($request->santri_id);
-    //     if (!$santri) return abort(404, "Santri tidak ditemukan");
-
-    //     $jenis_hafalan = $request->jenis_hafalan;
-    //     $target = $jenis_hafalan === 'Ziyadah' ? 5 : 10;
-
-    //     $semester = Semester::where('nama_semester', $request->semester)->first();
-    //     if (!$semester) return abort(404, "Semester tidak ditemukan");
-
-    //     $pembimbing = Ustadzah::where(
-    //         'nama_lengkap',
-    //         $santri->jenis_kelamin == 'Laki-laki'
-    //         ? 'Ustadz Sabiq mujahid'
-    //         : 'Ustadzah Nuraisyah'
-    //     )->first();
-
-    //     $start = Carbon::parse($semester->periode_mulai)->startOfMonth();
-    //     $end   = Carbon::parse($semester->periode_selesai)->startOfMonth();
-
-    //     $months = [];
-    //     while ($start <= $end) {
-    //         $months[] = $start->translatedFormat('F Y');
-    //         $start->addMonth();
-    //     }
-
-    //     $data = [];
-    //     foreach ($months as $m) {
-    //         $bulan = Carbon::parse($m)->month;
-    //         $tahun = Carbon::parse($m)->year;
-
-    //         $result = PencatatanHafalan::where('santri_id', $santri->id)
-    //             ->whereYear('tanggal', $tahun)
-    //             ->whereMonth('tanggal', $bulan)
-    //             ->where('jenis_hafalan', $jenis_hafalan)
-    //             ->get();
-
-    //         $resultAll = PencatatanHafalan::where('santri_id', $santri->id)
-    //             ->where('jenis_hafalan', $jenis_hafalan)
-    //             ->get();
-
-    //         $jumlahJuz = $result->sum('juz_tercapai');
-    //         $jumlahJuzAll = $resultAll->sum('juz_tercapai');
-
-    //         $data[] = [
-    //             'bulan' => $m,
-    //             'surah_juz' => $result->pluck('surah_ayat')->implode(', ') ?: '-',
-    //             'jumlah_juz' => $jumlahJuz,
-    //             'persentase' => $jumlahJuz && $target ? round(($jumlahJuz / $target) * 100, 2) : 0,
-    //             'persentase_all' => $jumlahJuzAll && $target ? round(($jumlahJuzAll / $target) * 100, 2) : 0,
-    //             'nilai' => ($result->avg('nilai_tajwid') + $result->avg('nilai_kelancaran')) / 2 ?: '-',
-    //             'keterangan' => $result->pluck('keterangan')->implode(', ') ?: '-',
-    //         ];
-    //     }
-
-    //     $pdf = Pdf::loadView('pdf.laporan-hafalan', [
-    //         'santri' => $santri,
-    //         'jenis_hafalan' => $jenis_hafalan,
-    //         'semester' => $semester,
-    //         'pembimbing' => $pembimbing ? $pembimbing->nama_lengkap : '-',
-    //         'data' => $data,
-    //         'target' => $target
-    //     ])->setPaper('a4', 'portrait');
-
-    //     return $pdf->stream("Laporan Hafalan - {$santri->nama_lengkap}.pdf");
-    // }
-
     public function exportPdf(Request $request)
     {
         $santri = Santri::find($request->santri_id);
@@ -423,26 +355,23 @@ return response()->json([
         $pembimbing = Ustadzah::where(
             'nama_lengkap',
             $santri->jenis_kelamin == 'Laki-laki'
-            ? 'Ustadz Sabiq Mujahid'
-            : 'Ustadzah Nuraisyah'
+                ? 'Ustadz Sabiq Mujahid'
+                : 'Ustadzah Nuraisyah'
         )->first();
 
         // =====================================================
-        // 📊 Tambahkan Ranking Berdasarkan PencatatanUjian
+        // 📊 Ranking sama dengan getLaporanHafalan()
         // =====================================================
         $jenis_kelamin = $santri->jenis_kelamin;
 
-        $ranking = \App\Models\PencatatanUjian::with(['jadwalUjian.santri'])
-            ->whereHas('jadwalUjian', function ($q) use ($jenis_kelamin, $semester, $jenis_hafalan) {
-                $q->whereHas('santri', function ($q2) use ($jenis_kelamin) {
-                    $q2->where('jenis_kelamin', $jenis_kelamin);
-                })
-                ->where('semester_id', $semester->id)
-                ->where('jenis_ujian', $jenis_hafalan);
+        $ranking = \App\Models\PencatatanUjian::with(['santri'])
+            ->whereHas('santri', function ($q) use ($jenis_kelamin) {
+                $q->where('jenis_kelamin', $jenis_kelamin);
             })
-            ->join('jadwal_ujian', 'jadwal_ujian.id', '=', 'pencatatan_ujian.jadwal_ujian_id')
-            ->selectRaw('jadwal_ujian.santri_id, AVG(nilai_ujian) as rata_rata')
-            ->groupBy('jadwal_ujian.santri_id')
+            ->where('semester_id', $semester->id)
+            ->where('jenis_ujian', $jenis_hafalan)
+            ->selectRaw('santri_id, AVG(nilai_ujian) as rata_rata')
+            ->groupBy('santri_id')
             ->orderByDesc('rata_rata')
             ->get();
 
@@ -450,11 +379,12 @@ return response()->json([
         $juara2 = $ranking->get(1) ? Santri::find($ranking->get(1)->santri_id)->nama_lengkap : '-';
         $juara3 = $ranking->get(2) ? Santri::find($ranking->get(2)->santri_id)->nama_lengkap : '-';
 
+
         // =====================================================
         // 📅 Generate Data Hafalan Bulanan
         // =====================================================
-        $start = Carbon::parse($semester->periode_mulai)->startOfMonth();
-        $end   = Carbon::parse($semester->periode_selesai)->startOfMonth();
+        $start = \Carbon\Carbon::parse($semester->periode_mulai)->startOfMonth();
+        $end   = \Carbon\Carbon::parse($semester->periode_selesai)->startOfMonth();
 
         $months = [];
         while ($start <= $end) {
@@ -464,16 +394,16 @@ return response()->json([
 
         $data = [];
         foreach ($months as $m) {
-            $bulan = Carbon::parse($m)->month;
-            $tahun = Carbon::parse($m)->year;
+            $bulan = \Carbon\Carbon::parse($m)->month;
+            $tahun = \Carbon\Carbon::parse($m)->year;
 
-            $result = PencatatanHafalan::where('santri_id', $santri->id)
+            $result = \App\Models\PencatatanHafalan::where('santri_id', $santri->id)
                 ->whereYear('tanggal', $tahun)
                 ->whereMonth('tanggal', $bulan)
                 ->where('jenis_hafalan', $jenis_hafalan)
                 ->get();
 
-            $resultAll = PencatatanHafalan::where('santri_id', $santri->id)
+            $resultAll = \App\Models\PencatatanHafalan::where('santri_id', $santri->id)
                 ->where('jenis_hafalan', $jenis_hafalan)
                 ->get();
 
@@ -492,7 +422,7 @@ return response()->json([
         }
 
         // =====================================================
-        // 🧾 Generate PDF dengan Ranking
+        // 🧾 Generate PDF
         // =====================================================
         $pdf = Pdf::loadView('pdf.laporan-hafalan', [
             'santri' => $santri,
@@ -573,13 +503,12 @@ return response()->json([
         ]);
     }
 
-        
+     
     public function exportPdfAbsensi(Request $request)
     {
         $request->validate([
             'santri_id' => 'required',
-            'jenis_laporan' => 'required|in:hari,bulan',
-            'tanggal' => 'required|date'
+            'semester_id' => 'required'
         ]);
 
         $santri = Santri::find($request->santri_id);
@@ -587,37 +516,38 @@ return response()->json([
             abort(404, "Santri tidak ditemukan");
         }
 
-        $tanggal = Carbon::parse($request->tanggal);
+        // Ambil semester berdasarkan semester_id
+        $semester = Semester::find($request->semester_id);
+        if (!$semester) {
+            abort(404, "Semester tidak ditemukan");
+        }
 
-        // === LOGIKA SAMA DENGAN API ===
-        if ($request->jenis_laporan == 'hari') {
+        // =============================
+        // 📅 Generate bulan dalam semester
+        // =============================
+        $start = Carbon::parse($semester->periode_mulai)->startOfMonth();
+        $end   = Carbon::parse($semester->periode_selesai)->startOfMonth();
 
-            $absensi = Absensi::where('santri_id', $santri->id)
-                ->whereDate('tanggal', $tanggal)
-                ->select(
-                    DB::raw("DATE_FORMAT(tanggal, '%d-%m-%Y') as tanggal"),
-                    DB::raw("MONTHNAME(tanggal) as bulan"),
-                    DB::raw("SUM(status = 'Hadir') as hadir"),
-                    DB::raw("SUM(status = 'Izin') as izin"),
-                    DB::raw("SUM(status = 'Sakit') as sakit"),
-                    DB::raw("SUM(status = 'Alpa') as alpa")
-                )
-                ->groupBy('tanggal')
-                ->get();
+        $allMonths = [];
+        while ($start <= $end) {
+            $allMonths[] = $start->copy();
+            $start->addMonth();
+        }
 
-            $periode = $tanggal->format('d F Y');
+        $absensiSemester = [];
 
-        } else {
+        foreach ($allMonths as $bulan) {
 
-            // Generate seluruh tanggal 1–30/31
-            $jumlahHari = $tanggal->daysInMonth;
+            $jumlahHari = $bulan->daysInMonth;
+
+            // Semua tanggal dalam bulan itu
             $rangeTanggal = collect(range(1, $jumlahHari))
-                ->map(fn($d) => $tanggal->format("Y-m-") . str_pad($d, 2, "0", STR_PAD_LEFT));
+                ->map(fn($d) => $bulan->format("Y-m-") . str_pad($d, 2, "0", STR_PAD_LEFT));
 
-            // Ambil dari DB
+            // Absensi bulan itu dari DB
             $absensiDB = Absensi::where('santri_id', $santri->id)
-                ->whereMonth('tanggal', $tanggal->month)
-                ->whereYear('tanggal', $tanggal->year)
+                ->whereMonth('tanggal', $bulan->month)
+                ->whereYear('tanggal', $bulan->year)
                 ->select(
                     DB::raw("DATE(tanggal) AS tgl_key"),
                     'status',
@@ -626,14 +556,12 @@ return response()->json([
                 ->get()
                 ->keyBy('tgl_key');
 
-            // Gabungkan
-            $absensi = [];
             foreach ($rangeTanggal as $tgl) {
                 $row = $absensiDB->get($tgl);
 
-                $absensi[] = [
+                $absensiSemester[] = [
                     'tanggal' => Carbon::parse($tgl)->format('d-m-Y'),
-                    'bulan'   => Carbon::parse($tgl)->format('F'),
+                    'bulan'   => $bulan->translatedFormat('F Y'),
                     'hadir'   => $row && $row->status == 'Hadir' ? 1 : 0,
                     'izin'    => $row && $row->status == 'Izin' ? 1 : 0,
                     'sakit'   => $row && $row->status == 'Sakit' ? 1 : 0,
@@ -641,26 +569,28 @@ return response()->json([
                     'keterangan' => $row->catatan ?? null,
                 ];
             }
-
-            $periode = $tanggal->format('F Y');
         }
 
-        // Hitung total
-        $totalHadir = collect($absensi)->sum('hadir');
-        $totalIzin  = collect($absensi)->sum('izin');
-        $totalSakit = collect($absensi)->sum('sakit');
-        $totalAlpa  = collect($absensi)->sum('alpa');
+        // =============================
+        // 📊 Hitung total seluruh semester
+        // =============================
+        $totalHadir = collect($absensiSemester)->sum('hadir');
+        $totalIzin  = collect($absensiSemester)->sum('izin');
+        $totalSakit = collect($absensiSemester)->sum('sakit');
+        $totalAlpa  = collect($absensiSemester)->sum('alpa');
 
         $totalPertemuan = $totalHadir + $totalIzin + $totalSakit + $totalAlpa;
         $persenHadir = $totalPertemuan > 0 ? round(($totalHadir / $totalPertemuan) * 100) : 0;
         $persenAlpa  = $totalPertemuan > 0 ? round(($totalAlpa / $totalPertemuan) * 100) : 0;
 
-        // GENERATE PDF
+        // =============================
+        // 🖨️ Generate PDF
+        // =============================
         $pdf = PDF::loadView('pdf.laporan_absensi', [
             'santri' => $santri,
-            'periode' => $periode,
+            'periode' => $semester->periode_mulai . " s/d " . $semester->periode_selesai,
             'pembimbing' => $santri->pembimbing ?? '-',
-            'data' => $absensi,
+            'data' => $absensiSemester,
             'totalHadir' => $totalHadir,
             'totalIzin' => $totalIzin,
             'totalSakit' => $totalSakit,
@@ -669,6 +599,7 @@ return response()->json([
             'persenAlpa' => $persenAlpa,
         ])->setPaper('a4');
 
-        return $pdf->stream("Laporan-Absensi-{$santri->nama_lengkap}-{$periode}.pdf");
+        return $pdf->stream("Laporan-Absensi-{$santri->nama_lengkap}-Semester.pdf");
     }
+
 }
