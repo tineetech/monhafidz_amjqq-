@@ -3,12 +3,12 @@
 
 <section class="content-header">
   <h1>
-    Master Data Ustadzah
-    <small>Data Ustadzah</small>
+    Master Data Ustad
+    <small>Data Ustad</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Master Data Ustadzah</li>
+    <li class="active">Master Data Ustad</li>
   </ol>
 </section>
 
@@ -17,10 +17,10 @@
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-          <h3 class="box-title">Data Ustadzah</h3>
+          <h3 class="box-title">Data Ustad</h3>
           <div class="box-tools">
             <a href="{{ route('ustadzah.create') }}" class="btn btn-primary btn-sm">
-              <i class="fa fa-plus"></i> Tambah Ustadzah
+              <i class="fa fa-plus"></i> Tambah Ustad
             </a>
           </div>
         </div>

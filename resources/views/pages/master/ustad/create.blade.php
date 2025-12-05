@@ -3,12 +3,12 @@
 
 <section class="content-header">
   <h1>
-    Data Ustadzah
-    <small>Tambah data ustadzah</small>
+    Data Ustad
+    <small>Tambah data ustad</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('ustadzah.index') }}">Data Ustadzah</a></li>
+    <li><a href="{{ route('ustadzah.index') }}">Data Ustad</a></li>
     <li class="active">Tambah</li>
   </ol>
   @if ($errors->any())
@@ -25,7 +25,7 @@
 <section class="content">
   <div class="box">
     <div class="box-header with-border">
-      <h3 class="box-title">Tambah Data Ustadzah</h3>
+      <h3 class="box-title">Tambah Data Ustad</h3>
       <div class="box-tools">
         <a href="{{ route('ustadzah.index') }}" class="btn btn-primary btn-sm">
           <i class="fa fa-arrow-left"></i> Kembali
