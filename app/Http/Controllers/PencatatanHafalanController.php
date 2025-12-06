@@ -28,6 +28,18 @@ class PencatatanHafalanController extends Controller
                 $query->whereNull('id'); 
             }
         }
+
+        if (Auth::user()->role === 'ustad') {
+            $ustad = Auth::user()->ustad;
+
+            if ($ustad) {
+                $query->whereHas('santri', function ($q) use ($ustad) {
+                    $q->where('jenis_kelamin', $ustad->jenis_kelamin);
+                });
+            } else {
+                $query->whereNull('id');
+            }
+        }
         
         if (Auth::user()->role === 'walisantri') {
             $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();

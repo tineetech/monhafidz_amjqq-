@@ -519,7 +519,7 @@
           </div>
         </section>
         @endif
-        @if (Auth::user()->role !== 'walisantri')
+        @if (Auth::user()->role !== 'walisantri' && Auth::user()->role !== 'admin')
         <section class="col-lg-6 connectedSortable">
           <div class="box">
             <div class="" style="display: flex; justify-content: space-between;width: 100%;align-items: center;padding-block: 10px;padding-inline: 15px;">
