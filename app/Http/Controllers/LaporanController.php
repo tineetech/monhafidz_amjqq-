@@ -25,12 +25,38 @@ class LaporanController extends Controller
         $role = Auth::check() ? Auth::user()->role : null;
         $userId = Auth::check() ? Auth::id() : null;
 
+        // Default query santri
+        $santriQuery = Santri::query();
+
         if ($role === 'santri' && $userId) {
+
+            // Santri hanya lihat dirinya
             $santri = Santri::where('user_id', $userId)->get();
+
         } else if ($role === 'walisantri' && $userId) {
+
+            // Walisantri hanya lihat anaknya
             $walisantri = WaliSantri::where('user_id', $userId)->first();
             $santri = Santri::where('id', $walisantri->santri_id)->get();
+
+        } else if ($role === 'ustad') {
+
+            // Ustad hanya melihat santri berdasarkan jenis kelamin yang sama
+            $ustad = Auth::user()->ustad;
+
+            if ($ustad) {
+                $santri = $santriQuery
+                    ->where('jenis_kelamin', $ustad->jenis_kelamin)
+                    ->orderBy('nama_lengkap', 'asc')
+                    ->get();
+            } else {
+                // Jika relasi ustad tidak ditemukan → kosongkan
+                $santri = collect([]);
+            }
+
         } else {
+
+            // Role admin atau lainnya → melihat semua santri
             $santri = Santri::all();
         }
 

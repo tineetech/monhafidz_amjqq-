@@ -34,7 +34,7 @@
     @endif
 
     <div class="box-body">
-      <form action="{{ route('santri.store') }}" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('santri.store') }}" method="POST" enctype="multipart/form-data" id="form">
         @csrf
         
 
@@ -51,13 +51,13 @@
             <!-- Input 1 -->
             <div class="form-group col-md-6">
               <label>Nama Lengkap</label>
-              <input type="text" name="nama_lengkap" class="form-control" placeholder="Masukan nama lengkap santri" required>
+              <input type="text" name="nama_lengkap" class="form-control" placeholder="Masukan nama lengkap santri" >
             </div>
     
             <!-- Input 2 -->
             <div class="form-group col-md-6">
               <label>Jenis Kelamin</label>
-              <select name="jenis_kelamin" class="form-control" required>
+              <select name="jenis_kelamin" class="form-control" >
                 <option value="">Pilih jenis kelamin santri</option>
                 <option value="Laki-laki">Laki-laki</option>
                 <option value="Perempuan">Perempuan</option>
@@ -69,13 +69,13 @@
             <!-- Input 3 -->
             <div class="form-group col-md-6">
             <label>NIK</label>
-            <input type="text" name="nik" class="form-control" placeholder="Masukan NIK santri" required>
+            <input type="text" name="nik" class="form-control" placeholder="Masukan NIK santri" >
             </div>
 
             <!-- Input 4 -->
             <div class="form-group col-md-6">
                 <label>Tanggal Lahir</label>
-                <input type="date" name="tanggal_lahir" class="form-control" required>
+                <input type="date" name="tanggal_lahir" class="form-control" >
             </div>
         </div>
 
@@ -83,13 +83,13 @@
             <!-- Input 5 -->
             <div class="form-group col-md-6">
                 <label>Alamat Lengkap</label>
-                <textarea name="alamat_lengkap" class="form-control" placeholder="Masukan alamat santri" rows="2" required></textarea>
+                <textarea name="alamat_lengkap" class="form-control" placeholder="Masukan alamat santri" rows="2" ></textarea>
             </div>
 
             <!-- Input 6 -->
             <div class="form-group col-md-6">
                 <label>No HP</label>
-                <input type="text" name="no_hp" class="form-control" placeholder="Masukan nomor HP santri" required>
+                <input type="text" name="no_hp" class="form-control" placeholder="Masukan nomor HP santri" >
             </div>
         </div>
 
@@ -97,7 +97,7 @@
             <!-- Input 7 -->
             <div class="form-group col-md-6">
                 <label>Semester</label>
-                <select name="semester_id" class="form-control" required>
+                <select name="semester_id" class="form-control" >
                     <option value="">Pilih semester</option>
                     @foreach($semesters as $semester)
                         <option value="{{ $semester->id }}">{{ $semester->nama_semester }}</option>
@@ -108,7 +108,7 @@
             <!-- Input 8 -->
             <div class="form-group col-md-6">
                 <label>Total Juz Tercapai (Ziyadah)</label>
-                <input type="number" name="total_juz_tercapai" value="0" class="form-control" placeholder="Masukan jumlah juz yang dicapai oleh santri" required>
+                <input type="number" name="total_juz_tercapai" value="0" class="form-control" placeholder="Masukan jumlah juz yang dicapai oleh santri" >
             </div>
         </div>
 
@@ -116,7 +116,7 @@
             <!-- Input 9 (Full Width) -->
             <div class="form-group col-md-12">
                 <label>Status Santri</label>
-                <select name="status_santri" class="form-control" required>
+                <select name="status_santri" class="form-control" >
                     <option value="">Pilih status santri</option>
                     <option value="aktif">Aktif</option>
                     <option value="tidak aktif">Tidak Aktif</option>

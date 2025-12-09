@@ -26,13 +26,13 @@
     @endif
 
     <div class="box-body">
-      <form action="{{ route('ujian-tasmi.store') }}" method="POST">
+      <form action="{{ route('ujian-tasmi.store') }}" method="POST" id="form">
         @csrf
 
         <div class="row">
           {{-- <div class="form-group col-md-12">
             <label>Pilih Jadwal Ujian</label>
-            <select name="jadwal_ujian_id" class="form-control" required>
+            <select name="jadwal_ujian_id" class="form-control" >
               <option value="">Pilih Jadwal Ujian</option>
               @foreach ($jadwalUjian as $j)
                 <option value="{{ $j->id }}">
@@ -48,7 +48,7 @@
           <div class="col-md-6">
               <div class="form-group">
                   <label>Santri</label>
-                  <select name="santri_id" class="form-control select2" id="selectSantri" required>
+                  <select name="santri_id" class="form-control select2" id="selectSantri" >
                       <option value="">-- Pilih Santri --</option>
                       @foreach($santri as $s)
                           <option value="{{ $s->id }}" data-semester="{{ $s->semester_id }}">
@@ -61,7 +61,7 @@
           {{-- <div class="col-md-12">
               <div class="form-group">
                   <label>Semester</label>
-                  <select name="semester_id" class="form-control" required>
+                  <select name="semester_id" class="form-control" >
                       <option value="">-- Pilih Semester --</option>
                       @foreach($semester as $sem)
                       <option value="{{ $sem->id }}">{{ $sem->nama_semester }}</option>

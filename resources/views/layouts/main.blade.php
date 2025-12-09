@@ -302,6 +302,36 @@
 <script src="{{ url('assets/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE dashboard demo -->
 <script src="{{ url('assets/dist/js/pages/dashboard.js') }}"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("form");
+
+    form.addEventListener("submit", function (e) {
+        const fields = form.querySelectorAll("input, select, textarea");
+
+        let isValid = true;
+
+        fields.forEach(field => {
+            // Skip field yang tidak perlu divalidasi
+            if (field.classList.contains("without")) return;
+
+            // Validasi kosong
+            if (!field.value || field.value.trim() === "") {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();
+            alert("Semua input wajib diisi!");
+        }
+    });
+});
+
+</script>
+
   @yield('scripts')
 
 </body>

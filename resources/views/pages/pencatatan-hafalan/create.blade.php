@@ -19,14 +19,14 @@
     <div class="box-header with-border">
         <h3 class="box-title">Tambah Setoran Hafalan Santri</h3>
     </div>
-    <form action="{{ route('pencatatan-hafalan.store') }}" method="POST">
+    <form action="{{ route('pencatatan-hafalan.store') }}" method="POST" id="form">
         @csrf
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Santri</label>
-                        <select name="santri_id" class="form-control" id="selectSantri" required>
+                        <select name="santri_id" class="form-control" id="selectSantri" >
                             <option value="">-- Pilih Santri --</option>
                             @foreach($santri as $s)
                                 <option value="{{ $s->id }}" data-semester="{{ $s->semester_id }}">
@@ -39,7 +39,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Semester</label>
-                        <select name="semester_id" class="form-control" required>
+                        <select name="semester_id" class="form-control" >
                             <option value="">-- Pilih Semester --</option>
                             @foreach($semester as $sem)
                             <option value="{{ $sem->id }}">{{ $sem->nama_semester }}</option>
@@ -51,13 +51,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Tanggal</label>
-                        <input type="date" name="tanggal" class="form-control" required>
+                        <input type="date" name="tanggal" class="form-control" >
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Jenis Hafalan</label>
-                        <select name="jenis_hafalan" class="form-control" required>
+                        <select name="jenis_hafalan" class="form-control" >
                             <option value="">-- Pilih Jenis Hafalan --</option>
                             <option value="Ziyadah">Ziyadah</option>
                             <option value="Murajaah">Murajaah</option>
@@ -68,13 +68,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Surah / Ayat</label>
-                        <input type="text" name="surah_ayat" class="form-control" placeholder="Contoh: Al-Baqarah 1-5" required>
+                        <input type="text" name="surah_ayat" class="form-control" placeholder="Contoh: Al-Baqarah 1-5" >
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Status (otomatis)</label>
-                        <select name="status" class="form-control" required disabled>
+                        <select name="status" class="form-control"  disabled>
                             <option value="lulus jayyid">Otomatis</option>
                             <option value="lulus mumtaz">Lulus Mumtaz</option>
                             <option value="harus diulang">Harus di ulang</option>
@@ -87,13 +87,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Nilai Tajwid</label>
-                        <input type="number" name="nilai_tajwid" class="form-control" step="0.1" min="0" max="100" required>
+                        <input type="number" name="nilai_tajwid" class="form-control" step="0.1" min="0" max="100" >
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Nilai Kelancaran</label>
-                        <input type="number" name="nilai_kelancaran" class="form-control" step="0.1" min="0" max="100" required>
+                        <input type="number" name="nilai_kelancaran" class="form-control" step="0.1" min="0" max="100" >
                     </div>
                 </div>
                 <div class="col-md-12">

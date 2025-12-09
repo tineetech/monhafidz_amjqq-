@@ -24,14 +24,14 @@
           </div>
       </div>
 
-      <form action="{{ route('perizinan.store') }}" method="POST">
+      <form action="{{ route('perizinan.store') }}" method="POST" id="form">
           @csrf
           <div class="box-body">
               <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                         <label>Nama Santri <span class="text-danger">*</span></label>
-                        <select name="santri_id" id="santri_id" class="form-control" required>
+                        <select name="santri_id" id="santri_id" class="form-control" >
                             <option value="">-- Pilih Santri --</option>
                             <option value="{{ $santri->id }}" {{ old('santri_id') == $santri->id ? 'selected' : '' }}>
                                 {{ $santri->nama_lengkap }}
@@ -44,14 +44,14 @@
                   <div class="col-md-6">
                       <div class="form-group">
                           <label>Tanggal <span class="text-danger">*</span></label>
-                          <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal', now()->format('Y-m-d')) }}" required>
+                          <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal', now()->format('Y-m-d')) }}" >
                       </div>
                   </div>
 
                   <div class="col-md-12">
                       <div class="form-group">
                           <label>Status Absensi<span class="text-danger">*</span></label>
-                          <select name="status" class="form-control" value="Hadir" required>
+                          <select name="status" class="form-control" value="Hadir" >
                               <option value="">-- Pilih Status --</option>
                               <option value="Izin" {{ old('status') == 'Izin' ? 'selected' : '' }}>Izin</option>
                               <option value="Sakit" {{ old('status') == 'Sakit' ? 'selected' : '' }}>Sakit</option>

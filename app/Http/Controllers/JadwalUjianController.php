@@ -75,7 +75,7 @@ class JadwalUjianController extends Controller
     {
         $validated = $request->validate([
             // 'santri_id'             => 'required|exists:santri,id',
-            'is_bertahap'           => 'required',
+            'is_bertahap'           => 'nullable',
             'tahap'                 => 'nullable',
             // 'semester_id'           => 'required|exists:semester,id',
             'tanggal'               => 'required|date',
@@ -88,7 +88,7 @@ class JadwalUjianController extends Controller
         ]);
 
 
-        
+        $validated['is_bertahap'] = 0;
         $jadwal = JadwalUjian::create($validated);
 
         // ambil nomor WA santri
@@ -134,18 +134,19 @@ class JadwalUjianController extends Controller
     {
         $validated = $request->validate([
             // 'santri_id'             => 'required|exists:santri,id',
-            'is_bertahap'           => 'required',
+            'is_bertahap'           => 'nullable',
             'tahap'                 => 'nullable',
             // 'semester_id'           => 'required|exists:semester,id',
             'tanggal'               => 'required|date',
-            'jam_mulai'             => 'required|date_format:H:i',
-            'jam_selesai'           => 'nullable|date_format:H:i|after:jam_mulai',
+            'jam_mulai'             => 'required|',
+            'jam_selesai'           => 'nullable|after:jam_mulai',
             'tempat'                => 'nullable',
             'pembimbing_putra_id'   => 'nullable|exists:ustadzah,id',
             'pembimbing_putri_id'   => 'nullable|exists:ustadzah,id',
             'jenis_ujian'           => 'required'
         ]);
 
+        $validated['is_bertahap'] = 0;
         $jadwal = JadwalUjian::findOrFail($id);
         $jadwal->update($validated);
 
@@ -166,7 +167,7 @@ class JadwalUjianController extends Controller
                 Log::error("Gagal kirim WA ke $phone: " . $e->getMessage());
             }
         }
-        return redirect()->route('jadwal-ujian.index')
+        return redirect()->route('dashboard')
                 ->with('success', 'Jadwal ujian berhasil diperbarui!');
     }
 

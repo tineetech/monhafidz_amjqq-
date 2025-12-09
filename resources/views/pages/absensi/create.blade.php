@@ -24,14 +24,14 @@
           </div>
       </div>
 
-      <form action="{{ route('absensi.store') }}" method="POST">
+      <form action="{{ route('absensi.store') }}" id="form" method="POST">
           @csrf
           <div class="box-body">
               <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                         <label>Nama Santri <span class="text-danger">*</span></label>
-                        <select name="santri_id" id="selectSantri" class="form-control" required>
+                        <select name="santri_id" id="selectSantri" class="form-control" >
                             <option value="">-- Pilih Santri --</option>
                             @foreach($santri as $s)
                                 <option value="{{ $s->id }}" {{ old('santri_id') == $s->id ? 'selected' : '' }}>
@@ -46,14 +46,14 @@
                   <div class="col-md-6">
                       <div class="form-group">
                           <label>Tanggal <span class="text-danger">*</span></label>
-                          <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal', now()->format('Y-m-d')) }}" required>
+                          <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal', now()->format('Y-m-d')) }}" >
                       </div>
                   </div>
 
                   <div class="col-md-12">
                       <div class="form-group">
                           <label>Status <span class="text-danger">*</span></label>
-                          <select name="status" class="form-control" value="Hadir" required>
+                          <select name="status" class="form-control" value="Hadir" >
                               <option value="">-- Pilih Status --</option>
                               <option value="Hadir" {{ old('status') == 'Hadir' ? 'selected' : '' }} selected>Hadir</option>
                               <option value="Izin" {{ old('status') == 'Izin' ? 'selected' : '' }}>Izin</option>
@@ -65,8 +65,8 @@
 
                   <div class="col-md-12">
                       <div class="form-group">
-                          <label>Catatan</label>
-                          <textarea name="catatan" class="form-control" rows="3" placeholder="Masukkan catatan...">{{ old('catatan') }}</textarea>
+                          <label>Catatan <span class="text-danger">*</span></label>
+                          <textarea name="catatan"  class="form-control" rows="3" placeholder="Masukkan catatan...">{{ old('catatan') }}</textarea>
                       </div>
                   </div>
               </div>
@@ -81,3 +81,4 @@
 </section>
 
 @endsection
+

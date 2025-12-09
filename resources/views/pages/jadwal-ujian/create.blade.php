@@ -31,13 +31,13 @@
     @endif
 
     <div class="box-body">
-      <form action="{{ route('jadwal-ujian.store') }}" method="POST">
+      <form action="{{ route('jadwal-ujian.store') }}" method="POST" id="form">
         @csrf
 
         <div class="row">
           {{-- <div class="col-md-6 form-group">
             <label>Santri</label>
-            <select name="santri_id" id="selectSantri" class="form-control" required>
+            <select name="santri_id" id="selectSantri" class="form-control" >
               <option value="">-- Pilih Santri --</option>
               @foreach($santris as $s)
                 <option value="{{ $s->id }}">{{ $s->nama_lengkap }}</option>
@@ -47,12 +47,12 @@
 
           {{-- <div class="col-md-6 form-group">
             <label>Tanggal Ujian</label>
-            <input type="date" name="tanggal" class="form-control" value="{{ now()->format('Y-m-d') }}" required>
+            <input type="date" name="tanggal" class="form-control" value="{{ now()->format('Y-m-d') }}" >
           </div> --}}
-          <div class="col-md-6 form-group">
+          {{-- <div class="col-md-6 form-group">
             <label>Apakah Jadwal Bertahap</label>
-            <select name="is_bertahap" class="form-control" value='tidak' required>
-              {{-- <option value="">-- Tidak Ada --</option> --}}
+            <select name="is_bertahap" class="form-control" value='tidak' >
+              <option value="">-- Tidak Ada --</option>
               <option value="0">Tidak</option>
               <option value="1">Ya</option>
             </select>
@@ -60,18 +60,18 @@
           <div class="col-md-6 form-group">
             <label>Tahap</label>
             <input type="number" name="tahap" placeholder="Masukan tahap keberapa (kosongkan jika tidak bertahap)" class="form-control">
-          </div>
+          </div> --}}
         </div>
 
         <div class="row">
           
           <div class="col-md-12 form-group">
             <label>Tanggal Ujian</label>
-            <input type="date" name="tanggal" class="form-control" value="{{ now()->format('Y-m-d') }}" required>
+            <input type="date" name="tanggal" class="form-control" value="{{ now()->format('Y-m-d') }}" >
           </div>
           {{-- <div class="col-md-6 form-group">
             <label>Pilih semester</label>
-            <select name="semester_id" class="form-control" required>
+            <select name="semester_id" class="form-control" >
               @foreach ($semesters as $semester)
                 <option value="{{ $semester->id }}">{{ ucfirst($semester->nama_semester) }}</option>
               @endforeach
@@ -82,7 +82,7 @@
         <div class="row">
           <div class="col-md-6 form-group">
             <label>Jam Mulai</label>
-            <input type="time" name="jam_mulai" class="form-control" required>
+            <input type="time" name="jam_mulai" class="form-control" >
           </div>
 
           <div class="col-md-6 form-group">
@@ -115,7 +115,7 @@
         <div class="row">
           <div class="col-md-12 form-group">
             <label>Jenis Ujian</label>
-            <select name="jenis_ujian" class="form-control" required>
+            <select name="jenis_ujian" class="form-control" >
               {{-- <option value="tasmi" selected>Tasmi'</option> --}}
               {{-- <option value="ujian_akhir">Ujian Akhir</option> --}}
               <option value="ziyadah">Ziyadah</option>

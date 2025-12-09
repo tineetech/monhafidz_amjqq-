@@ -65,11 +65,29 @@ class PencatatanHafalanController extends Controller
      */
     public function create()
     {
-        $santri = Santri::orderBy('nama_lengkap', 'asc')->get();
+        $santriQuery = Santri::orderBy('nama_lengkap', 'asc');
+
+        // Jika user adalah ustad → filter berdasarkan jenis kelamin ustad
+        if (Auth::user()->role === 'ustad') {
+            $ustad = Auth::user()->ustad;
+
+            if ($ustad) {
+                $santriQuery->where('jenis_kelamin', $ustad->jenis_kelamin);
+            } else {
+                // Kalau data ustad tidak ditemukan, buat hasil kosong
+                $santriQuery->whereNull('id');
+            }
+        }
+
+        // Eksekusi query santri
+        $santri = $santriQuery->get();
+
+        // Ambil semester
         $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
 
         return view('pages.pencatatan-hafalan.create', compact('santri', 'semester'));
     }
+
 
     /**
      * Simpan data baru.
@@ -160,7 +178,26 @@ class PencatatanHafalanController extends Controller
     public function edit($id)
     {
         $data = PencatatanHafalan::findOrFail($id);
-        $santri = Santri::orderBy('nama_lengkap', 'asc')->get();
+
+        // Mulai query santri
+        $santriQuery = Santri::orderBy('nama_lengkap', 'asc');
+
+        // Jika user adalah ustad → filter berdasarkan jenis kelamin
+        if (Auth::user()->role === 'ustad') {
+            $ustad = Auth::user()->ustad;
+
+            if ($ustad) {
+                $santriQuery->where('jenis_kelamin', $ustad->jenis_kelamin);
+            } else {
+                // kalau relasi ustad tidak ditemukan munculkan data kosong
+                $santriQuery->whereNull('id');
+            }
+        }
+
+        // Eksekusi query
+        $santri = $santriQuery->get();
+
+        // Semester
         $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
 
         return view('pages.pencatatan-hafalan.edit', compact('data', 'santri', 'semester'));

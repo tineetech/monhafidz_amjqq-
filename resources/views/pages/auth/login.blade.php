@@ -13,6 +13,11 @@
 
     <form action="{{ route('login') }}" method="post">
       @csrf
+      @if ($errors->any())
+      <div class="alert alert-danger">
+              <small>{{ $errors->first() }}</small>
+          </div>
+      @endif
       <div class="form-group has-feedback">
         <input type="email" class="form-control" placeholder="Email" name="email" required autofocus>
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

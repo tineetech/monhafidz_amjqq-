@@ -27,6 +27,15 @@ class UjianTasmiController extends Controller
                 $idSantri = $wali->santri->id ?? 0;
                 $q->where('santri_id', $idSantri);
             })
+            ->when(Auth::user()->role === 'ustad', function ($q) {
+                $ustad = Auth::user()->ustad;
+
+                if ($ustad && $ustad->jenis_kelamin) {
+                    $q->whereHas('santri', function ($sq) use ($ustad) {
+                        $sq->where('jenis_kelamin', $ustad->jenis_kelamin);
+                    });
+                }
+            })
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
@@ -44,17 +53,32 @@ class UjianTasmiController extends Controller
      */
     public function create()
     {
+        // Ambil ustadzah
         $ustadzah = Ustadzah::all();
-        $santri = Santri::all();
+
+        // Query dasar santri
+        $santriQuery = Santri::orderBy('nama_lengkap', 'asc');
+
+        if (Auth::user()->role === 'ustad') {
+            $ustadzahUser = Auth::user()->ustad;
+
+            if ($ustadzahUser) {
+                $santriQuery->where('jenis_kelamin', $ustadzahUser->jenis_kelamin);
+            } else {
+                // jika tidak ada relasi, tampilkan data kosong
+                $santriQuery->whereNull('id');
+            }
+        }
+
+        // Eksekusi query
+        $santri = $santriQuery->get();
+
+        // Semester
         $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
-        // $jadwalUjian = JadwalUjian::with('santri')
-        //     ->where('jenis_ujian', 'tasmi')
-        //     ->whereDoesntHave('ujianTasmi') // penting
-        //     ->orderBy('tanggal', 'desc')
-        //     ->get();
 
         return view('pages.ujian-tasmi.create', compact('ustadzah', 'santri', 'semester'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -95,16 +119,37 @@ class UjianTasmiController extends Controller
     public function edit(string $id)
     {
         $ujian = UjianTasmi::findOrFail($id);
+
+        // Ambil jadwal ujian
         $jadwalUjian = JadwalUjian::where('jenis_ujian', 'tasmi')
-            // ->whereDoesntHave('ujianTasmi') // penting
             ->orderBy('tanggal', 'desc')
             ->get();
+
         $ustadzah = Ustadzah::all();
-        $santri = Santri::all();
+
+        // Query dasar santri
+        $santriQuery = Santri::orderBy('nama_lengkap', 'asc');
+
+        // Filter berdasarkan ustadzah login
+        if (Auth::user()->role === 'ustad') {
+            $ustadzahUser = Auth::user()->ustad;
+
+            if ($ustadzahUser) {
+                $santriQuery->where('jenis_kelamin', $ustadzahUser->jenis_kelamin);
+            } else {
+                $santriQuery->whereNull('id');
+            }
+        }
+
+        // Eksekusi
+        $santri = $santriQuery->get();
+
+        // Semester
         $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
 
         return view('pages.ujian-tasmi.edit', compact('ujian', 'jadwalUjian', 'ustadzah', 'santri', 'semester'));
     }
+
 
     /**
      * Update the specified resource in storage.

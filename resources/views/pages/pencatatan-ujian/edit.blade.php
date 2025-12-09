@@ -27,7 +27,7 @@
     @endif
 
     <div class="box-body">
-      <form action="{{ route('pencatatan-ujian.update', $ujian->id) }}" method="POST">
+      <form action="{{ route('pencatatan-ujian.update', $ujian->id) }}" method="POST" id="form">
         @csrf
         @method('PUT')
 
@@ -43,7 +43,7 @@
           <div class="col-md-12">
               <div class="form-group">
                   <label>Santri</label>
-                  <select name="santri_id" class="form-control select2" id="selectSantri" required>
+                  <select name="santri_id" class="form-control select2" id="selectSantri" >
                       <option value="">-- Pilih Santri --</option>
                       @foreach($santri as $s)
                           <option value="{{ $s->id }}"
@@ -59,7 +59,7 @@
           <div class="col-md-6">
               <div class="form-group">
                   <label>Jenis Ujian</label>
-                  <select name="jenis_ujian" class="form-control" required>
+                  <select name="jenis_ujian" class="form-control" >
                       {{-- <option value="ujian_akhir" {{ $ujian->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option> --}}
                       <option value="ziyadah" {{ $ujian->jenis_ujian == 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>
                       <option value="murajaah" {{ $ujian->jenis_ujian == 'murajaah' ? 'selected' : '' }}>Murajaah</option>
@@ -70,7 +70,7 @@
           <div class="col-md-6">
               <div class="form-group">
                   <label>Semester</label>
-                  <select name="semester_id" class="form-control" required>
+                  <select name="semester_id" class="form-control" >
                       <option value="">-- Pilih Semester --</option>
                       @foreach($semester as $sem)
                           <option value="{{ $sem->id }}"

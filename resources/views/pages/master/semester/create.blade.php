@@ -25,37 +25,37 @@
     </div>
 
     <div class="box-body">
-      <form action="{{ route('semester.store') }}" method="POST">
+      <form action="{{ route('semester.store') }}" method="POST" id="form">
         @csrf
 
         <div class="row">
           <div class="form-group col-md-6">
             <label>Nama Semester</label>
-            <input type="text" name="nama_semester" class="form-control" placeholder="Masukan nama semester" required>
+            <input type="text" name="nama_semester" class="form-control" placeholder="Masukan nama semester" >
           </div>
 
           <div class="form-group col-md-6">
             <label>Tahun Ajaran</label>
-            <input type="text" name="tahun_ajaran" class="form-control" placeholder="Masukan tahun ajaran (contoh: 2025/2026)" required>
+            <input type="text" name="tahun_ajaran" class="form-control" placeholder="Masukan tahun ajaran (contoh: 2025/2026)" >
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-md-6">
             <label>Periode Mulai</label>
-            <input type="date" name="periode_mulai" class="form-control" required>
+            <input type="date" name="periode_mulai" class="form-control" >
           </div>
 
           <div class="form-group col-md-6">
             <label>Periode Selesai</label>
-            <input type="date" name="periode_selesai" class="form-control" required>
+            <input type="date" name="periode_selesai" class="form-control" >
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-md-12">
             <label>Jenis Hafalan Semester</label>
-            <select name="jenis_hafalan" class="form-control" required>
+            <select name="jenis_hafalan" class="form-control" >
               <option value="">Pilih jenis</option>
               <option value="ziyadah">Ziyadah</option>
               <option value="murajaah">Murajaah</option>
@@ -66,7 +66,7 @@
         <div class="row">
           <div class="form-group col-md-12">
             <label>Status</label>
-            <select name="status" class="form-control" required>
+            <select name="status" class="form-control" >
               <option value="">Pilih status</option>
               <option value="aktif">Aktif</option>
               <option value="nonaktif">Nonaktif</option>

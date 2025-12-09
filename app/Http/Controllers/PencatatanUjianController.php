@@ -209,27 +209,63 @@ class PencatatanUjianController extends Controller
             return $jenisOrder . '-' . $rankOrder;
         })->values();
 
-        $ujianZiyadah = $ujian->filter(fn($u) => $u->jenis_ujian === 'ziyadah')->values();
+        $ujianZiyadah = $ujian->filter(function ($u) {
+            if ($u->jenis_ujian !== 'ziyadah') return false;
 
-        $ujianMurajaah = $ujian->filter(fn($u) => $u->jenis_ujian === 'murajaah')->values();
+            // Jika role ustad → filter jenis kelamin
+            if (Auth::user()->role === 'ustad') {
+                return $u->santri->jenis_kelamin === Auth::user()->ustad->jenis_kelamin;
+            }
+
+            return true;
+        })->values();
+
+
+        $ujianMurajaah = $ujian->filter(function ($u) {
+            if ($u->jenis_ujian !== 'murajaah') return false;
+
+            // Jika role ustad → filter jenis kelamin
+            if (Auth::user()->role === 'ustad') {
+                return $u->santri->jenis_kelamin === Auth::user()->ustad->jenis_kelamin;
+            }
+
+            return true;
+        })->values();
+
         // dd($ujian);
         return view('pages.pencatatan-ujian.index', compact('ujian', 'ujianZiyadah', 'ujianMurajaah', 'semesters'));
     }
 
-
     public function create()
     {
-        $santri = Santri::all();
+        // Query awal
+        $santriQuery = Santri::query();
+
+        // Jika role adalah ustad → filter berdasarkan jenis kelamin ustad
+        if (Auth::user()->role === 'ustad') {
+            $ustad = Auth::user()->ustad;
+
+            if ($ustad) {
+                $santriQuery->where('jenis_kelamin', $ustad->jenis_kelamin);
+            } else {
+                $santriQuery->whereNull('id'); // kosongkan jika relasi ustad tidak ada
+            }
+        }
+
+        $santri = $santriQuery->orderBy('nama_lengkap', 'asc')->get();
+
         $ustadzah = Ustadzah::all();
         $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
-        // ambil jadwal yang belum tercatat di pencatatan_ujian
+
+        // Jadwal ujian yang belum dicatat
         $jadwalUjian = \App\Models\JadwalUjian::with('santri')
-            ->whereDoesntHave('pencatatanUjian') // penting
+            ->whereDoesntHave('pencatatanUjian')
             ->orderBy('tanggal', 'desc')
             ->get();
 
         return view('pages.pencatatan-ujian.create', compact('santri', 'ustadzah', 'jadwalUjian', 'semester'));
     }
+
 
     public function store(Request $request)
     {
@@ -261,16 +297,36 @@ class PencatatanUjianController extends Controller
                         ->with('success', 'Data ujian berhasil ditambahkan');
     }
 
-
     public function edit($id)
     {
         $ujian = PencatatanUjian::findOrFail($id);
-        $santri = Santri::all();
+
+        // Query awal
+        $santriQuery = Santri::query();
+
+        // Jika ustad → filter berdasar gender ustad
+        if (Auth::user()->role === 'ustad') {
+            $ustad = Auth::user()->ustad;
+
+            if ($ustad) {
+                $santriQuery->where('jenis_kelamin', $ustad->jenis_kelamin);
+            } else {
+                $santriQuery->whereNull('id');
+            }
+        }
+
+        $santri = $santriQuery->orderBy('nama_lengkap', 'asc')->get();
+
         $semester = Semester::where('jenis_hafalan', 'ziyadah')->get();
         $ustadzah = Ustadzah::all();
-        $jadwalUjian = \App\Models\JadwalUjian::with('santri')->orderBy('tanggal', 'desc')->get();
+
+        $jadwalUjian = \App\Models\JadwalUjian::with('santri')
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
         return view('pages.pencatatan-ujian.edit', compact('ujian', 'santri', 'ustadzah', 'jadwalUjian', 'semester'));
     }
+
 
     public function update(Request $request, $id)
     {

@@ -245,7 +245,7 @@ class DashboardController extends Controller
 
         if (Auth::user()->role === 'santri') {
             $santri_personal = Santri::where('user_id', Auth::id())->first();
-            return view('pages.dashboard' , compact('ziyadah', 'infoRankingZiyadah', 'infoRankingMurajaah','semesters', 'jadwal', 'jadwalTasmi', 'murajaah', 'santri', 'santri_personal', 'ustad', 'pencatatan_hafalan', 'santri_lulus'));
+            return view('pages.dashboard' , compact('ziyadah', 'infoRankingZiyadah', 'infoRankingMurajaah','semesters', 'jadwal', 'jadwalTasmi', 'murajaah', 'santri', 'santri_personal', 'santri_count', 'ustad', 'pencatatan_hafalan', 'santri_lulus'));
         }
         return view('pages.dashboard' , compact('ziyadah', 'infoRankingZiyadah', 'infoRankingMurajaah', 'semesters', 'jadwal', 'walisantri', 'jadwalTasmi', 'murajaah', 'santri_count', 'ustad', 'pencatatan_hafalan', 'santri_lulus'));
     }

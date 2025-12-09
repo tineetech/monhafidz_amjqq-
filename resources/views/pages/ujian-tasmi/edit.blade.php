@@ -27,7 +27,7 @@
     @endif
 
     <div class="box-body">
-      <form action="{{ route('ujian-tasmi.update', $ujian->id) }}" method="POST">
+      <form action="{{ route('ujian-tasmi.update', $ujian->id) }}" method="POST" id="form"> 
         @csrf
         @method('PUT')
 
@@ -41,7 +41,7 @@
 
           <div class="form-group col-md-6">
             <label>Santri</label>
-            <select name="santri_id" class="form-control select2" required>
+            <select name="santri_id" class="form-control select2" id="selectSantri">
               <option value="">-- Pilih Santri --</option>
               @foreach($santri as $s)
                 <option value="{{ $s->id }}"
@@ -55,7 +55,7 @@
           {{-- <div class="col-md-12">
             <div class="form-group">
               <label>Semester</label>
-              <select name="semester_id" class="form-control" required>
+              <select name="semester_id" class="form-control" id="selectSantri">
                 <option value="">-- Pilih Semester --</option>
                 @foreach($semester as $sem)
                 <option value="{{ $sem->id }}"

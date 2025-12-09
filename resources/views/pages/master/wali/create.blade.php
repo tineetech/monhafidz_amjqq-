@@ -25,17 +25,17 @@
     </div>
 
     <div class="box-body">
-      <form action="{{ route('wali.store') }}" method="POST">
+      <form action="{{ route('wali.store') }}" method="POST" id="form">
         @csrf
 
         <div class="row">
           <div class="form-group col-md-6">
             <label>Nama Lengkap</label>
-            <input type="text" name="nama_lengkap" class="form-control" placeholder="Masukkan nama lengkap wali" required>
+            <input type="text" name="nama_lengkap" class="form-control" placeholder="Masukkan nama lengkap wali" >
           </div>
           <div class="form-group col-md-6">
             <label>Jenis Kelamin</label>
-            <select name="jenis_kelamin" class="form-control" required>
+            <select name="jenis_kelamin" class="form-control" >
               <option value="">Pilih Jenis Kelamin</option>
               <option value="Laki-laki">Laki-laki</option>
               <option value="Perempuan">Perempuan</option>
@@ -46,18 +46,18 @@
         <div class="row">
           <div class="form-group col-md-6">
             <label>NIK</label>
-            <input type="text" name="nik" class="form-control" placeholder="Masukkan NIK" required>
+            <input type="text" name="nik" class="form-control" placeholder="Masukkan NIK" >
           </div>
           <div class="form-group col-md-6">
             <label>Tanggal Lahir</label>
-            <input type="date" name="tanggal_lahir" class="form-control" required>
+            <input type="date" name="tanggal_lahir" class="form-control" >
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-md-6">
             <label>Wali Sebagai</label>
-            <select name="wali_sebagai" class="form-control" required>
+            <select name="wali_sebagai" class="form-control" >
               <option value="">Pilih Peran</option>
               <option value="ayah">Ayah</option>
               <option value="ibu">Ibu</option>
@@ -66,7 +66,7 @@
           </div>
           <div class="form-group col-md-6">
             <label>Santri</label>
-            <select name="santri_id" class="form-control" required>
+            <select name="santri_id" class="form-control" >
               <option value="">Pilih Santri</option>
               @foreach($santri as $s)
                 <option value="{{ $s->id }}">{{ $s->nama_lengkap }}</option>
@@ -78,18 +78,18 @@
         <div class="row">
           <div class="form-group col-md-6">
             <label>Alamat Lengkap</label>
-            <textarea name="alamat_lengkap" class="form-control" placeholder="Masukkan alamat lengkap" rows="2" required></textarea>
+            <textarea name="alamat_lengkap" class="form-control" placeholder="Masukkan alamat lengkap" rows="2" ></textarea>
           </div>
           <div class="form-group col-md-6">
             <label>No HP</label>
-            <input type="text" name="no_hp" class="form-control" placeholder="Masukkan nomor HP" required>
+            <input type="text" name="no_hp" class="form-control" placeholder="Masukkan nomor HP" >
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-md-12">
             <label>Status Wali</label>
-            <select name="status_wali" class="form-control" required>
+            <select name="status_wali" class="form-control" >
               <option value="">Pilih Status</option>
               <option value="aktif">Aktif</option>
               <option value="tidak aktif">Tidak Aktif</option>

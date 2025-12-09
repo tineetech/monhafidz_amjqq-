@@ -29,7 +29,7 @@
     <h3 class="box-title">Edit Jadwal Hafalan</h3>
   </div>
 
-  <form action="{{ route('jadwal-hafalan-zm.update') }}" method="POST">
+  <form action="{{ route('jadwal-hafalan-zm.update') }}" method="POST" id="form">
     @method('PUT')
     @csrf
     <div class="box-body">
@@ -37,7 +37,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Jenis Hafalan <span class="text-danger">*</span></label>
-            <select name="jenis_hafalan" class="form-control" required>
+            <select name="jenis_hafalan" class="form-control" >
               <option value="">-- Pilih Jenis Hafalan --</option>
               <option value="ziyadah" {{ isset($type) && $type === 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>
               <option value="murajaah" {{ isset($type) && $type === 'murajaah' ? 'selected' : '' }}>Murajaah</option>
@@ -48,7 +48,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Hari <span class="text-danger">*</span></label>
-            <select name="hari" class="form-control" required>
+            <select name="hari" class="form-control" >
               <option value="">-- Pilih Hari --</option>
               <option value="Senin">Senin</option>
               <option value="Selasa">Selasa</option>
@@ -62,7 +62,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Jam Mulai <span class="text-danger">*</span></label>
-            <input type="time" name="jam_mulai" class="form-control" required>
+            <input type="time" name="jam_mulai" class="form-control" >
           </div>
         </div>
 

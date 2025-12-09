@@ -32,15 +32,15 @@
     @endif
 
     <div class="box-body">
-      <form action="{{ route('jadwal-ujian.update', $jadwal->id) }}" method="POST">
+      <form action="{{ route('jadwal-ujian.update', $jadwal->id) }}" method="POST" id="form">
         @csrf
         @method('PUT')
 
         {{-- === ROW 1 : Is Bertahap + Tahap === --}}
         <div class="row">
-          <div class="col-md-6 form-group">
+          {{-- <div class="col-md-6 form-group">
             <label>Apakah Jadwal Bertahap</label>
-            <select name="is_bertahap" class="form-control" required>
+            <select name="is_bertahap" class="form-control" >
               <option value="0" {{ $jadwal->is_bertahap == 0 ? 'selected' : '' }}>Tidak</option>
               <option value="1" {{ $jadwal->is_bertahap == 1 ? 'selected' : '' }}>Ya</option>
             </select>
@@ -53,14 +53,14 @@
                    class="form-control"
                    placeholder="Masukan tahap keberapa (kosongkan jika tidak bertahap)"
                    value="{{ $jadwal->tahap }}">
-          </div>
+          </div> --}}
         </div>
 
         {{-- === ROW 2 : Tanggal === --}}
         <div class="row">
           <div class="col-md-12 form-group">
             <label>Tanggal Ujian</label>
-            <input type="date" name="tanggal" value="{{ $jadwal->tanggal }}" class="form-control" required>
+            <input type="date" name="tanggal" value="{{ $jadwal->tanggal }}" class="form-control" >
           </div>
         </div>
 
@@ -68,7 +68,7 @@
         <div class="row">
           <div class="col-md-6 form-group">
             <label>Jam Mulai</label>
-            <input type="time" name="jam_mulai" class="form-control" value="{{ $jadwal->jam_mulai }}" required>
+            <input type="time" name="jam_mulai" class="form-control" value="{{ $jadwal->jam_mulai }}" >
           </div>
 
           <div class="col-md-6 form-group">
@@ -108,7 +108,7 @@
         <div class="row">
           <div class="col-md-12 form-group">
             <label>Jenis Ujian</label>
-            <select name="jenis_ujian" class="form-control" required>
+            <select name="jenis_ujian" class="form-control" >
               {{-- <option value="tasmi"        {{ $jadwal->jenis_ujian == 'tasmi' ? 'selected' : '' }}>Tasmi'</option>
               <option value="ujian_akhir"  {{ $jadwal->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option> --}}
               <option value="ziyadah"      {{ $jadwal->jenis_ujian == 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>

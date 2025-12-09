@@ -118,8 +118,23 @@ class AbsensiController extends Controller
      */
     public function create()
     {
-        $santri = Santri::all();
+        // Ambil semua santri dulu, nanti difilter jika ustad
+        $santriQuery = Santri::query();
+
+        if (Auth::user()->role === 'ustad') {
+            $ustad = Auth::user()->ustad; // relasi ustad -> user
+
+            if ($ustad) {
+                $santriQuery->where('jenis_kelamin', $ustad->jenis_kelamin);
+            } else {
+                // Jika ustad tidak memiliki data relasi, kosongkan data
+                $santriQuery->whereNull('id');
+            }
+        }
+
+        $santri = $santriQuery->get();
         $hafalan = PencatatanHafalan::all();
+
         return view('pages.absensi.create', compact('santri', 'hafalan'));
     }
 
@@ -132,7 +147,7 @@ class AbsensiController extends Controller
             'santri_id' => 'required|exists:santri,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:Hadir,Izin,Sakit,Alpa',
-            'catatan' => 'nullable|string',
+            'catatan' => 'required|string',
         ]);
 
         Absensi::create($request->all());
@@ -155,11 +170,25 @@ class AbsensiController extends Controller
     public function edit($id)
     {
         $absensi = Absensi::findOrFail($id);
-        $santri = Santri::all();
+
+        $santriQuery = Santri::query();
+
+        if (Auth::user()->role === 'ustad') {
+            $ustad = Auth::user()->ustad;
+
+            if ($ustad) {
+                $santriQuery->where('jenis_kelamin', $ustad->jenis_kelamin);
+            } else {
+                $santriQuery->whereNull('id');
+            }
+        }
+
+        $santri = $santriQuery->get();
         $hafalan = PencatatanHafalan::all();
 
         return view('pages.absensi.edit', compact('absensi', 'santri', 'hafalan'));
     }
+
 
     /**
      * Update data absensi.
@@ -170,7 +199,7 @@ class AbsensiController extends Controller
             'santri_id' => 'required|exists:santri,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:Hadir,Izin,Sakit,Alpa',
-            'catatan' => 'nullable|string',
+            'catatan' => 'required|string',
         ]);
 
         $absensi = Absensi::findOrFail($id);

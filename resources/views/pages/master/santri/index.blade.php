@@ -57,13 +57,11 @@
                       <td>{{ $s->no_hp }}</td>
                       <td>{{ $s->status_santri }}</td>
                       <td>
-                        @if ($s->total_juz_tercapai >= 30)
-                        <!-- Button trigger modal -->
+                        @if ($s->total_juz_tercapai >= 90)
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{ $s->id }}">
                           Lihat Sertifikat
                         </button>
 
-                        <!-- Modal -->
                         <div class="modal fade" id="exampleModal{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -94,9 +92,9 @@
                         </div>
                         @endif
                         
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal{{ $s->id . 'wa' }}">
+                        {{-- <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal{{ $s->id . 'wa' }}">
                           <i class="fa fa-whatsapp"></i>
-                        </button>
+                        </button> --}}
 
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal{{ $s->id . 'wa' }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
