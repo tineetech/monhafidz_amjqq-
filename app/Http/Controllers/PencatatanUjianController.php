@@ -138,7 +138,7 @@ class PencatatanUjianController extends Controller
             ->get();
 
         // =======================================================
-        // 2) Group berdasarkan semester → jenis ujian
+        // 2) Group berdasarkan semester → jenis ujian → gender
         // =======================================================
         $groupSemester = $ujianForRank->groupBy('semester_id');
 
@@ -149,32 +149,43 @@ class PencatatanUjianController extends Controller
 
             foreach ($groupJenis as $jenis => $dataJenis) {
 
-                // Hitung total peserta dari jadwal ujian (wajib untuk menentukan kelengkapan)
-                $totalPeserta = PencatatanUjian::where('semester_id', $semesterId)
-                    ->distinct('santri_id')
-                    ->count('santri_id');
+                // ========= NEW: Group santri berdasarkan jenis kelamin =========
+                $groupGender = $dataJenis->groupBy(fn($u) => $u->santri->jenis_kelamin);
 
-                // Hitung peserta yang sudah ujian
-                $sudahUjian = $dataJenis->count();
+                foreach ($groupGender as $gender => $dataGender) {
 
-                // Urutkan berdasarkan nilai akhir
-                $sorted = $dataJenis->sortByDesc('nilai_akhir')->values();
-                $rank = 1;
+                    // Total peserta per gender (di semester & jenis ujian yang sama)
+                    $totalPeserta = PencatatanUjian::where('semester_id', $semesterId)
+                        ->where('jenis_ujian', $jenis)
+                        ->whereHas('santri', function ($q) use ($gender) {
+                            $q->where('jenis_kelamin', $gender);
+                        })
+                        ->distinct('santri_id')
+                        ->count('santri_id');
 
-                // Jika peserta belum lengkap → ranking null
-                if ($totalPeserta == 0 || $sudahUjian < $totalPeserta) {
-                    foreach ($sorted as $item) {
-                        $item->rank = null;
+                    // Peserta yang sudah ujian untuk gender ini
+                    $sudahUjian = $dataGender->count();
+
+                    // Urutkan berdasarkan nilai akhir (descending)
+                    $sorted = $dataGender->sortByDesc('nilai_akhir')->values();
+                    $rank = 1;
+
+                    // Jika peserta belum lengkap → ranking = null
+                    if ($totalPeserta == 0 || $sudahUjian < $totalPeserta) {
+                        foreach ($sorted as $item) {
+                            $item->rank = null;
+                        }
+                        continue;
                     }
-                    continue;
-                }
 
-                // Jika lengkap → beri ranking
-                foreach ($sorted as $item) {
-                    $item->rank = $rank++;
+                    // Jika lengkap → beri ranking
+                    foreach ($sorted as $item) {
+                        $item->rank = $rank++;
+                    }
                 }
             }
         }
+
 
         // =======================================================
         // 3) Filter TAMPILAN sesuai role login

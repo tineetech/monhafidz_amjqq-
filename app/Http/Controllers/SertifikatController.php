@@ -24,7 +24,7 @@ class SertifikatController extends Controller
         // $jadwalUjianTasmi = JadwalUjian::where('santri_id', $idSantri)->where('jenis_ujian', 'tasmi')->first();
         // if (!$jadwalUjianTasmi) {
         //     // dd('woi gaboleh');
-        //     return abort(404, 'belum ada akses');
+            return abort(404, 'belum ada akses');
         // }
 
         $findSantriInUjianTasmi = UjianTasmi::where('santri_id', $idSantri)->where('status_ujian', 'selesai')->first();
@@ -91,52 +91,59 @@ class SertifikatController extends Controller
 
         $idUjian = $request->query('id_ujian');
 
-        // Ambil ujian yang akan dicetak
+        // Ambil data ujian
         $pencatatanUjian = \App\Models\PencatatanUjian::with([
             'santri', 'semester'
         ])->findOrFail($idUjian);
 
         $semesterId = $pencatatanUjian->semester_id;
         $jenis = $pencatatanUjian->jenis_ujian;
+        $gender = $pencatatanUjian->santri->jenis_kelamin;
 
         // ===============================================================
-        // 1) Ambil semua pencatatan ujian semester ini dan jenis ini
+        // 1) Ambil semua pencatatan ujian semester ini + jenis ini + gender sama
         // ===============================================================
         $group = \App\Models\PencatatanUjian::with(['santri', 'semester'])
             ->where('semester_id', $semesterId)
             ->where('jenis_ujian', $jenis)
+            ->whereHas('santri', function ($q) use ($gender) {
+                $q->where('jenis_kelamin', $gender);
+            })
             ->get();
 
         // ===============================================================
-        // 2) Hitung total peserta (unik santri)
+        // 2) Hitung total peserta gender ini
         // ===============================================================
         $totalPeserta = \App\Models\PencatatanUjian::where('semester_id', $semesterId)
+            ->where('jenis_ujian', $jenis)
+            ->whereHas('santri', function ($q) use ($gender) {
+                $q->where('jenis_kelamin', $gender);
+            })
             ->distinct('santri_id')
             ->count('santri_id');
 
-        // Sudah ujian (jumlah data jenis ujian ini)
+        // Sudah ikut ujian
         $sudahUjian = $group->count();
 
         // ===============================================================
-        // 3) Sorting nilai akhir desc → sama seperti di index()
+        // 3) Sorting nilai akhir desc
         // ===============================================================
         $sorted = $group->sortByDesc('nilai_akhir')->values();
 
         // ===============================================================
-        // 4) Cek kelengkapan peserta
+        // 4) Cek kelengkapan peserta per gender
         // ===============================================================
-        // Jika peserta belum lengkap → semua rank = null
         if ($totalPeserta == 0 || $sudahUjian < $totalPeserta) {
             $pencatatanUjian->rank = null;
 
             return back()->with(
                 'error',
-                'Ranking belum dapat ditentukan karena peserta ujian belum lengkap.'
+                'Ranking belum dapat ditentukan karena peserta ujian (berdasarkan gender) belum lengkap.'
             );
         }
 
         // ===============================================================
-        // 5) Jika lengkap → tetapkan ranking
+        // 5) Tetapkan ranking
         // ===============================================================
         $rank = 1;
         foreach ($sorted as $item) {
@@ -151,15 +158,15 @@ class SertifikatController extends Controller
         // 6) Batasi hanya peringkat 1–3 yang boleh cetak sertifikat
         // ===============================================================
         if (!$pencatatanUjian->rank || $pencatatanUjian->rank > 3) {
-            return back()->with('error', 'Maaf, hanya Peringkat 1-3 yang mendapat sertifikat.');
+            return back()->with('error', 'Maaf, hanya Peringkat 1-3 dalam kelompok gender yang mendapat sertifikat.');
         }
 
         // ===============================================================
-        // 7) Render PDF
+        // 7) Generate PDF
         // ===============================================================
         $namaSantri = $pencatatanUjian->santri->nama_lengkap;
         $nilai = $pencatatanUjian->nilai_ujian;
-        $tanggal = Carbon::parse($pencatatanUjian->tanggal)->format('d-m-Y');
+        $tanggal = \Carbon\Carbon::parse($pencatatanUjian->tanggal)->format('d-m-Y');
         $semester = ucfirst($pencatatanUjian->semester->nama_semester);
 
         $pdf = Pdf::loadView('pdf.sertifikat_peringkat', compact(
@@ -171,7 +178,7 @@ class SertifikatController extends Controller
             'pencatatanUjian'
         ))->setPaper('legal', 'landscape');
 
-        return $pdf->stream("Sertifikat-{$namaSantri}-peringkat{$pencatatanUjian->rank}-ujian{$pencatatanUjian->jenis_ujian}-{$semester}.pdf");
+        return $pdf->stream("Sertifikat-{$namaSantri}-peringkat{$pencatatanUjian->rank}-{$jenis}-{$semester}.pdf");
     }
 
 }

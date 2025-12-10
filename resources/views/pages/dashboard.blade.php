@@ -270,7 +270,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body no-padding">
-              @if ($santri_personal->total_juz_tercapai >= 30)
+              {{-- @if ($santri_personal->total_juz_tercapai >= 30) --}}
               <!-- Button trigger modal -->
               <div class="container" style="padding-block: 20px">
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{ $santri_personal->id }}">
@@ -297,7 +297,7 @@
                       <a class="btn btn-success"
                         href="{{ route('sertifikat.kelulusan', ['id_santri' => $santri_personal->id, 'tanggal' => now()]) }}"
                         target="_blank">
-                          Sertifikat Kelulusan <i class="fa fa-graduation-cap"></i>
+                          Sertifikat Kelulusan Tasmi <i class="fa fa-graduation-cap"></i>
                       </a>
 
                     </div>
@@ -307,11 +307,11 @@
                   </div>
                 </div>
               </div>
-              @else
+              {{-- @else
               <div class="container" style="padding-block: 20px">
                 Belum ada sertifikat untuk mu
               </div>
-              @endif
+              @endif --}}
             </div>
             <!-- /.box-body -->
           </div>
