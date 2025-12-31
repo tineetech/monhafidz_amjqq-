@@ -343,6 +343,7 @@
                 <p class="text-xs text-gray-500">Ketepatan 100% – Kelancaran 100% – Absensi 100%</p>
               </div>
             </div> --}}
+          @isset ($kelompokRanking)
             @foreach($kelompokRanking['ziyadah']['laki-laki'] as $data)
               <div class="bg-white text-gray-800 rounded-xl p-4 flex items-center gap-3 mb-3">
                   <img src="{{ $data->jadwalUjian->santri->foto ? '/storage/santri/' . $data->jadwalUjian->santri->foto : 'defaultpp.jpg' }}" class="w-12 h-12 rounded-full" style="object-fit: cover">
@@ -354,6 +355,9 @@
                   </div>
               </div>
               @endforeach
+            @else
+              <p class="text-center">Belum ada data juara untuk kelompok ini.</p>
+            @endisset
 
           </div>
 
@@ -368,6 +372,7 @@
                 <p class="text-xs text-gray-500">Ketepatan 100% – Kelancaran 100% – Absensi 100%</p>
               </div>
             </div> --}}
+            @isset ($kelompokRanking)
             @foreach($kelompokRanking['ziyadah']['perempuan'] as $data)
               <div class="bg-white rounded-xl p-4 flex items-center gap-3 mb-3">
                   <img src="{{ $data->jadwalUjian->santri->foto ? '/storage/santri/' . $data->jadwalUjian->santri->foto : 'defaultpp.jpg' }}" class="w-12 h-12 rounded-full" style="object-fit: cover">
@@ -379,6 +384,9 @@
                   </div>
               </div>
               @endforeach
+            @else
+              <p class="text-center">Belum ada data juara untuk kelompok ini.</p>
+            @endisset
 
           </div>
 
@@ -393,6 +401,7 @@
                 <p class="text-xs text-gray-500">Ketepatan 100% – Kelancaran 100% – Absensi 100%</p>
               </div>
             </div> --}}
+            @isset ($kelompokRanking)
             @foreach($kelompokRanking['murajaah']['laki-laki'] as $data)
               <div class="bg-white rounded-xl p-4 flex items-center gap-3 mb-3">
                   <img src="{{ $data->jadwalUjian->santri->foto ? '/storage/santri/' . $data->jadwalUjian->santri->foto : 'defaultpp.jpg' }}" class="w-12 h-12 rounded-full" style="object-fit: cover">
@@ -404,6 +413,9 @@
                   </div>
               </div>
             @endforeach
+            @else
+              <p class="text-center">Belum ada data juara untuk kelompok ini.</p>
+            @endisset
 
           </div>
 
@@ -418,6 +430,7 @@
                 <p class="text-xs text-gray-500">Ketepatan 100% – Kelancaran 100% – Absensi 100%</p>
               </div>
             </div> --}}
+            @isset ($kelompokRanking)
             @foreach($kelompokRanking['murajaah']['perempuan'] as $data)
               <div class="bg-white rounded-xl p-4 flex items-center gap-3 mb-3">
                   <img src="{{ $data->jadwalUjian->santri->foto ? '/storage/santri/' . $data->jadwalUjian->santri->foto : 'defaultpp.jpg' }}" class="w-12 h-12 rounded-full" style="object-fit: cover">
@@ -429,6 +442,9 @@
                   </div>
               </div>
               @endforeach
+              @else
+              <p class="text-center">Belum ada data juara untuk kelompok ini.</p>
+            @endisset
 
           </div>
         </div>

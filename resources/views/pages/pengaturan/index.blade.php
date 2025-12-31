@@ -18,7 +18,7 @@
       <h3 class="box-title">Pengaturan Akun</h3>
     </div>
 
-    <form action="{{ route('pengaturan.update', Auth::id()) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('pengaturan.update', Auth::id()) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
       @csrf
       @method('PUT')
 
@@ -68,14 +68,14 @@
           <div class="col-md-6">
             <div class="form-group">
               <label>Password Baru (Opsional)</label>
-              <input type="password" name="password" class="form-control" placeholder="Isi jika ingin mengganti password">
+              <input type="password" name="password" class="form-control" placeholder="Isi jika ingin mengganti password" autocomplete="new-password">
             </div>
           </div>
 
           <div class="col-md-12">
             <div class="form-group">
               <label>Konfirmasi Password Baru</label>
-              <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi password baru">
+              <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi password baru" autocomplete="new-password">
             </div>
           </div>
         </div>

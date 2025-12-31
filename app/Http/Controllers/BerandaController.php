@@ -134,7 +134,7 @@ class BerandaController extends Controller
             $kelompokRanking[$jenis]['laki-laki'] = array_slice($genderGroup['laki-laki'], 0, 3);
             $kelompokRanking[$jenis]['perempuan'] = array_slice($genderGroup['perempuan'], 0, 3);
         }
-        // dd($kelompokRanking['ziyadah']['laki-laki']);
+        dd($kelompokRanking);
 
         // ==============================================
         // BAGIAN 7. RETURN KE BERANDA
