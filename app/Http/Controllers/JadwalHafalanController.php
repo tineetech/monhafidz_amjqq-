@@ -61,4 +61,13 @@ class JadwalHafalanController extends Controller
         return redirect()->route('jadwal-hafalan.index')
                          ->with('success', 'Jadwal hafalan berhasil diperbarui.');
     }
+
+    
+    public function destroy($id)
+    {
+        $jadwal = JadwalHafalan::findOrFail($id);
+        $jadwal->delete();
+
+        return redirect()->route('jadwal-hafalan.index')->with('success', 'Data jadwal hafalan berhasil dihapus!');
+    }
 }

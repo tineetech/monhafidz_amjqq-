@@ -37,7 +37,7 @@
             {{-- <th>Juz tercapai</th> --}}
             <th>Tanggal</th>
             <th>Jenis Hafalan</th>
-            <th>Surah/Ayat</th>
+            <th>Surah</th>
             <th>Nilai Tajwid</th>
             <th>Nilai Kelancaran</th>
             <th>Status</th>
@@ -99,7 +99,7 @@
             {{-- <th>Juz yang diulang</th> --}}
             <th>Tanggal</th>
             <th>Jenis Hafalan</th>
-            <th>Surah/Ayat</th>
+            <th>Surah</th>
             <th>Nilai Tajwid</th>
             <th>Nilai Kelancaran</th>
             <th>Status</th>

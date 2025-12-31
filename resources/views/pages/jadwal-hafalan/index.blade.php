@@ -38,6 +38,14 @@
                   <td>{{ substr($row->jam_mulai, 11, 5) . ' - ' . ($row->jam_selesai == null ? 'Selesai' : substr($row->jam_selesai, 11, 5)) }}</td>
                   <td>{{ $row->pembimbingPutra->nama_lengkap ?? 'Tidak Ada' }}</td>
                   <td>{{ $row->pembimbingPutri->nama_lengkap ?? 'Tidak Ada' }}</td>
+                  <td>
+                    <a href="/jadwal-hafalan-zm/edit?type=ziyadah" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('jadwal-hafalan.destroy', $row->id) }}" method="POST" style="display:inline;">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+                  </td>
                 </tr>
                 @endforeach
               </table>
@@ -70,6 +78,14 @@
                   <td>{{ substr($row->jam_mulai, 11, 5) . ' - ' . ($row->jam_selesai == null ? 'Selesai' : substr($row->jam_selesai, 11, 5)) }}</td>
                   <td>{{ $row->pembimbingPutra->nama_lengkap ?? 'Tidak Ada' }}</td>
                   <td>{{ $row->pembimbingPutri->nama_lengkap ?? 'Tidak Ada' }}</td>
+                  <td>
+                    <a href="/jadwal-hafalan-zm/edit?type=murajaah" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('jadwal-hafalan.destroy', $row->id) }}" method="POST" style="display:inline;">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+                  </td>
                 </tr>
                 @endforeach
               </table>

@@ -139,7 +139,7 @@
                       <a href="{{ route('perizinan.setujui', $a->id) }}" class="btn btn-success btn-sm">Setujui</a>
                       <form action="{{ route('perizinan.destroy', $a->id) }}" method="POST" style="display:inline;">
                         @csrf
-                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
                       </form>
                     </td>
                     @endif

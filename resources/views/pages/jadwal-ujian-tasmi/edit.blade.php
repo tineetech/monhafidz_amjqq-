@@ -82,7 +82,7 @@
 
 
         {{-- === ROW 3 : Jam Mulai + Jam Selesai === --}}
-        {{-- <div class="row">
+        <div class="row">
           <div class="col-md-6 form-group">
             <label>Jam Mulai</label>
             <input type="time" name="jam_mulai" class="form-control" value="{{ $jadwal->jam_mulai }}" required>
@@ -92,7 +92,7 @@
             <label>Jam Selesai</label>
             <input type="time" name="jam_selesai" class="form-control" value="{{ $jadwal->jam_selesai }}">
           </div>
-        </div> --}}
+        </div>
 
         {{-- === ROW 4 : Pembimbing === --}}
         <div class="row">

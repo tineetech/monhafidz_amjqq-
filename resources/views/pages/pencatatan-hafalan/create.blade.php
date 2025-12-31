@@ -67,7 +67,7 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Surah / Ayat</label>
+                        <label>Surah</label>
                         <input type="text" name="surah_ayat" class="form-control" placeholder="Contoh: Al-Baqarah 1-5" >
                     </div>
                 </div>

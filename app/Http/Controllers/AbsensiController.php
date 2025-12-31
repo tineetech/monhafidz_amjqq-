@@ -107,9 +107,17 @@ class AbsensiController extends Controller
     public function pengajuanIzinDelete($id)
     {
         $perizinan = Perizinan::findOrFail($id);
+        
+        Absensi::create([
+            'santri_id' => $perizinan->santri_id,
+            'tanggal'   => $perizinan->tanggal,
+            'status'    => "Alpa",
+            'catatan'   => $perizinan->alasan,
+        ]);
+        
         $perizinan->delete();
 
-        return redirect()->route('absensi.index')->with('success', 'Data perizinan berhasil dihapus.');
+        return redirect()->route('absensi.index')->with('success', 'Data perizinan berhasil dihapus. dan telah dicatat sebagai Alpa pada absensi.');
     }
 
 

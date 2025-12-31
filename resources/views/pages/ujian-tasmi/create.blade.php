@@ -41,11 +41,11 @@
               @endforeach
             </select> 
           </div> --}}
-          <div class="form-group col-md-6">
+          {{-- <div class="form-group col-md-6">
             <label>Tanggal Ujian</label>
             <input type="date" name="tanggal" placeholder="Masukan tanggal" class="form-control">
-          </div>
-          <div class="col-md-6">
+          </div> --}}
+          <div class="col-md-12">
               <div class="form-group">
                   <label>Santri</label>
                   <select name="santri_id" class="form-control select2" id="selectSantri" >

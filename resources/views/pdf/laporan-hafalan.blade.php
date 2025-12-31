@@ -26,7 +26,7 @@
         <tr>
             <th>No</th>
             <th>Bulan</th>
-            <th>Surah/Juz</th>
+            <th>Surah</th>
             <th>Jumlah Juz</th>
             <th>Target</th>
             <th>Persentase</th>

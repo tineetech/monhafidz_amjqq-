@@ -117,7 +117,7 @@
                    <tr>
                      <th>No</th>
                      <th>Bulan</th>
-                     <th>Surah/Juz yang dihapal</th>
+                     <th>Surah yang dihapal</th>
                      <th>Jumlah Juz</th>
                      <th>Target</th>
                      <th>Persentase</th>

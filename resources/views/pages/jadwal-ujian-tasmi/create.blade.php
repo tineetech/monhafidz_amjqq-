@@ -92,7 +92,7 @@
           </div> --}}
         </div>
 
-        {{-- <div class="row">
+        <div class="row">
           <div class="col-md-6 form-group">
             <label>Jam Mulai</label>
             <input type="time" name="jam_mulai" class="form-control" >
@@ -102,7 +102,7 @@
             <label>Jam Selesai</label>
             <input type="time" name="jam_selesai" class="form-control">
           </div>
-        </div> --}}
+        </div>
 
         <div class="row">
           <div class="col-md-6 form-group">

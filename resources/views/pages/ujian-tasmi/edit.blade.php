@@ -33,13 +33,13 @@
 
         <div class="row">
 
-          <div class="form-group col-md-6">
+          {{-- <div class="form-group col-md-6">
             <label>Tanggal Ujian</label>
             <input type="date" name="tanggal" class="form-control"
                    value="{{ $ujian->tanggal }}">
-          </div>
+          </div> --}}
 
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-12">
             <label>Santri</label>
             <select name="santri_id" class="form-control select2" id="selectSantri">
               <option value="">-- Pilih Santri --</option>

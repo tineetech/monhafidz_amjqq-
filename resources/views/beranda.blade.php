@@ -52,8 +52,8 @@
 <section class="h-screen flex items-center justify-center text-center text-white relative overflow-hidden"
   style="background:url('{{ asset('images/header-bg.png') }}') center/cover;">
   <div class="fade-in">
-    <h1 class="text-4xl md:text-5xl font-bold">Sistem Monitoring Hafalan Santri</h1>
-    <p class="text-lg mt-4">Yakinlah dengan iman, lanjutkan dengan ilmu, sempurnakan dengan amal.</p>
+    <h1 class="text-4xl md:text-5xl font-bold">Monitoring Hafalan Santri Tahfidz</h1>
+    <p class="text-lg mt-4">Memantau hafalan dengan amanah, membina santri dengan istiqamah.</p>
 
     <div class="grid grid-cols-3 gap-6 mt-10 max-w-lg mx-auto">
       <div class="bg-white/10 backdrop-blur p-4 rounded-xl">
@@ -128,7 +128,7 @@
 
   <div>
     <h2 class="text-3xl font-bold  mb-4">Tentang Kami</h2>
-    <h2 class="text-2xl text-green-600  mb-4">Sistem Hafalan Santri Tahfidz di Pondok Pesantren al munawwar jarnauziyyah qiro'atul qur'an.</h2>
+    <h2 class="text-2xl text-green-600  mb-4">monitoring hafalan santri tahfidz.</h2>
     <p class="leading-relaxed text-gray-600">
       Sistem Hafalan Santri Tahfidz di Pondok Pesantren Al munawwar jarnauziyyah qiro'atul qur'an dirancang
       untuk memudahkan monitoring perkembangan hafalan santri secara digital.
