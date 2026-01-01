@@ -78,7 +78,17 @@ class AbsensiController extends Controller
             'tanggal' => 'required|date',
             'status' => 'required|in:Hadir,Izin,Sakit,Alpa',
             'alasan' => 'nullable|string',
+            'foto' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
         ]);
+
+        
+        if ($request->hasFile('foto')) {
+
+            $image = $request->file('foto');
+            $path = $image->hashName();
+            $image->storeAs('bukti_izin', $path);
+            $request->merge(['bukti_izin' => $path]);
+        }
 
         Perizinan::create($request->all());
 

@@ -381,8 +381,8 @@ console.log("{{ url('/api/laporan/chart-ziyadah') }}?role={{ Auth::user()->role 
                   <td>${row.bulan}</td>
                   <td>${row.surah_juz}</td>
                   <td>${row.jumlah_juz}</td>
-                  <td>${res.jenis_hafalan === 'Ziyadah' ? "5 juz" : '10 juz'}</td>
-                  <td>${row.persentase}%</td>
+                  <td>${i === 0 ? (res.jenis_hafalan === 'Ziyadah' ? "5 juz" : '10 juz') : ''}</td>
+                  <td>${i === 0 ? (row.persentase_all + '%') : ''}</td>
                   
                   <td>${i === 0 ? (row.persentase_all < 90 ? 'Belum Tercapai' : 'Tercapai') : ''}</td>
                 </tr>

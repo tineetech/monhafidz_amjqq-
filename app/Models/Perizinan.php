@@ -12,6 +12,7 @@ class Perizinan extends Model
         'tanggal',
         'status',
         'alasan',
+        'bukti_izin',
     ];
 
     protected $casts = [

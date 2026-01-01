@@ -109,6 +109,7 @@
                   <th>Nama Santri</th>
                   <th>Tanggal Absensi</th>
                   <th>Alasan</th>
+                  <th>Bukti izin</th>
                   <th>Status</th>
                   @if (Auth::user()->role === 'admin' || Auth::user()->role === 'ustad')
                   <th>Aksi</th>
@@ -122,6 +123,13 @@
                     <td>{{ $a->santri->nama_lengkap ?? '-' }}</td>
                     <td>{{ $a->tanggal->format('d-m-Y') }}</td>
                     <td>{{ $a->alasan ?? '-' }}</td>
+                    <td>
+                      @if ($a->bukti_izin)
+                        <a href="{{ asset('storage/bukti_izin/' . $a->bukti_izin) }}" target="_blank">Lihat Bukti</a>
+                      @else
+                        - 
+                      @endif
+                    </td>
                     <td>
                       @php
                         $labelClass = match($a->status) {

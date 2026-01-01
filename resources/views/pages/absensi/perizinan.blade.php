@@ -24,10 +24,16 @@
           </div>
       </div>
 
-      <form action="{{ route('perizinan.store') }}" method="POST" id="form">
+      <form action="{{ route('perizinan.store') }}" method="POST" id="form" enctype="multipart/form-data">
           @csrf
           <div class="box-body">
               <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Upload Bukti Izin <span class="text-danger">*</span></label>
+                        <input type="file" name="foto" class="form-control" >
+                    </div>
+                </div>
                   <div class="col-md-6">
                     <div class="form-group">
                         <label>Nama Santri <span class="text-danger">*</span></label>

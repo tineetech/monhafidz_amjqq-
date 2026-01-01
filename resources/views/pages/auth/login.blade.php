@@ -22,9 +22,28 @@
         <input type="email" class="form-control" placeholder="Email" name="email" required autofocus>
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password" name="password" required>
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      <div class="form-group has-feedback" style="position: relative;">
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Password"
+          name="password"
+          id="password"
+          required
+        >
+
+        <span
+          class="glyphicon glyphicon-eye-open"
+          id="togglePassword"
+          style="
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+          "
+        ></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
@@ -57,4 +76,21 @@
   </div>
   <!-- /.login-box-body -->
 </div>
+<script>
+  const togglePassword = document.getElementById('togglePassword');
+  const passwordInput = document.getElementById('password');
+
+  togglePassword.addEventListener('click', function () {
+    const type = passwordInput.getAttribute('type') === 'password'
+      ? 'text'
+      : 'password';
+
+    passwordInput.setAttribute('type', type);
+
+    // Ganti icon
+    this.classList.toggle('glyphicon-eye-open');
+    this.classList.toggle('glyphicon-eye-close');
+  });
+</script>
+
 @endsection
