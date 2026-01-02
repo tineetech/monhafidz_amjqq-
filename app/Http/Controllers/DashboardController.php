@@ -18,6 +18,58 @@ class DashboardController extends Controller
 {
     //
 
+    private function hitungRankingDashboard($santri)
+    {
+        if (!$santri || !$santri->semester_id) {
+            return [null, null];
+        }
+
+        $semesterAktif = Semester::find($santri->semester_id);
+        if (!$semesterAktif) {
+            return [null, null];
+        }
+
+        $hasil = [
+            'Ziyadah'  => null,
+            'Murajaah' => null,
+        ];
+
+        foreach (['Ziyadah', 'Murajaah'] as $jenisUjian) {
+
+            $ranking = PencatatanUjian::with('santri')
+                ->whereHas('santri', function ($q) use ($santri) {
+                    $q->where('jenis_kelamin', $santri->jenis_kelamin);
+                })
+                ->where('semester_id', $semesterAktif->id)
+                ->where('jenis_ujian', $jenisUjian)
+                ->selectRaw('santri_id, AVG(nilai_akhir) as rata_rata')
+                ->groupBy('santri_id')
+                ->orderByDesc('rata_rata')
+                ->get();
+
+            if ($ranking->isEmpty()) {
+                continue;
+            }
+
+            $posisi = $ranking->search(fn ($item) => $item->santri_id == $santri->id);
+
+            if ($posisi === false) {
+                continue;
+            }
+
+            $hasil[$jenisUjian] = [
+                'nama'          => $santri->nama_lengkap,
+                'gender'        => $santri->jenis_kelamin === 'Laki-laki' ? 'putra' : 'putri',
+                'ranking'       => $posisi + 1,
+                'total_peserta' => $ranking->count(),
+                'semester'      => $semesterAktif->nama_semester,
+                'kategori'      => 'Ujian ' . $jenisUjian,
+            ];
+        }
+
+        return [$hasil['Ziyadah'], $hasil['Murajaah']];
+    }
+
     public function index()
     {
 
@@ -52,193 +104,27 @@ class DashboardController extends Controller
                 $query->where('jenis_ujian', $filterJenisUjian);
             });
 
+      
+        $santri = null;
+
         if (Auth::user()->role === 'santri') {
             $santri = Auth::user()->santri;
-
-            if ($santri) {
-                $jadwalTasmiQuery->where('santri_id', $santri->id);
-                
-
-                // Ambil semester aktif/terbaru
-                $semesterAktif = Semester::where('id', $santri->semester_id)->first();
-
-                // Hitung total santri berdasarkan gender & semester
-                $totalPeserta = PencatatanUjian::where('jenis_ujian', 'Ziyadah')
-                    ->where('semester_id', $semesterAktif->id)
-                    ->orderBy('nilai_akhir', 'DESC')
-                    ->count();
-
-                // Buat ranking berdasarkan total_juz_tercapai
-                $rankingList = PencatatanUjian::where('jenis_ujian', 'Ziyadah')
-                    ->where('semester_id', $semesterAktif->id)
-                    ->orderBy('nilai_akhir', 'DESC')
-                    ->get();
-
-                // Tentukan ranking santri
-                $ranking = count($rankingList) !== 0 ? $rankingList->search(function($item) use ($santri) {
-                    return $item->santri->id == $santri->id;
-                }) + 1 : 0;
-                $ranking = 0;
-
-                if (count($rankingList) !== 0) {
-
-                    $posisi = $rankingList->search(function($item) use ($santri) {
-                        return $item->santri->id == $santri->id;
-                    });
-
-                    $ranking = ($posisi === false) ? 0 : ($posisi + 1);
-                }
-
-                if ($ranking === 0 ) {
-                    $infoRankingZiyadah = null;
-                } else {
-                    // dd('tes');
-                    $infoRankingZiyadah = [
-                        'nama'          => $santri->nama_lengkap,
-                        'gender'        => $santri->jenis_kelamin == 'Laki-laki' ? 'putra' : 'putri',
-                        'ranking'       => $ranking,
-                        'total_peserta' => $totalPeserta,
-                        'semester'      => $semesterAktif->nama_semester,
-                        'kategori'      => 'Ujian Ziyadah',
-                    ];
-                }
-
-                // Hitung total santri berdasarkan gender & semester
-                $totalPesertaMurajaah = PencatatanUjian::where('jenis_ujian', 'Murajaah')
-                    ->where('semester_id', $semesterAktif->id)
-                    ->orderBy('nilai_akhir', 'DESC')
-                    ->count();
-
-                // Buat ranking berdasarkan total_juz_tercapai
-                $rankingListMurajaah = PencatatanUjian::where('jenis_ujian', 'Murajaah')
-                    ->where('semester_id', $semesterAktif->id)
-                    ->with(['santri'])
-                    ->orderBy('nilai_akhir', 'DESC')
-                    ->get();
-                    // dd($rankingListMurajaah);
-                    
-                // Tentukan ranking santri
-                $rankingMurajaah = 0;
-
-                if (count($rankingListMurajaah) !== 0) {
-
-                    $posisi = $rankingListMurajaah->search(function($item) use ($santri) {
-                        return $item->santri->id == $santri->id;
-                    });
-
-                    $rankingMurajaah = ($posisi === false) ? 0 : ($posisi + 1);
-                }
-                if ($rankingMurajaah === 0) {
-                    $infoRankingMurajaah = null;
-                } else {
-                    $infoRankingMurajaah = [
-                        'nama'          => $santri->nama_lengkap,
-                        'gender'        => $santri->jenis_kelamin == 'Laki-laki' ? 'putra' : 'putri',
-                        'ranking'       => $rankingMurajaah,
-                        'total_peserta' => $totalPesertaMurajaah,
-                        'semester'      => $semesterAktif->nama_semester,
-                        'kategori'      => 'Ujian Murajaah',
-                    ];
-                    
-                }
-            } else {
-                $jadwalTasmiQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
-            }
         }
+
         if (Auth::user()->role === 'walisantri') {
             $walisantri = WaliSantri::with('santri')->where('user_id', Auth::id())->first();
-            $santri = $walisantri->santri;
-
-            if ($santri) {
-                $jadwalTasmiQuery->where('santri_id', $santri->id);
-
-                // Ambil semester aktif/terbaru
-                $semesterAktif = Semester::where('id', $santri->semester_id)->first();
-
-                // Hitung total santri berdasarkan gender & semester
-                $totalPeserta = PencatatanUjian::where('jenis_ujian', 'Ziyadah')
-                    ->where('semester_id', $semesterAktif->id)
-                    ->orderBy('nilai_akhir', 'DESC')
-                    ->count();
-
-                // Buat ranking berdasarkan total_juz_tercapai
-                $rankingList = PencatatanUjian::where('jenis_ujian', 'Ziyadah')
-                    ->where('semester_id', $semesterAktif->id)
-                    ->orderBy('nilai_akhir', 'DESC')
-                    ->get();
-
-                // Tentukan ranking santri
-                $ranking = count($rankingList) !== 0 ? $rankingList->search(function($item) use ($santri) {
-                    return $item->santri->id == $santri->id;
-                }) + 1 : 0;
-                $ranking = 0;
-
-                if (count($rankingList) !== 0) {
-
-                    $posisi = $rankingList->search(function($item) use ($santri) {
-                        return $item->santri->id == $santri->id;
-                    });
-
-                    $ranking = ($posisi === false) ? 0 : ($posisi + 1);
-                }
-
-                if ($ranking === 0 ) {
-                    $infoRankingZiyadah = null;
-                } else {
-                    $infoRankingZiyadah = [
-                        'nama'          => $santri->nama_lengkap,
-                        'gender'        => $santri->jenis_kelamin == 'Laki-laki' ? 'putra' : 'putri',
-                        'ranking'       => $ranking,
-                        'total_peserta' => $totalPeserta,
-                        'semester'      => $semesterAktif->nama_semester,
-                        'kategori'      => 'Ujian Ziyadah',
-                    ];
-                }
-
-                // Hitung total santri berdasarkan gender & semester
-                $totalPesertaMurajaah = PencatatanUjian::where('jenis_ujian', 'Murajaah')
-                    ->where('semester_id', $semesterAktif->id)
-                    ->orderBy('nilai_akhir', 'DESC')
-                    ->count();
-
-                // Buat ranking berdasarkan total_juz_tercapai
-                $rankingListMurajaah = PencatatanUjian::where('jenis_ujian', 'Murajaah')
-                    ->where('semester_id', $semesterAktif->id)
-                    ->with(['santri'])
-                    ->orderBy('nilai_akhir', 'DESC')
-                    ->get();
-                    // dd($rankingListMurajaah);
-                    
-                // Tentukan ranking santri
-                $rankingMurajaah = 0;
-
-                if (count($rankingListMurajaah) !== 0) {
-
-                    $posisi = $rankingListMurajaah->search(function($item) use ($santri) {
-                        return $item->santri->id == $santri->id;
-                    });
-
-                    $rankingMurajaah = ($posisi === false) ? 0 : ($posisi + 1);
-                }
-                if ($rankingMurajaah === 0) {
-                    $infoRankingMurajaah = null;
-                } else {
-                    $infoRankingMurajaah = [
-                        'nama'          => $santri->nama_lengkap,
-                        'gender'        => $santri->jenis_kelamin == 'Laki-laki' ? 'putra' : 'putri',
-                        'ranking'       => $rankingMurajaah,
-                        'total_peserta' => $totalPesertaMurajaah,
-                        'semester'      => $semesterAktif->nama_semester,
-                        'kategori'      => 'Ujian Murajaah',
-                    ];
-                    
-                }
-
-
-            } else {
-                $jadwalTasmiQuery->whereNull('id'); // biar hasil kosong kalau belum ada santri
-            }
+            $santri = $walisantri?->santri;
         }
+
+        if ($santri) {
+            $jadwalTasmiQuery->where('santri_id', $santri->id);
+
+            // 🔥 PANGGIL SATU LOGIC SAJA
+            [$infoRankingZiyadah, $infoRankingMurajaah] = $this->hitungRankingDashboard($santri);
+        } else {
+            $jadwalTasmiQuery->whereNull('id');
+        }
+
 
         $jadwal = $jadwalQuery->orderBy('tanggal', 'asc')->get();
         $jadwalTasmi = $jadwalTasmiQuery->orderBy('tanggal', 'asc')->get();

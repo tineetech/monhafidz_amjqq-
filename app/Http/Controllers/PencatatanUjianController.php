@@ -361,8 +361,9 @@ class PencatatanUjianController extends Controller
 
         $nilaiAkhir = ($nilaiTajwid + $nilaiKelancaran) / 2;
 
-        $data = $request->all();
-        $data['nilai_akhir'] = $nilaiAkhir;
+        // $data = $request->all();
+        $request->merge(['nilai_akhir' => $nilaiAkhir]);
+        // $data['nilai_akhir'] = $nilaiAkhir;
         
         $ujian = PencatatanUjian::findOrFail($id);
         $ujian->update($request->all());
