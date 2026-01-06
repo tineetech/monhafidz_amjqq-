@@ -60,6 +60,11 @@ class Santri extends Model
         return $this->hasMany(JadwalUjian::class);
     }
 
+    public function ujianTasmi()
+    {
+        return $this->hasMany(UjianTasmi::class);
+    }
+
     public function pencatatanUjian()
     {
         return $this->hasMany(PencatatanUjian::class);

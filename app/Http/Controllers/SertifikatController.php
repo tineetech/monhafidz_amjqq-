@@ -60,12 +60,13 @@ class SertifikatController extends Controller
         $idSantri = $request->query('id_santri');
 
         $santri = Santri::where('id', $idSantri)
-        ->where('status_santri', 'Lulus')
-        // ->whereHas('jadwalUjian', function ($q) {
-        //     $q->where('jenis_ujian', 'ujian_akhir')
-        //     ->whereHas('pencatatanUjian', function ($q2) {
-        //         $q2->where('status_ujian', 'lulus');
-        //     });
+        // ->where('status_santri', 'Lulus')
+        ->whereHas('ujianTasmi', function ($q) {
+            $q->where('status_ujian', 'selesai');
+        })
+            // ->whereHas('pencatatanUjian', function ($q2) {
+            //     $q2->where('status_ujian', 'lulus');
+            // });
         // })
         ->first();
 
