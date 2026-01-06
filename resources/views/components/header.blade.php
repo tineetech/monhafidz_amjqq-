@@ -61,31 +61,31 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              @if (Auth::user()->role === 'santri')
+              {{-- @if (Auth::user()->role === 'santri')
               <img src="{{ Auth::user()->santri->foto ? '/storage/santri/' . Auth::user()->santri->foto : url('assets/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-              @else
+              @else --}}
                 @if (Auth::user()->foto)
                   <img src="{{ asset('storage/users/' . Auth::user()->foto) }}" 
                       class="user-image">
                 @else
                   <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
                 @endif
-              @endif
+              {{-- @endif --}}
               <span class="hidden-xs">{{ Auth::user()->name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-              @if (Auth::user()->role === 'santri')
-              <img src="{{ Auth::user()->santri->foto ? '/storage/santri/' . Auth::user()->santri->foto : url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
-              @else
+              {{-- @if (Auth::user()->role === 'santri') --}}
+              {{-- <img src="{{ Auth::user()->santri->foto ? '/storage/santri/' . Auth::user()->santri->foto : url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image"> --}}
+              {{-- @else --}}
                 @if (Auth::user()->foto)
                   <img src="{{ asset('storage/users/' . Auth::user()->foto) }}" 
                       class="img-circle">
                 @else
                   <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
                 @endif
-              @endif
+              {{-- @endif --}}
 
                 <p>
                   {{ Auth::user()->name }}

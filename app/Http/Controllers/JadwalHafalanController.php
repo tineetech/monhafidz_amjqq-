@@ -54,8 +54,12 @@ class JadwalHafalanController extends Controller
                              ->withInput();
         }
 
-        $jadwal = JadwalHafalan::where('jenis_hafalan', $request->jenis_hafalan)->where('hari', $request->hari)->firstOrFail();
-        $jadwal->update($request->all());
+        $jadwal = JadwalHafalan::where('jenis_hafalan', $request->jenis_hafalan)->where('hari', $request->hari)->first();
+        if (!$jadwal) {
+            JadwalHafalan::create($request->all());
+        } else {
+            $jadwal->update($request->all());
+        }
 
 
         return redirect()->route('jadwal-hafalan.index')

@@ -37,7 +37,7 @@
                         <div class="" style="display: flex;gap: 10px">
                           <p>Foto saat ini:</p>
                           {{-- Gunakan asset('storage/') untuk mengakses file dari disk 'public' --}}
-                          <img src="{{ asset('/storage/santri/' . $santri->foto) }}" alt="Foto Santri" style="max-width: 150px; height: auto; border: 1px solid #ddd; padding: 5px;">
+                          <img src="{{ asset('storage/users/' . $santri->user->foto) }}" alt="Foto Santri" style="max-width: 150px; height: auto; border: 1px solid #ddd; padding: 5px;">
                         </div>
                         <br>
                         <small class="text-muted">Kosongkan input di bawah jika tidak ingin mengganti foto.</small>

@@ -111,7 +111,7 @@
                     <div class="widget-user-image">
                         <img class="img-circle" 
                             style="object-fit: cover; width: 90px; height: 90px"
-                            src="{{ $santri->foto ? '/storage/santri/' . $santri->foto : url('assets/dist/img/user2-160x160.jpg') }}" 
+                          src="{{ $santri->foto ? '/storage/users/' . $santri->user->foto : url('assets/dist/img/user2-160x160.jpg') }}" 
                             alt="User Avatar">
                     </div>
 
