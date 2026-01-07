@@ -360,7 +360,8 @@ class PencatatanUjianController extends Controller
         $nilaiTajwid = $request->nilai_tajwid ?? 0;
         $nilaiKelancaran = $request->nilai_kelancaran ?? 0;
 
-        $nilaiAkhir = ($nilaiTajwid + $nilaiKelancaran) / 2;
+        $kesalahan = $request->kesalahan ?? 0;
+        $nilaiAkhir = ($nilaiTajwid + $nilaiKelancaran) / $kesalahan;
 
         // $data = $request->all();
         $request->merge(['nilai_akhir' => $nilaiAkhir]);
