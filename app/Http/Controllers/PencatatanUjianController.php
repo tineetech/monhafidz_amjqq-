@@ -296,8 +296,9 @@ class PencatatanUjianController extends Controller
         // Hitung nilai akhir otomatis
         $nilaiTajwid = $request->nilai_tajwid ?? 0;
         $nilaiKelancaran = $request->nilai_kelancaran ?? 0;
+        $kesalahan = $request->kesalahan ?? 0;
 
-        $nilaiAkhir = ($nilaiTajwid + $nilaiKelancaran) / 2;
+        $nilaiAkhir = ($nilaiTajwid + $nilaiKelancaran) / $kesalahan;
 
         $data = $request->all();
         $data['nilai_akhir'] = $nilaiAkhir;
