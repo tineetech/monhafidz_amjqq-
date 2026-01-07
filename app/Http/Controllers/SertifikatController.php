@@ -25,19 +25,19 @@ class SertifikatController extends Controller
             // abort(404, 'Santri tidak memenuhi syarat untuk mendapatkan sertifikat 30 Juz.');
             return view('pdf.belum-ada-akses')->with('message', 'Santri tidak memenuhi syarat untuk mendapatkan sertifikat 30 Juz.');
         }
-        $jadwalUjianTasmi = JadwalUjian::where('santri_id', $idSantri)->where('jenis_ujian', 'tasmi')->first();
-        if (!$jadwalUjianTasmi) {
-            // dd('woi gaboleh');
-            return view('pdf.belum-ada-akses')->with('message', 'Santri tidak memenuhi syarat untuk mendapatkan sertifikat 30 Juz.');
-            // return abort(404, 'belum ada akses');
-        }
+        // $jadwalUjianTasmi = JadwalUjian::where('santri_id', $idSantri)->where('jenis_ujian', 'tasmi')->first();
+        // if (!$jadwalUjianTasmi) {
+        //     // dd('woi gaboleh');
+        //     return view('pdf.belum-ada-akses')->with('message', 'Santri tidak memenuhi syarat untuk mendapatkan sertifikat 30 Juz.');
+        //     // return abort(404, 'belum ada akses');
+        // }
         
-        $findSantriInUjianTasmi = UjianTasmi::where('santri_id', $idSantri)->where('status_ujian', 'selesai')->first();
-        if (!$findSantriInUjianTasmi) {
-            // dd('woi gaboleh');
-            return view('pdf.belum-ada-akses')->with('message', 'Santri tidak memenuhi syarat untuk mendapatkan sertifikat 30 Juz.');
-            // return abort(404, 'belum ada akses');
-        }
+        // $findSantriInUjianTasmi = UjianTasmi::where('santri_id', $idSantri)->where('status_ujian', 'selesai')->first();
+        // if (!$findSantriInUjianTasmi) {
+        //     // dd('woi gaboleh');
+        //     return view('pdf.belum-ada-akses')->with('message', 'Santri tidak memenuhi syarat untuk mendapatkan sertifikat 30 Juz.');
+        //     // return abort(404, 'belum ada akses');
+        // }
 
         $namaSantri = $santri->nama_lengkap;
         $tanggal    = now()->format('d F Y');
